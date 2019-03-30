@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <h1>Series</h1>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="js/vue.js"></script>
+        <script src="/eel.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.min.js"></script>
+    </head>
+
+    <body>
+        <button onclick="get_series()">Series</button>
+        <button onclick="filter_series_by_name()">Filter by Name</button>
+        <input id='name_filter'></input>
+        <button onclick="filter_series_by_gender()">Filter by Gender</button>
+        <input id='gender_filter'></input>
+
+        <div id="root">
+            <div class="container">
+                <ul class="list-group">
+                    <li class="list-group-item" v-for="serie in series" v-text="serie['title']"></li> 
+                </ul>
+            </div>
+        </div>
+ 
+            <!--====== Scripts ======-->
+        <script>
+
+            var app = new Vue({
+                el: '#root',
+                data: {
+                    key: '',
+                    series: []
+                }
+            });
+            async function get_series(){
+                let value = await eel.list_series()();
+                for (x in value) {
+                    app.series.push(value[x]);
+                }
+            }
+            async function filter_series_by_name(){
+                app.series = []
+                let filter = document.getElementById('name_filter');
+                let value = await eel.filter_series_by_name(filter.value)();
+                for (x in value) {
+                    app.series.push(value[x]);
+                }
+            }
+            async function filter_series_by_gender(){
+                app.series = []
+                let filter = document.getElementById('gender_filter');
+                let value = await eel.filter_series_by_gender(filter.value)();
+                for (x in value) {
+                    app.series.push(value[x]);
+                }
+            }
+        </script>
+
+        <!--====== Javascripts & Jquery ======-->
+    </body>
+</html>

@@ -1,0 +1,144 @@
+<html>
+    <head>
+        <title>Game_Catalog</title>
+
+        <!-- Stylesheets -->
+        <link rel="stylesheet" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="css/owl.carousel.css"/>
+        <link rel="stylesheet" href="css/font-awesome.min.css"/>
+        <link rel="stylesheet" href="css/style.css"/>
+        <link rel="stylesheet" href="css/animate.css"/>
+
+    </head>
+    <body>
+        <!-- Header section -->
+        <header class="header-section">
+            <div class="container">
+                <!-- logo -->
+                <a class="site-logo" href="index.html">
+                    <img src="img/INGAME_Logo.png" alt="">
+                </a>
+                <!-- responsive -->
+                <div class="nav-switch">
+                    <i class="fa fa-bars"></i>
+                </div>
+                <!-- site menu -->
+                <nav class="main-menu">
+                    <ul>
+                        <li><a href="">Inicio</a></li>
+                        <li><a onclick="games()" href="">Juegos</a></li>
+                        <li><a onclick="series()" href="">Series</a></li>
+                        <li><a onclick="films()" href="">Peliculas</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+        <!-- Header section end -->
+        
+        <!-- Image section -->
+        <section class="hero-section">
+            <div class="hero-slider owl-carousel">
+                <div class="hs-item set-bg" data-setbg="Games/1image.jpeg">
+                    <div class="hs-text">
+                        <div class="container">
+                            <h2>Las mejores ofertas en <span>Juegos, Series, Peliculas</span> Justo Aqui</h2>
+                            <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA<br> BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB<br> CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC</p>
+                            <a href="#" class="site-btn">Leer mas</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="hs-item set-bg" data-setbg="Games/2image.jpeg">
+                    <div class="hs-text">
+                        <div class="container">
+                            <h2>Las mejores ofertas en <span>Juegos, Series, Peliculas</span> Justo Aqui</h2>
+                            <p>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA<br> BBBBBBBBBBBBBBBBBBBBBBBBBBBBBB<br> CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC</p>
+                            <a href="#" class="site-btn">Leer mas</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Image section end -->
+        <!-- Recent game section  -->
+        <section class="recent-game-section spad set-bg" data-setbg="img/recent-game-bg.png">
+            <div class="container">
+                <div class="section-title">
+                    <div class="cata new">new</div>
+                    <h2>Agregados Recientemente</h2>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4 col-md-6">
+                        <div class="recent-game-item">
+                            <div class="rgi-thumb set-bg" data-setbg="img/recent-game/1.jpg">
+                                <div class="cata new">new</div>
+                            </div>
+                            <div class="rgi-content">
+                                <h5>Suspendisse ut justo tem por, rutrum</h5>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisc ing ipsum dolor sit amet, consectetur elit. </p>
+                                <a href="#" class="comment">3 Comments</a>
+                                <div class="rgi-extra">
+                                    <div class="rgi-star"><img src="img/icons/star.png" alt=""></div>
+                                    <div class="rgi-heart"><img src="img/icons/heart.png" alt=""></div>
+                                </div>
+                            </div>
+                        </div>	
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="recent-game-item">
+                            <div class="rgi-thumb set-bg" data-setbg="img/recent-game/2.jpg">
+                                <div class="cata racing">racing</div>
+                            </div>
+                            <div class="rgi-content">
+                                <h5>Susce pulvinar metus nulla, vel  facilisis sem </h5>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisc ing ipsum dolor sit amet, consectetur elit. </p>
+                                <a href="#" class="comment">3 Comments</a>
+                                <div class="rgi-extra">
+                                    <div class="rgi-star"><img src="img/icons/star.png" alt=""></div>
+                                    <div class="rgi-heart"><img src="img/icons/heart.png" alt=""></div>
+                                </div>
+                            </div>
+                        </div>	
+                    </div>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="recent-game-item">
+                            <div class="rgi-thumb set-bg" data-setbg="img/recent-game/3.jpg">
+                                <div class="cata adventure">Adventure</div>
+                            </div>
+                            <div class="rgi-content">
+                                <h5>Suspendisse ut justo tem por, rutrum</h5>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisc ing ipsum dolor sit amet, consectetur elit. </p>
+                                <a href="#" class="comment">3 Comments</a>
+                                <div class="rgi-extra">
+                                    <div class="rgi-star"><img src="img/icons/star.png" alt=""></div>
+                                    <div class="rgi-heart"><img src="img/icons/heart.png" alt=""></div>
+                                </div>
+                            </div>
+                        </div>	
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Recent game section end -->
+
+        <!--====== Scripts ======-->
+        <script>
+            function games(){
+                eel.games()();
+            }
+            function series(){
+                eel.series()();
+            }
+            function films(){
+                eel.films()();
+            }
+        </script>
+
+        <!--====== Javascripts & Jquery ======-->
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/jquery.marquee.min.js"></script>
+        <script src="js/main.js"></script>
+        <script src="/eel.js"></script>
+    </body>
+</html>
