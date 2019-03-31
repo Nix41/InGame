@@ -83,7 +83,6 @@ class Game(TimestampMixin, Base):
     requirements = relationship("GameReq", back_populates="game")
     puntuacion = Column(Float)
     launch = Column(Integer)
-    players = Column(Integer)
     game_mode = Column(String)
     language = Column(String)
 
@@ -154,7 +153,7 @@ class SerieGender(Base):
     name = Column(String)
     series = relationship("Serie", secondary=seriegen_table, backref='genders')
 
-class Serie(TimestampMixin, Base):    
+class Serie(Base):
     __tablename__ = 'serie'
     id= Column(Integer, primary_key= True)
     title = Column(String)

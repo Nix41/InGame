@@ -66,6 +66,7 @@ def requisitos(url, game):
             print(str(lis.get_text()))
             extract_req(lis.get_text(), game, i)
         i = i + 1
+    
     print('next')
 
 def find_games(sourcelist):
@@ -127,22 +128,13 @@ def find_games(sourcelist):
                         launch = year
                         
                     if 'Jugadores' in typ:
-                        check1 = re.split(' ', prop)
-                        check2 = re.split('-',check1[0])
-                        if len(check2) > 1:
-                            players = (int)(check2[1])
-                        else:
-                            players = (int)(check2[0])
-                        if '(' in prop:
-                            ind = prop.find('(')
-                            ind2 = prop.find(')')
-                            game_type = prop[ind + 1:ind2]
+                        game_type = prop
 
                     if 'Idioma' in typ:
                         language = prop
                    
                 if here.count() == 0:
-                    this_game = Game(name = jname, description= description, players =players, game_mode =game_type, language= language, launch= launch, puntuacion = puntuacion )
+                    this_game = Game(name = jname, description= description, game_mode =game_type, language= language, launch= launch, puntuacion = puntuacion )
                     for gender in soup_game.find_all('a', href=True):
                         if 'juegos-generos' in gender['href']:
                             gender_name = gender.get_text()[-8:]
@@ -332,10 +324,10 @@ def search(listdir , stype='' ):
 ################ UBUNTU ###################
 # clean('Work/Series/series.txt')
 # clean('Work/Movies/movies.txt')
-# clean('Work/Games/games.txt')
-#search('Work/Series/series.txt', 'TV_SE')
-#search('Work/Movies/movies.txt')
-#find_games('games.txt')
+# clean('games.txt')
+# search('series.txt', 'TV_SE')
+# search('movies.txt')
+# find_games('games.txt')
 ###########################################
 sess.close()
 

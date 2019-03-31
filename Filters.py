@@ -25,37 +25,37 @@ def filter_games(name = "", gender = "" ):
     games = {}
     for c in sess.query(Game).filter(Game.name.contains(name)):
         genders = []
-        print()
-        print( c.launch )
-        print(c.players)
-        print(c.game_mode)
-        print(c.language)
-        print(c.puntuacion)
-        print(c.name)
-        print()
+        # print()
+        # print( c.launch )
+        # print(c.players)
+        # print(c.game_mode)
+        # print(c.language)
+        # print(c.puntuacion)
+        # print(c.name)
+        # print()
         gender_filter = False
-        # for g in c.genders:
-        #     if g.name.contains(gender):
-        #         gender_filter = True
-        #     genders.append(g.name)
-        # requirements = []
-        # requirements.append([])
-        # requirements.append([])
-        # for r in c.requirements:
-        #     req = {}
-        #     req['type'] = r.req.req_type
-        #     req['req'] = r.req.req
-        #     if r.minormax == True:
-        #         requirements[0].append(req)
-        #     else:
-        #         requirements[1].append(req)
-        # if gender_filter:
-        #     games[c.id] = {}
-        #     games[c.id]['id'] = c.id
-        #     games[c.id]['name'] = c.name
-        #     games[c.id]['description'] = c.description
-        #     games[c.id]['genders'] = genders
-        #     games[c.id]['requirements'] = requirements
+        for g in c.genders:
+            if gender in g.name:
+                gender_filter = True
+            genders.append(g.name)
+        requirements = []
+        requirements.append([])
+        requirements.append([])
+        for r in c.requirements:
+            req = {}
+            req['type'] = r.req.req_type
+            req['req'] = r.req.req
+            if r.minormax == True:
+                requirements[0].append(req)
+            else:
+                requirements[1].append(req)
+        if gender_filter:
+            games[c.id] = {}
+            games[c.id]['id'] = c.id
+            games[c.id]['name'] = c.name
+            games[c.id]['description'] = c.description
+            games[c.id]['genders'] = genders
+            games[c.id]['requirements'] = requirements
     return games
 
 def filter_series(name = "", gender="", actor="", director=""):
@@ -64,19 +64,19 @@ def filter_series(name = "", gender="", actor="", director=""):
         genders = []
         gender_filter = False
         for g in s.genders:
-            if g.name.contains(gender):
+            if gender in g.name:
                 gender_filter = True
             genders.append(g.name)
         actor_filter  = False
         actors = []
         for a in s.actors:
-            if a.name.conatains(actor):
+            if actor in a.name:
                 actor_filter = True
             actors.append(a.name)
         director_filter = False
         directors = []
         for d in s.directors:
-            if d.name.conatains(director):
+            if director in d.name:
                 director_filter = True
             directors.append(d.name)
         if gender_filter and actor_filter and director_filter:
@@ -96,19 +96,19 @@ def filter_movies(name = "", gender="", actor="", director=""):
         genders = []
         gender_filter = False
         for g in c.genders:
-            if g.name.contains(gender):
+            if gender in g.name:
                 gender_filter = True
             genders.append(g.name)
         actor_filter = False
         actors = []
         for a in c.actors:
-            if a.name.contains(actor):
+            if actor in a.name:
                 actor_filter = True
             actors.append(a.name)
         directors = []
         director_filter = False
         for d in c.directors:
-            if d.name.contains(director):
+            if director in d.name:
                 director_filter = True
             directors.append(d.name)
         if gender_filter and actor_filter and director_filter:
@@ -126,7 +126,7 @@ def filter_movies(name = "", gender="", actor="", director=""):
 def get_recent():
     recent = []
     games = sess.query(Game).order_by(Game.created_at)[-3:]
-    series = sess.query(Serie).order_by(Serie.creates_at)[-3:]
+    series = sess.query(Serie).order_by(Serie.created_at)[-3:]
     movies = sess.query(Movie).order_by(Movie.created_at)[-3:]
     # games = sess.query(Game).order_by(Game.id)[-3:]
     # series = sess.query(Serie).order_by(Serie.id)[-3:]

@@ -1,64 +1,272 @@
 <html>
     <head>
-        <h1>Games</h1>
+        <title>Games</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
-            <!-- GODLIKE -->
-        <link rel="stylesheet" href="css/godlike.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/owl.carousel.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css"/>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
         <script src="js/vue.js"></script>
         <script src="/eel.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/jquery.min.js"></script>
-        <script src="js/godlike.js"></script>
-        <script src="js/godlike-init.js"></script>
     </head>
 
-    <body>
-        <button onclick="get_games()">Games</button>
-        <button onclick="filter_games_by_name()">Filter by Name</button>
-        <input id='name_filter'></input>
-        <button onclick="filter_games_by_gender()">Filter by Gender</button>
-        <input id='gender_filter'></input>
-
-        <div id="root">
-            <div class="container">
-                <ul class="list-group">
-                    <li class="list-group-item" v-for="game in games" v-text="game['name'] "></li> 
-                </ul>
+    <body class="back">
+        <!-- Nav-bar section  -->
+        <nav class="fixed-top justify-content-center">
+            <img src="img/Banner.png" class="card-img rounded-0 img-fluid ingame-navbar" alt="Responsive image">
+            <ul class="card-img-overlay d-block navbar-nav d-flex flex-row-reverse">
+                <li class="p-2 nav-item">
+                    <a href="films.html">
+                        <img src="img/Films-Button.png" class="img-fluid nav-menu-item" alt="Responsive image">
+                    </a>
+                </li>
+                <li class="p-2 nav-item">
+                    <a href="series.html">
+                        <img src="img/Series-Button.png" class="img-fluid nav-menu-item" alt="Responsive image">
+                    </a>
+                </li>
+                <li class="p-2 nav-item">
+                    <a href="games.html">
+                        <img src="img/Games-Button.png" class="img-fluid nav-menu-item" alt="Responsive image">
+                    </a>
+                </li>
+                <li class="p-2 nav-item">
+                    <a href="index.html">
+                        <img src="img/Home-Button.png" class="img-fluid nav-menu-item" alt="Responsive image">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- Nav-bar section  -->
+        
+        <!-- Page section -->
+        <section id="root"  class="gallery" style="padding-left:8%; padding-right:8%;">
+            <div class="d-flex  justify-content-center fixed">
+                <div class="p-2">
+                    <div class="card" style="background-color:black;">
+                        <img src="img/search_imput.png" class="img-fluid">
+                        <div class="card-img-overlay">
+                            <form>
+                                <a href="#" onclick="filter_games_by_name()"><img src="img/search_icon.png" class="img-fluid" style="margin-top:-9px;"></a>
+                                <input id='name_filter' type="text" class="form-control input" style="margin-top:-35px; width:280px; margin-left: 35px;" placeholder="Buscar...">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2" style="padding:0px !important; margin-top:10px;">
+                    <a href="#"><img src="img/filter_icon.png" class="img-fluid"></a>
+                </div>
             </div>
-        </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div v-for="games5 in games">
+                <div class="d-flex  justify-content-center" style="padding-bottom:2%;">
+                    <div v-for="game in games5" class="p-2">
+                        <div class="review-item2">
+                            <div class="card review-cover" style="margin:0;">
+                                <img :src="'img/Work/Games/' + game.id + 'image.jpeg'" class="img-fluid" style="height: 100%; width:100%;" alt="Responsive image">
+                                <div class="card-img-overlay score red">9.3</div>
+                            </div>
+                            <div class="review-text">
+                                <h5 style="text-align:center; margin-bottom:2%;">{{ game.name }}</h5>
+                                <div class="rating" style="text-align:center; margin-bottom:2%;">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star is-fade"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Page section end -->
+
+        <!--Table-->
+        <section id="table_items" style="margin-left:8%; margin-right:8%; height:800px;">
+            <div class="d-flex">
+                <div class="p-2 col-md-6" style="padding:0 !important;">
+                    <div v-for="game in back_games">
+                    <div :onmouseover="'change(' + game.id + ')'" :onmouseout="'restore(' + game.id + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
+                        <img :src="'img/' + back_image['id'+game.id]" class="card-img img-fluid w-100" style="height:80px;">
+                        <div class="card-img-overlay row" style="margin-top:-5px; margin-left:-5px;">
+                            <div>
+                                <div class="score_list red">9.3</div>
+                            </div>
+                            <div style=" padding-left:30px; font-size:20px; color:white; margin-top: -7px;">
+                                <div style="width:100%;">{{ game.name }}</div>
+                                <div>
+                                    <div class="row">
+                                        <div class="rating" style="padding-left:15px;">
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star is-fade"></i>
+                                        </div>
+                                        <div style="padding-left:15px;">
+                                            Genero-Genero-Genero
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="font-size:20px; color:white; padding-left:80px; padding-top:10px;">
+                                2019
+                            </div>
+                            <div style="font-size:20px; color:white; padding-left:50px; padding-top:10px;">
+                                4 player
+                            </div>
+                            <div style="font-size:20px; color:white; padding-left:50px; padding-top:10px;">
+                                3.12 Gb
+                            </div>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="p-2 col-md-6" v-bind:style="'background-color:' + back_color">
+                    <div class="container-fluid" style="padding-top:30px; padding-left:20px; padding-right:20px;">
+                        <div style="color:white; font-size:24px;">
+                            <div style="padding-bottom:50px;">
+                                Descripcion:
+                                <div style="font-size:18px;">
+                                    {{ details_desc }}
+                                </div>
+                            </div>
+                            <div style="padding-bottom:10px;">
+                                Requisitos Minimos:
+                                <div style="font-size:18px;">
+                                    <ul v-for="req in details_req_min">
+                                        <li>{{ req.type }} : {{ req.req }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div style="padding-bottom:10px;">
+                                Requisitos Recomendados:
+                                <div style="font-size:18px;">
+                                    <ul v-for="req in details_req_rec">
+                                        <li>{{ req.type }} : {{ req.req }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="p-2">
+                                        <img src="img/review/6.jpg" class="mg-fluid" style="width:100%;">
+                                </div>
+                                <div class="p-2">
+                                        <img src="img/review/6.jpg" class="mg-fluid" style="width:100%;">
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="p-2">
+                                        <img src="img/review/6.jpg" class="mg-fluid" style="width:100%;">
+                                </div>
+                                <div class="p-2">
+                                        <img src="img/review/6.jpg" class="mg-fluid" style="width:100%;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+            </div>
+        </section>
+        <!--Table-->
+
+
  
-            <!--====== Scripts ======-->
+        <!--====== Scripts ======-->
         <script>
+            $(document).ready(function(){
+                get_games();
+            });
 
             var app = new Vue({
                 el: '#root',
                 data: {
                     key: '',
-                    games: []
-                }
+                    games: [],
+                },
+                var: 0,
+            });
+
+            var app_list = new Vue({
+                el: '#table_items',
+                data: {
+                    back_color: "rgb(26, 26, 26)",
+                    back_image: {},
+                    back_games: {},
+                    details_desc: "",
+                    details_req_min: "",
+                    details_req_rec: "",
+                },
+                var: 0,
             });
             async function get_games(){
-                let value = await eel.list_games()();
+                let value = await eel.filter_games()();
+                let i = 1;
+                let list = [];
                 for (x in value) {
-                    app.games.push(value[x]);
+                    if(i%5 == 0){
+                        list.push(value[x]);
+                        app.games.push(list);
+                        list = [];
+                    }else{
+                        list.push(value[x]);
+                    }
+                    key = "id" + i;
+                    Vue.set(app_list.back_image, key, "back_element_list.png");
+                    Vue.set(app_list.back_games, key, value[x]);
+                    i++;
                 }
+                app.games.push(list);
             }
             async function filter_games_by_name(){
                 app.games = []
                 let filter = document.getElementById('name_filter');
-                let value = await eel.filter_games_by_name(filter.value)();
+                let value = await eel.filter_games(filter.value)();
+                let i = 1;
+                let list = [];
                 for (x in value) {
-                    app.games.push(value[x]);
+                    if(i%5 == 0){
+                        list.push(value[x]);
+                        app.games.push(list);
+                        list = [];
+                    }else{
+                        list.push(value[x]);
+                    }
+                    i++;
                 }
+                app.games.push(list);
             }
             async function filter_games_by_gender(){
                 app.games = []
                 let filter = document.getElementById('gender_filter');
-                let value = await eel.filter_games_by_gender(filter.value)();
+                let value = await eel.filter_games(gender=filter.value)();
                 for (x in value) {
-                    app.gemes.push(value[x]);
+                    app.games.push(value[x]);
                 }
             }
+
+            function change(x){
+                let key = 'id' + x;
+                app_list.back_color = "rgb(51,51,51)";
+                app_list.back_image[key] = "back_element_list_active.png";
+                app_list.details_desc = app_list.back_games[key].description;
+                app_list.details_req_min = app_list.back_games[key].requirements[1]
+                app_list.details_req_rec = app_list.back_games[key].requirements[0]
+            }
+
+            function restore(x){
+                let key = 'id' + x;
+                app_list.back_color = "rgb(26,26,26)";
+                app_list.back_image[key] = "back_element_list.png";
+            }
+
         </script>
 
         <!--====== Javascripts & Jquery ======-->

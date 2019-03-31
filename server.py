@@ -2,7 +2,6 @@ import eel
 import Filters
 import DBhandlers
 
-
 eel.init('web')
 
 @eel.expose
