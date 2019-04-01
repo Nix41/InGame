@@ -1,6 +1,7 @@
  
 from DBstructure import *
 
+categories = ['']
 
 def get_game_genders():
     genders = []
@@ -25,14 +26,15 @@ def filter_games(name = "", gender = "" ):
     games = {}
     for c in sess.query(Game).filter(Game.name.contains(name)):
         genders = []
-        # print()
-        # print( c.launch )
-        # print(c.players)
-        # print(c.game_mode)
-        # print(c.language)
-        # print(c.puntuacion)
-        # print(c.name)
-        # print()
+        print()
+        print( c.launch )
+        print(c.game_mode)
+        print(c.language)
+        print(c.puntuacion)
+        print(c.name)
+        print(c.category.name)
+        print(c.size)
+        print()
         gender_filter = False
         for g in c.genders:
             if gender in g.name:
@@ -56,6 +58,12 @@ def filter_games(name = "", gender = "" ):
             games[c.id]['description'] = c.description
             games[c.id]['genders'] = genders
             games[c.id]['requirements'] = requirements
+            games[c.id]['size'] = c.size
+            games[c.id]['category'] = c.category.name
+            games[c.id]['launch'] = c.launch
+            games[c.id]['game_mode'] = c.game_mode
+            games[c.id]['language'] = c.language
+            games[c.id]['score'] = c.puntuacion
     return games
 
 def filter_series(name = "", gender="", actor="", director=""):
@@ -126,10 +134,10 @@ def filter_movies(name = "", gender="", actor="", director=""):
 def get_recent():
     recent = []
     games = sess.query(Game).order_by(Game.created_at)[-3:]
-    series = sess.query(Serie).order_by(Serie.created_at)[-3:]
+    # series = sess.query(Serie).order_by(Serie.created_at)[-3:]
     movies = sess.query(Movie).order_by(Movie.created_at)[-3:]
     # games = sess.query(Game).order_by(Game.id)[-3:]
-    # series = sess.query(Serie).order_by(Serie.id)[-3:]
+    series = sess.query(Serie).order_by(Serie.id)[-3:]
     # movies = sess.query(Movie).order_by(Movie.id)[-3:]
     for i in range(3):
         game = {}
@@ -160,3 +168,5 @@ def get_directors():
     for d in sess.query(Director).all():
         directors.append(d.name)
     return directors
+
+filter_games()

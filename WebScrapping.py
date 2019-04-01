@@ -1,17 +1,24 @@
 
 from DBstructure import *
+from DBhandlers import *
 from utils import clean
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
 import urllib.request
 
+tracks = 0
+def track():
+    global tracks
+    print('TRACK ==> ', tracks)
+    tracks += 1
+
 def get_captures(game, ids):
     i = 0
     #WINDOWS#
-    #dirt = 'Work\Games\\' + str(ids)
+    #dirt = 'web\img\Work\Games\\' + str(ids)
     #UBUNTU
-    dirt = 'Work/Games/' + str(ids)
+    dirt = 'web/img/Work/Games/' + str(ids)
     try:
         os.mkdir( dirt)
     except: FileExistsError
@@ -36,6 +43,7 @@ def gen_requisitos(gameurl):
      
 def extract_req(req, game, boo):
     print(req)
+    space_key = ['Almacenamiento', 'Disco', 'Duro', 'Espacio', 'almacenamiento', 'disco', 'duro', 'espacio']
     sep = re.split(': | \(' , req)
     print(sep)
     if len(sep) > 1:
@@ -43,7 +51,7 @@ def extract_req(req, game, boo):
         reqd = Requirement(req_type = sep[0] , req = sep[1])
     else: 
         print('h2')
-        reqd = Requirement(req_type = sep[0] , req = sep[0])
+        reqd = Requirement(req_type = "" , req = sep[0])
 
     if boo == 0:
         print('h3')
@@ -51,15 +59,43 @@ def extract_req(req, game, boo):
     else:
         print('h4')
         gr = GameReq(req = reqd, minormax = True)
+    print('#################################################################')
+    print(sep[0])
+    for key in space_key:
+        if key in sep[0]:
+            print('--> ', key, ' in ', sep[0] )
+            size = 0
+            print(sep[1])
+            p = re.compile(r'\d+')
+            st = p.findall(sep[1])
+            if len(st) > 0:
+                print(st[0])
+                size = st[0]
+            print('SIZE : ',size)
+            game.size = size
+            break
     game.requirements.append(gr)
     
 def requisitos(url, game):
     req = urllib .request.urlopen(url)
     soup = BeautifulSoup(req)
     soup.prettify()
+    first = True
+    category = None
+    for gender in soup.find_all('a', href=re.compile('.*juegos-generos.*')):
+        gender_name = gender.get_text()
+        if not('juego' in gender_name):
+            print(gender_name)
+            if first:
+                first = False
+                category = find_category(gender_name)
+                game.category = category
+            else:
+                add_gender_to_game(game, gender_name, category)
     regex = re.compile('.*list_foro.*')
     reqs = soup.find_all(class_= regex)
     i = 0
+    print('QQQQQQQQQQQQQQQQQQQQQQQQQQQ')
     for gr in reqs:
         print(str(i))
         for lis in gr.find_all('li'):
@@ -96,27 +132,39 @@ def find_games(sourcelist):
                 s = resp.get_attribute('href')
                 print('QQ   ', s)
                 game = urllib.request.urlopen(s).read()
+                 #1
                 soup_game = BeautifulSoup(game)
+                 #2
                 soup_game.prettify()
+                 #3
                 game_name = soup_game.title.string
+                 #4
                 description = "" +soup_game.select_one("#adpepito").get_text()
                 jname = game_name[:-18]
+                 #5
                 here = sess.query(Game).filter(Game.name == jname)
+                 #6
                 p_element = soup_game.find(class_='pr t6')
+                 #7
                 if p_element is None:
                     puntuacion = 0
+                     #8
                 else:
+                     #9
                     puntuacion_str = re.split(',', soup_game.find(class_='pr t6').get_text())
                     puntuacion = 0
+                     #10
                     for i in range(len(puntuacion_str)):
                         puntuacion += (int)(puntuacion_str[i]) * (10**(-i))
                         print('*********',puntuacion, "***")
-
-
+                     #11
                 for head in soup_game.find_all('dt'):
+                     #12
                     typ = head.get_text()
                     prop = head.find_next('dd').get_text()
+                     #13
                     if 'Lanzamiento' in typ :
+                         #14
                         date_str = re.split(' ', prop)
                         year = 0
                         for date in date_str:
@@ -125,35 +173,34 @@ def find_games(sourcelist):
                             except: Exception
                             if year > 1000:
                                 break
-                        launch = year
-                        
+                        launch = year                       
                     if 'Jugadores' in typ:
+                         #15
                         game_type = prop
 
+                    language=""
                     if 'Idioma' in typ:
-                        language = prop
-                   
+                         #16
+                        language = prop                  
                 if here.count() == 0:
-                    this_game = Game(name = jname, description= description, game_mode =game_type, language= language, launch= launch, puntuacion = puntuacion )
-                    for gender in soup_game.find_all('a', href=True):
-                        if 'juegos-generos' in gender['href']:
-                            gender_name = gender.get_text()[-8:]
-                            qs = sess.query(GameGender).filter(GameGender.name == gender_name)
-                            if(qs.count() == 0):
-                                this_game.genders.append(GameGender(name= gender_name))
-                            else:
-                                this_game.genders.append(qs.first())
+                     
+                    this_game = Game(name = jname, description= description, game_mode =game_type, language= language, launch= launch, puntuacion = puntuacion )  
                     req = gen_requisitos(s)
+                     
+                    print('HERE')
                     requisitos(req, this_game)  
+                     
                     sess.add_all([this_game])
+                     
                     sess.commit()
+                     
                     get_captures(soup_game , this_game.id)
                     image = soup_game.find(rel='image_src')
                     print('****************')
                     im = image['href']
                     print(im)
- #                   with urllib.request.urlopen(im) as response, open('Work\Games\\' + str(this_game.id) + 'image.jpeg', 'wb') as out_file:
-                    with urllib.request.urlopen(im) as response, open('Work/Games/' + str(this_game.id) + 'image.jpeg', 'wb') as out_file: 
+ #                   with urllib.request.urlopen(im) as response, open('web\img\Work\Games\\' + str(this_game.id) + 'image.jpeg', 'wb') as out_file:
+                    with urllib.request.urlopen(im) as response, open('web/img/Work/Games/' + str(this_game.id) + 'image.jpeg', 'wb') as out_file: 
                         data = response.read()
                         out_file.write(data)
             except NoSuchElementException:
@@ -162,9 +209,9 @@ def find_games(sourcelist):
         else:
             print('ya has hecho esta busqueda ' + g)
     #WINDOW
-    #with open('Work\Games\\notfound.txt' , 'at') as std:
+    #with open('web\img\Work\Games\\notfound.txt' , 'at') as std:
     #UBUNTU
-    with open('Work/Games/notfound.txt' , 'at') as std:
+    with open('web/img/Work/Games/notfound.txt' , 'at') as std:
         std.write(not_found)          
 
 def extract_info(url, build_method):
@@ -216,9 +263,9 @@ def build_serie(name, year, pais, sinopsis, generos, directors, reparto, image):
         sess.add_all([serie])
         sess.commit()
         #WINDOWS
-        #with urllib.request.urlopen(image) as response, open('Work\Series'+ '\\' + str(serie.id) + 'image.jpeg', 'wb') as out_file:
+        #with urllib.request.urlopen(image) as response, open('web\img\Work\Series'+ '\\' + str(serie.id) + 'image.jpeg', 'wb') as out_file:
         #UBUNTU
-        with urllib.request.urlopen(image) as response, open('Work/Series'+ '/' + str(serie.id) + 'image.jpeg', 'wb') as out_file:
+        with urllib.request.urlopen(image) as response, open('web/img/Work/Series'+ '/' + str(serie.id) + 'image.jpeg', 'wb') as out_file:
             data = response.read()
             out_file.write(data)
     else:
@@ -237,9 +284,9 @@ def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image):
         sess.add_all([movie])
         sess.commit()
         #WINDOWS
-        #with urllib.request.urlopen(image) as response, open('Work\Movies'+ '\\' + str(movie.id) + 'image.jpeg', 'wb') as out_file:
+        #with urllib.request.urlopen(image) as response, open('web\img\Work\Movies'+ '\\' + str(movie.id) + 'image.jpeg', 'wb') as out_file:
         #UBUNTU
-        with urllib.request.urlopen(image) as response, open('Work/Movies'+ '/' + str(movie.id) + 'image.jpeg', 'wb') as out_file:
+        with urllib.request.urlopen(image) as response, open('web/img/Work/Movies'+ '/' + str(movie.id) + 'image.jpeg', 'wb') as out_file:
             data = response.read()
             out_file.write(data)
     else: 
@@ -283,15 +330,15 @@ def search(listdir , stype='' ):
                 if(stype == ''):
                     extract_info(a['href'], build_movie)
                     #WINDOWS
-                    #direct = 'Work\Movies\\notfoundmovies.txt'
+                    #direct = 'web\img\Work\Movies\\notfoundmovies.txt'
                     #UBUNTU
-                    direct = 'Work/Movies/notfoundmovies.txt'
+                    direct = 'web/img/Work/Movies/notfoundmovies.txt'
                 if(stype == 'TV_SE'):
                     extract_info(a['href'], build_serie)
                     #WINDOWS
-                    #direct = 'Work\Series\\notfoundseries.txt'
+                    #direct = 'web\img\Work\Series\\notfoundseries.txt'
                     #UBUNTU
-                    direct = 'Work/Series/notfoundseries.txt'
+                    direct = 'web/img/Work/Series/notfoundseries.txt'
                 i = i + 1
             else: 
                 not_found += ( m + '\n' )
@@ -299,35 +346,35 @@ def search(listdir , stype='' ):
             print('ya has hecho esta busqueda ' + m)
     if(stype == ''):
         #WINDOWS
-        #direct = 'Work\Movies\\notfoundmovies.txt'
+        #direct = 'web\img\Work\Movies\\notfoundmovies.txt'
         #UBUNTU
-        direct = 'Work/Movies/notfoundmovies.txt'
+        direct = 'web/img/Work/Movies/notfoundmovies.txt'
     if(stype == 'TV_SE'):
         #WINDOWS
-        #direct = 'Work\Series\\notfoundseries.txt'
+        #direct = 'web\img\Work\Series\\notfoundseries.txt'
         #UBUNTU
-        direct = 'Work/Series/notfoundseries.txt'
+        direct = 'web/img/Work/Series/notfoundseries.txt'
     print(direct + '**')
     with open(direct , 'at')as std:
                     std.write(not_found)
- 
-        
+     
+
 ############### WINDOWS ###################
-# clean('Work/Series/series.txt')
-# clean('Work/Movies/movies.txt')
-# clean('Work/Games/games.txt')
-# search('Work\Series\series.txt', 'TV_SE')
-# search('Work\Movies\movies.txt')
-# find_games('Work\Games\games.txt')
+# clean('web/img/Work/Series/series.txt')
+# clean('web/img/Work/Movies/movies.txt')
+# clean('web/img/Work/Games/games.txt')
+# search('web\img\Work\Series\series.txt', 'TV_SE')
+# search('web\img\Work\Movies\movies.txt')
+# find_games('web\img\Work\Games\games.txt')
 ###########################################
 
 ################ UBUNTU ###################
-# clean('Work/Series/series.txt')
-# clean('Work/Movies/movies.txt')
+# clean('web/img/Work/Series/series.txt')
+# clean('web/img/Work/Movies/movies.txt')
 # clean('games.txt')
 # search('series.txt', 'TV_SE')
 # search('movies.txt')
-# find_games('games.txt')
+find_games('games.txt')
 ###########################################
 sess.close()
 

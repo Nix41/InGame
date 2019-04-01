@@ -58,3 +58,6 @@ def clean(path):
     with open(path, 'w') as std:
         std.writelines(new)
 
+p = re.compile(r'\d+')
+st = p.findall('  sjfn20GN  ')
+print(st[0])

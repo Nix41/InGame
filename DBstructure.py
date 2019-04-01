@@ -15,37 +15,37 @@ import datetime
 
 
 ####### WINDOWS ########
-# direct = 'Work\\'
+# direct = 'web\img\Work\\'
 # try:
 #     os.mkdir( direct)
 # except: FileExistsError
-# direct = 'Work\Games\\'
+# direct = 'web\img\Work\Games\\'
 # try:
 #     os.mkdir( direct)
 # except: FileExistsError
-# direct = 'Work\Movies\\'
+# direct = 'web\img\Work\Movies\\'
 # try:
 #     os.mkdir( direct)
 # except: FileExistsError
-# direct = 'Work\Series\\'
+# direct = 'web\img\Work\Series\\'
 # try:
 #     os.mkdir( direct)
 # except: FileExistsError
 ###########################
 ######### LINUX ###########
-direct = 'Work/'
+direct = 'web/img/Work/'
 try:
     os.mkdir( direct)
 except: FileExistsError
-direct = 'Work/Games/'
+direct = 'web/img/Work/Games/'
 try:
     os.mkdir( direct)
 except: FileExistsError
-direct = 'Work/Movies/'
+direct = 'web/img/Work/Movies/'
 try:
     os.mkdir( direct)
 except: FileExistsError
-direct = 'Work/Series/'
+direct = 'web/img/Work/Series/'
 try:
     os.mkdir( direct)
 except: FileExistsError
@@ -61,12 +61,19 @@ gamegen_table = Table('gamegen', Base.metadata,
 class TimestampMixin(object):
     created_at = Column(DateTime, default=func.now())
 
+class GameCategory(Base):
+    __tablename__ = 'gamecategory'
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+
 class GameGender(Base):
     __tablename__ = 'gamegender'
     id = Column(Integer, primary_key=True)
     name = Column(String)
     games = relationship("Game", secondary=gamegen_table, backref='genders')
-    
+    category_id = Column(Integer, ForeignKey('gamecategory.id'))
+    category = relationship("GameCategory", backref=backref('subgenders'))
+
 class GameReq(Base):
     __tablename__ = 'gamereq'
     left_id = Column(Integer, ForeignKey('game.id'), primary_key=True)
@@ -85,6 +92,9 @@ class Game(TimestampMixin, Base):
     launch = Column(Integer)
     game_mode = Column(String)
     language = Column(String)
+    category_id = Column(Integer, ForeignKey('gamecategory.id'))
+    category = relationship("GameCategory", backref=backref('games'))
+    size = Column(Integer)
 
 class Requirement(Base):
     __tablename__ = 'requirement'
@@ -153,7 +163,7 @@ class SerieGender(Base):
     name = Column(String)
     series = relationship("Serie", secondary=seriegen_table, backref='genders')
 
-class Serie(Base):
+class Serie(TimestampMixin, Base):
     __tablename__ = 'serie'
     id= Column(Integer, primary_key= True)
     title = Column(String)
@@ -172,4 +182,9 @@ Base.metadata.create_all(e)
 
 sess = Session(e)
 
- 
+# delete_games = Game.__table__.delete()
+# sess.execute(delete_games)
+
+# delete_existance = OnExistance.__table__.delete()
+# sess.execute(delete_existance)
+
