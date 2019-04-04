@@ -24,4 +24,4 @@ def get_recent():
     recent = Filters.get_recent()
     return recent
 
-eel.start('index.html')
+eel.start('index_vue.html')
