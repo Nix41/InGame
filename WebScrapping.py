@@ -48,31 +48,31 @@ def extract_req(req, game, boo):
     sep = re.split(': | \(' , req)
     print(sep)
     if len(sep) > 1:
-        print('h1')
+        # print('h1')
         reqd = Requirement(req_type = sep[0] , req = sep[1])
     else: 
-        print('h2')
+        # print('h2')
         reqd = Requirement(req_type = "" , req = sep[0])
 
     if boo == 0:
-        print('h3')
+        # print('h3')
         gr = GameReq(req = reqd, minormax = False)
     else:
-        print('h4')
+        # print('h4')
         gr = GameReq(req = reqd, minormax = True)
-    print('#################################################################')
+    # print('#################################################################')
     print(sep[0])
     for key in space_key:
         if key in sep[0]:
-            print('--> ', key, ' in ', sep[0] )
+            # print('--> ', key, ' in ', sep[0] )
             size = 0
-            print(sep[1])
+            # print(sep[1])
             p = re.compile(r'\d+')
             st = p.findall(sep[1])
             if len(st) > 0:
                 print(st[0])
                 size = st[0]
-            print('SIZE : ',size)
+            # print('SIZE : ',size)
             game.size = size
             break
     game.requirements.append(gr)
@@ -86,7 +86,7 @@ def requisitos(url, game):
     for gender in soup.find_all('a', href=re.compile('.*juegos-generos.*')):
         gender_name = gender.get_text()
         if not('juego' in gender_name):
-            print(gender_name)
+            # print(gender_name)
             if first:
                 first = False
                 category = find_category(gender_name)
@@ -129,12 +129,12 @@ def find_games(sourcelist):
             driver.get(url)
             try:
                 resp = driver.find_element_by_xpath('//*[@class="xXx b"]')
-                print('aaaaaa')
+                # print('aaaaaa')
                 # resp = driver.find_element_by_css_selector('.xXx.b')
-                print(resp, 'wwwwwwwwwwwww')
-                print(resp.get_attribute('href'))
+                # print(resp, 'wwwwwwwwwwwww')
+                # print(resp.get_attribute('href'))
                 s = resp.get_attribute('href')
-                print('QQ   ', s)
+                # print('QQ   ', s)
                 game = urllib.request.urlopen(s).read()
                  #1
                 soup_game = BeautifulSoup(game)
@@ -160,8 +160,9 @@ def find_games(sourcelist):
                      #10
                     for i in range(len(puntuacion_str)):
                         puntuacion += (int)(puntuacion_str[i]) * (10**(-i))
-                        print('*********',puntuacion, "***")
+                        # print('*********',puntuacion, "***")
                      #11
+                language=""
                 for head in soup_game.find_all('dt'):
                      #12
                     typ = head.get_text()
@@ -181,17 +182,16 @@ def find_games(sourcelist):
                     if 'Jugadores' in typ:
                          #15
                         game_type = prop
-
-                    language=""
                     if 'Idioma' in typ:
+                        print('!!!!!!!!!!!!!!!!!!!!!!!!Language:    ')
                          #16
+                        print(prop)
                         language = prop                  
                 if here.count() == 0:
-                     
+                    print('#',language,'#')
                     this_game = Game(name = jname, description= description, game_mode =game_type, language= language, launch= launch, puntuacion = puntuacion )  
                     req = gen_requisitos(s)
-                     
-                    print('HERE')
+                    # print('HERE')
                     requisitos(req, this_game)  
                      
                     sess.add_all([this_game])
@@ -200,9 +200,9 @@ def find_games(sourcelist):
                      
                     get_captures(soup_game , this_game.id)
                     image = soup_game.find(rel='image_src')
-                    print('****************')
+                    # print('****************')
                     im = image['href']
-                    print(im)
+                    # print(im)
  #                   with urllib.request.urlopen(im) as response, open('web\img\Work\Games\\' + str(this_game.id) + 'image.jpeg', 'wb') as out_file:
                     with urllib.request.urlopen(im) as response, open('web/img/Work/Games/' + str(this_game.id) + 'image.jpeg', 'wb') as out_file: 
                         data = response.read()
@@ -378,7 +378,7 @@ def search(listdir , stype='' ):
 # clean('games.txt')
 # search('series.txt', 'TV_SE')
 # search('movies.txt')
-# find_games('games.txt')
+find_games('games.txt')
 ###########################################
 sess.close()
 
