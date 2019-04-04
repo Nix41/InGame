@@ -7,6 +7,11 @@ from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
 import urllib.request
 from selenium.webdriver.common.by import By
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import TimeoutException
+
+digits = ['1','2','3','4', '5','6','7','8','9','0']
 
 tracks = 0
 def track():
@@ -114,7 +119,15 @@ def find_games(sourcelist):
     
     with open(sourcelist , "r") as std:
         games = std.readlines()
-
+    options = Options()
+    options.headless = True
+    options.add_argument('--ignore-certificate-errors')
+    chrome_prefs = {}
+    options.experimental_options["prefs"] = chrome_prefs
+    chrome_prefs["profile.default_content_settings"] = {"images": 2}
+    chrome_prefs["profile.managed_default_content_settings"] = {"images": 2}
+    driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", options=options)
+    driver.set_page_load_timeout(120)
     for g in games:
         s = re.sub( ' +', ' ', g ).strip()
         already = sess.query(OnExistance).filter(OnExistance.name == g, OnExistance.tipo == 'Game')
@@ -125,24 +138,15 @@ def find_games(sourcelist):
             s = s.replace(' ' , '+')
             url = urlstart + s + urlend
             print(url)
-            driver = webdriver.PhantomJS()
-            driver.get(url)
-            try:
+            
+            try: 
+                driver.get(url)
                 resp = driver.find_element_by_xpath('//*[@class="xXx b"]')
-                # print('aaaaaa')
-                # resp = driver.find_element_by_css_selector('.xXx.b')
-                # print(resp, 'wwwwwwwwwwwww')
-                # print(resp.get_attribute('href'))
                 s = resp.get_attribute('href')
-                # print('QQ   ', s)
                 game = urllib.request.urlopen(s).read()
-                 #1
                 soup_game = BeautifulSoup(game)
-                 #2
                 soup_game.prettify()
-                 #3
                 game_name = soup_game.title.string
-                 #4
                 description = "" +soup_game.select_one("#adpepito").get_text()
                 jname = game_name[:-18]
                  #5
@@ -193,28 +197,28 @@ def find_games(sourcelist):
                     req = gen_requisitos(s)
                     # print('HERE')
                     requisitos(req, this_game)  
-                     
                     sess.add_all([this_game])
-                     
                     sess.commit()
-                     
                     get_captures(soup_game , this_game.id)
                     image = soup_game.find(rel='image_src')
                     # print('****************')
                     im = image['href']
                     # print(im)
- #                   with urllib.request.urlopen(im) as response, open('web\img\Work\Games\\' + str(this_game.id) + 'image.jpeg', 'wb') as out_file:
+#                   with urllib.request.urlopen(im) as response, open('web\img\Work\Games\\' + str(this_game.id) + 'image.jpeg', 'wb') as out_file:
                     with urllib.request.urlopen(im) as response, open('web/img/Work/Games/' + str(this_game.id) + 'image.jpeg', 'wb') as out_file: 
                         data = response.read()
                         out_file.write(data)
+            except TimeoutException:
+                print('La pagina se demoro demasiado')
             except NoSuchElementException:
                 not_found += (g + '\n')
-                print('it does not exist')
+                print('it does not exist') 
         else:
             print('ya has hecho esta busqueda ' + g)
     #WINDOW
     #with open('web\img\Work\Games\\notfound.txt' , 'at') as std:
     #UBUNTU
+    driver.quit()
     with open('web/img/Work/Games/notfound.txt' , 'at') as std:
         std.write(not_found)          
 
