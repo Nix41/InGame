@@ -6,6 +6,7 @@ from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
 import urllib.request
+from selenium.webdriver.common.by import By
 
 tracks = 0
 def track():
@@ -128,6 +129,9 @@ def find_games(sourcelist):
             driver.get(url)
             try:
                 resp = driver.find_element_by_xpath('//*[@class="xXx b"]')
+                print('aaaaaa')
+                # resp = driver.find_element_by_css_selector('.xXx.b')
+                print(resp, 'wwwwwwwwwwwww')
                 print(resp.get_attribute('href'))
                 s = resp.get_attribute('href')
                 print('QQ   ', s)
@@ -372,8 +376,8 @@ def search(listdir , stype='' ):
 # clean('web/img/Work/Series/series.txt')
 # clean('web/img/Work/Movies/movies.txt')
 # clean('games.txt')
-# search('series.txt', 'TV_SE')
-# search('movies.txt')
+search('series.txt', 'TV_SE')
+search('movies.txt')
 find_games('games.txt')
 ###########################################
 sess.close()
