@@ -96,11 +96,11 @@ def requisitos(url, game):
     regex = re.compile('.*list_foro.*')
     reqs = soup.find_all(class_= regex)
     i = 0
-    print('QQQQQQQQQQQQQQQQQQQQQQQQQQQ')
+    # print('QQQQQQQQQQQQQQQQQQQQQQQQQQQ')
     for gr in reqs:
-        print(str(i))
+        # print(str(i))
         for lis in gr.find_all('li'):
-            print(str(lis.get_text()))
+            # print(str(lis.get_text()))
             extract_req(lis.get_text(), game, i)
         i = i + 1
     

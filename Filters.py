@@ -26,17 +26,17 @@ def filter_games(name = "", gender = "" ):
     games = {}
     for c in sess.query(Game).filter(Game.name.contains(name)):
         genders = []
-        print()
-        print( c.launch )
-        print(c.game_mode)
-        print('aaa')
-        print('#',c.language, '#')
-        print('bbb')
-        print(c.puntuacion)
-        print(c.name)
-        print(c.category.name)
-        print(c.size)
-        print()
+        # print()
+        # print( c.launch )
+        # print(c.game_mode)
+        # print('aaa')
+        # print('#',c.language, '#')
+        # print('bbb')
+        # print(c.puntuacion)
+        # print(c.name)
+        # print(c.category.name)
+        # print(c.size)
+        # print()
         gender_filter = False
         for g in c.genders:
             if gender in g.name:
