@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/owl.carousel.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css"/>
+    <head>
+    <body class="back">
+        <div id='root'>
+            <banner></banner>
+            <!--Carousel-->
+            <div style="height: 94px; "></div>
+            <div id="carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner" >
+                    <div class="carousel-item active">
+                        <img class="card-img img-fluid d-block w-100" src="img/carousel-back.png" alt="First slide">
+                        <div class="card-img-overlay d-flex justify-content-center" >
+                            <div class="p-2">
+                                <img class="d-block " src="img/slider-1.jpg" alt="Second slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h1 class="text-sm-left yasmany"> IN-GAME </h1>
+                                    <p class="text-sm-left" style='font-size: 50px ; width: 500px' > Series, Juegos y Peliculas  </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item" v-for="rec in recent">
+                        <img class="card-img img-fluid d-block w-100" src="img/carousel-back.png" alt="First slide">
+                        <div class="card-img-overlay d-flex justify-content-center" style="margin-top:60px;">
+                            <div class="p-2">
+                                <img class="d-block H-100" :src="rec.src" alt="Second slide">
+                                <div class="carousel-caption d-none d-md-block">
+                                    <h2 class="text-sm-left" style='width: 350px'> {{ rec.name}} </h5>
+                                    <p class="text-sm-left" style='font-size: 20px ; width: 350px' > {{rec.description}} </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+            <!--Carousel-->
+            <footerv></footerv>
+        </div>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/vue.js"></script>
+        <script src="js/main.js"></script>
+        <script src="/eel.js"></script>
+        <script>
+                $(document).ready(function(){
+                    get_recent();
+                });
+        </script>
+    </body>
+</html>

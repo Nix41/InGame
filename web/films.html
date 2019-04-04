@@ -1,0 +1,152 @@
+<html>
+    <head>
+        <title>Peliculas</title>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/owl.carousel.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css"/>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/vue.js"></script>
+        <script src="/eel.js"></script>
+    </head>
+
+    <body class="back">
+        <!-- Nav-bar section  -->
+        <nav class="fixed-top justify-content-center">
+            <img src="img/Banner.png" class="card-img rounded-0 img-fluid ingame-navbar" alt="Responsive image">
+            <ul class="card-img-overlay d-block navbar-nav d-flex flex-row-reverse">
+                <li class="p-2 nav-item">
+                    <a href="films.html">
+                        <img src="img/Films-Button.png" class="img-fluid nav-menu-item" alt="Responsive image">
+                    </a>
+                </li>
+                <li class="p-2 nav-item">
+                    <a href="series.html">
+                        <img src="img/Series-Button.png" class="img-fluid nav-menu-item" alt="Responsive image">
+                    </a>
+                </li>
+                <li class="p-2 nav-item">
+                    <a href="games.html">
+                        <img src="img/Games-Button.png" class="img-fluid nav-menu-item" alt="Responsive image">
+                    </a>
+                </li>
+                <li class="p-2 nav-item">
+                    <a href="index.html">
+                        <img src="img/Home-Button.png" class="img-fluid nav-menu-item" alt="Responsive image">
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- Nav-bar section  -->
+        
+
+        <!-- Page section -->
+        <div id="root"  class="gallery" style="padding-left:8%; padding-right:8%;">
+            <div class="d-flex  justify-content-center">
+                <div class="p-2">
+                    <div class="card" style="background-color:black;">
+                        <img src="img/search_imput.png" class="img-fluid">
+                        <div class="card-img-overlay">
+                            <form>
+                                <a href="#" onclick="filter_movies_by_name()"><img src="img/search_icon.png" class="img-fluid" style="margin-top:-9px;"></a>
+                                <input id='name_filter' type="text" class="form-control input" style="margin-top:-35px; width:280px; margin-left: 35px;" placeholder="Buscar...">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="p-2" style="padding:0px !important; margin-top:10px;">
+                    <a href="#"><img src="img/filter_icon.png" class="img-fluid"></a>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+            <div v-for="movies5 in movies">
+                <div class="d-flex  justify-content-center" style="padding-bottom:2%;">
+                    <div v-for="movie in movies5" class="p-2">
+                        <div class="review-item2">
+                            <div class="card review-cover">
+                                <img :src="'img/Work/Movies/' + movie.id + 'image.jpeg'" class="img-fluid" style="height: 100%;" alt="Responsive image">
+                                <div class="card-img-overlay score red">9.3</div>
+                            </div>
+                            <div class="review-text">
+                                <h5 style="text-align:center; margin-bottom:2%;">{{ movie.title }}</h5>
+                                <div class="rating" style="text-align:center; margin-bottom:2%;">
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star"></i>
+                                    <i class="fa fa-star is-fade"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page section end -->
+ 
+        <!--====== Scripts ======-->
+        <script>
+            $(document).ready(function(){
+                get_movies();
+            });
+
+            var app = new Vue({
+                el: '#root',
+                data: {
+                    key: '',
+                    movies: []
+                }
+            });
+            async function get_movies(){
+                let value = await eel.filter_movies()();
+                let list = [];
+                let i = 1;
+                for (x in value) {
+                    if(i%5 == 0){
+                        list.push(value[x]);
+                        app.movies.push(list);
+                        list = [];
+                    }else{
+                        list.push(value[x]);
+                    }
+                    i++;
+                }
+                app.movies.push(list);
+            }
+            async function filter_movies_by_name(){
+                app.movies = []
+                let filter = document.getElementById('name_filter');
+                let value = await eel.filter_movies(filter.value)();
+                let list = [];
+                let i = 1;
+                for (x in value) {
+                    if(i%5 == 0){
+                        list.push(value[x]);
+                        app.movies.push(list);
+                        list = [];
+                    }else{
+                        list.push(value[x]);
+                    }
+                    i++;
+                }
+                app.movies.push(list);
+            }
+            async function filter_movies_by_gender(){
+                app.movies = []
+                let filter = document.getElementById('gender_filter');
+                let value = await eel.filter_movies(gender=filter.value)();
+                alert(value)
+                for (x in value) {
+                    app.movies.push(value[x]);
+                }
+            }
+        </script>
+
+        <!--====== Javascripts & Jquery ======-->
+    </body>
+</html>

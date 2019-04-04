@@ -1,0 +1,178 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css"/>
+    <head>
+    <body class="back">
+        <div id=root>
+            <banner></banner>
+            <!-- Page section -->
+            <section id="root"  class="gallery" style="padding-left:8%; padding-right:8%;">
+                <div class="d-flex  justify-content-center fixed">
+                    <div class="p-2">
+                        <div class="card" style="background-color:black;">
+                            <img src="img/search_imput.png" class="img-fluid">
+                            <div class="card-img-overlay">
+                                <form>
+                                    <a href="#" onclick="filter_games_by_name()"><img src="img/search_icon.png" class="img-fluid" style="margin-top:-9px;"></a>
+                                    <input id='name_filter' type="text" class="form-control input" style="margin-top:-35px; width:280px; margin-left: 35px;" placeholder="Buscar...">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="p-2" style="padding:0px !important; margin-top:10px;">
+                        <a href="#"><img src="img/filter_icon.png" class="img-fluid"></a>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <br>
+                <div v-for="games5 in games">
+                    <div class="d-flex  justify-content-center" style="padding-bottom:2%;">
+                        <div v-for="game in games5" class="p-2" style="text-align:center;">
+                            <div :onclick="'see(' + game.id + ')'" data-toggle="modal" data-target="#myModal" style="height: 250px; width:220px; margin-bottom:80px; margin-left:20px; margin-right:20px;">
+                                <div class="card">
+                                    <img :src="'img/Work/Games/' + game.id + 'image.jpeg'" class="card-img img-fluid" style="height: 100%; width:100%; margin:0 important;" alt="Responsive image">
+                                    <div class="card-img-overlay score red">9.3</div>
+                                </div>
+                                <div class="review-text" style="margin-top:10px;">
+                                    <h5 style="text-align:center; margin-bottom:2%;">{{ game.name }}</h5>
+                                    <div class="rating" style="text-align:center; margin-bottom:2%;">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star is-fade"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Page section end -->
+            <!-- The Modal -->
+            <section>
+                <div class="modal fade" id="myModal">
+                    <div class="modal-dialog modal-xl modal-dialog-centered">
+                        <div class="modal-content shadow-lg rounded-1" style="background-color:rgb(50,50,50); height:900px; border-radius: 20px;">
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="span-12" style="margin-right:8px;">
+                                <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                            </div>
+                            <div class="d-flex" style="margin-top:30px;">
+                                <div class="p-2" style="width:250px; height:250px !important; margin-left:25px;">
+                                    <img src="img/details_img.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                    <div class="card-img-overlay" style="width:250px; height:250px; margin-top:46px; margin-left:42px;">
+                                        <img :src="'img/Work/Games/' + key + 'image.jpeg'" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                    </div>
+                                </div>
+                                <div class="p-2" style="margin-left:40px;">
+                                    <div style="width:740px; height:100px;">
+                                        <img src="img/details_text.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                        <div style="color:white;">
+                                            <div style="margin-top:-28px; margin-left:20px;">
+                                                <p>{{ name }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style="margin-top:-50px;">
+                                        <div style="width:350px; height:100px;">
+                                            <img src="img/details_2.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            <div style="color:white;">
+                                                <div style="margin-top:-28px; margin-left:20px;">
+                                                    <p>Lanzamiento</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width:350px; height:100px; margin-left:40px;">
+                                            <img src="img/details_2.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            <div style="color:white;">
+                                                <div style="margin-top:-28px; margin-left:20px;">
+                                                    <p>Jugadores</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style="margin-top:-50px;">
+                                        <div style="width:224px; height:100px;">
+                                            <img src="img/details_3.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            <div style="color:white;">
+                                                <div style="margin-top:-28px; margin-left:20px;">
+                                                    <p>Rankin</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width:224px; height:100px; margin-left:34px;">
+                                            <img src="img/details_3.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            <div style="color:white;">
+                                                <div style="margin-top:-28px; margin-left:20px;">
+                                                    <p>Idioma</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width:224px; height:100px; margin-left:34px;">
+                                            <img src="img/details_3.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            <div style="color:white;">
+                                                <div style="margin-top:-28px; margin-left:20px;">
+                                                    <p>Peso</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="" style="width:1040px; height:100px; margin-left:34px; margin-top:30px; color:white;">
+                                Descripción
+                                <img src="img/details_desc.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:1010px; margin-top:-220px; margin-left:20px;" id="style-13">
+                                    <div class="container">
+                                    {{ description }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="" style="width:1040px; height:100px; margin-left:34px; margin-top:180px; color:white">
+                                Requerimientos
+                                <img src="img/details_desc.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:1010px; margin-top:-220px; margin-left:20px;" id="style-13">
+                                    <div class="container">
+                                        <h4>Requisitos Minimos:</h4>
+                                        <div style="font-size:18px;">
+                                            <ul v-for="req in requirements[0]">
+                                                <li>{{ req.type }} : {{ req.req }}</li>
+                                            </ul>
+                                        </div>
+                                        <h4>Requisitos Recomendados:</h4>
+                                        <div style="font-size:18px;">
+                                            <ul v-for="req in requirements[1]">
+                                                <li>{{ req.type }} : {{ req.req }}</li>
+                                            </ul>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Modal end-->
+            <footerv></footerv>
+        </div>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/vue.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/games.js"></script>
+        <script src="/eel.js"></script>
+        <script>
+                $(document).ready(function(){
+                    get_games();
+                });
+        </script>
+    </body>
+</html>
