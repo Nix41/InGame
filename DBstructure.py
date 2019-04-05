@@ -8,48 +8,37 @@ from sqlalchemy import Column, String , Integer , Table, ForeignKey, Boolean, Da
 from sqlalchemy.ext.declarative import declarative_base  
 from sqlalchemy.orm import sessionmaker , relationship, backref, Session
 from sqlalchemy.sql import func
+from sqlalchemy.ext.hybrid import hybrid_property, hybrid_method
 
 import re
 import os
 import datetime
 
-
 ####### WINDOWS ########
-# direct = 'web\img\Work\\'
-# try:
-#     os.mkdir( direct)
-# except: FileExistsError
-# direct = 'web\img\Work\Games\\'
-# try:
-#     os.mkdir( direct)
-# except: FileExistsError
-# direct = 'web\img\Work\Movies\\'
-# try:
-#     os.mkdir( direct)
-# except: FileExistsError
-# direct = 'web\img\Work\Series\\'
-# try:
-#     os.mkdir( direct)
-# except: FileExistsError
+# slash = '\\'
 ###########################
 ######### LINUX ###########
-direct = 'web/img/Work/'
+slash = '/'
+
+MAIN_DIRECTORY = 'web'+ slash + 'img' + slash+ 'Work' + slash 
+games_dir = MAIN_DIRECTORY + 'Games' + slash
+series_dir = MAIN_DIRECTORY + 'Series' + slash
+movies_dir = MAIN_DIRECTORY + 'Movies' + slash
+
+
+direct = MAIN_DIRECTORY
 try:
     os.mkdir( direct)
 except: FileExistsError
-direct = 'web/img/Work/Games/'
 try:
-    os.mkdir( direct)
+    os.mkdir( games_dir)
 except: FileExistsError
-direct = 'web/img/Work/Movies/'
 try:
-    os.mkdir( direct)
+    os.mkdir( series_dir)
 except: FileExistsError
-direct = 'web/img/Work/Series/'
 try:
-    os.mkdir( direct)
+    os.mkdir( series_dir)
 except: FileExistsError
-##########################
 
 Base = declarative_base()
 
@@ -79,8 +68,8 @@ class GameReq(Base):
     left_id = Column(Integer, ForeignKey('game.id'), primary_key=True)
     right_id = Column(Integer, ForeignKey('requirement.id'), primary_key=True)
     minormax = Column(Boolean)
-    game = relationship("Game", back_populates="requirements")
-    req = relationship("Requirement", back_populates="games")
+    game = relationship("Game", cascade="save-update, merge, delete",back_populates="requirements")
+    req = relationship("Requirement",cascade="save-update, merge, delete", back_populates="games")
 
 class Game(TimestampMixin, Base):
     __tablename__ = 'game'
@@ -92,9 +81,22 @@ class Game(TimestampMixin, Base):
     launch = Column(Integer)
     game_mode = Column(String)
     language = Column(String)
+    min_players = Column(Integer)
+    max_players = Column(Integer)
     category_id = Column(Integer, ForeignKey('gamecategory.id'))
     category = relationship("GameCategory", backref=backref('games'))
     size = Column(Integer)
+
+    @hybrid_property
+    def cover_path(self):
+        return (games_dir[4:] + str(self.id))
+    @hybrid_property
+    def captures(self):
+        caps = []
+        for r, d, f in os.walk(games_dir + str(self.id) + slash):
+            for file in f:
+                caps.append(os.path.join(r, file)[4:])
+        return caps
 
 class Requirement(Base):
     __tablename__ = 'requirement'
@@ -115,6 +117,10 @@ moviegen_table = Table('moviegen', Base.metadata,
     Column('movie_id', Integer, ForeignKey('movie.id')),
     Column('moviegender_id', Integer, ForeignKey('moviegender.id'))
     )
+movietop_table = Table('movietop', Base.metadata,
+    Column('movie_id', Integer, ForeignKey('movie.id')),
+    Column('movietopic_id', Integer, ForeignKey('movietopic.id'))
+    )
 
 seriedir_table = Table('seriedir', Base.metadata,
     Column('serie_id', Integer, ForeignKey('serie.id')),
@@ -127,6 +133,10 @@ serieactor_table = Table('serieactor', Base.metadata,
 seriegen_table = Table('seriegen', Base.metadata,
     Column('serie_id', Integer, ForeignKey('serie.id')),
     Column('seriegender_id', Integer, ForeignKey('seriegender.id'))
+    )
+serietop_table = Table('serietop', Base.metadata,
+    Column('serie_id', Integer, ForeignKey('serie.id')),
+    Column('serietopic_id', Integer, ForeignKey('serietopic.id'))
     )
     
 class Director(Base):
@@ -148,6 +158,12 @@ class MovieGender(Base):
     id= Column(Integer, primary_key= True)
     name = Column(String)
     movies = relationship("Movie", secondary=moviegen_table, backref='genders')
+
+class MovieTopic(Base):
+    __tablename__ = 'movietopic'
+    id= Column(Integer, primary_key= True)
+    name = Column(String)
+    movies = relationship("Movie", secondary=movietop_table, backref='topics')
     
 class Movie(TimestampMixin, Base):
     __tablename__ = 'movie'
@@ -156,12 +172,22 @@ class Movie(TimestampMixin, Base):
     year = Column(Integer)
     country = Column(String)
     sinopsis = Column(String)
+    score = Column(Integer)
+    @hybrid_property
+    def cover_path(self):
+        return (series_dir[4:] + str(self.id))
     
 class SerieGender(Base):
     __tablename__ = 'seriegender'
     id= Column(Integer, primary_key= True)
     name = Column(String)
     series = relationship("Serie", secondary=seriegen_table, backref='genders')
+
+class SerieTopic(Base):
+    __tablename__ = 'serietopic'
+    id= Column(Integer, primary_key= True)
+    name = Column(String)
+    series = relationship("Serie", secondary=serietop_table, backref='topics')
 
 class Serie(TimestampMixin, Base):
     __tablename__ = 'serie'
@@ -170,6 +196,10 @@ class Serie(TimestampMixin, Base):
     year = Column(Integer)
     country = Column(String)
     sinopsis = Column(String)
+    score = Column(Integer)
+    @hybrid_property
+    def cover_path(self):
+        return (movies_dir[4:] + str(self.id))
 
 class OnExistance(Base):
     __tablename__ = 'onexistance'

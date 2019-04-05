@@ -7,6 +7,11 @@ from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
 import urllib.request
 from selenium.webdriver.common.by import By
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.common.exceptions import TimeoutException
+
+digits = ['1','2','3','4', '5','6','7','8','9','0']
 
 tracks = 0
 def track():
@@ -114,7 +119,15 @@ def find_games(sourcelist):
     
     with open(sourcelist , "r") as std:
         games = std.readlines()
-
+    options = Options()
+    options.headless = True
+    options.add_argument('--ignore-certificate-errors')
+    chrome_prefs = {}
+    options.experimental_options["prefs"] = chrome_prefs
+    chrome_prefs["profile.default_content_settings"] = {"images": 2}
+    chrome_prefs["profile.managed_default_content_settings"] = {"images": 2}
+    driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", options=options)
+    driver.set_page_load_timeout(120)
     for g in games:
         s = re.sub( ' +', ' ', g ).strip()
         already = sess.query(OnExistance).filter(OnExistance.name == g, OnExistance.tipo == 'Game')
@@ -125,24 +138,15 @@ def find_games(sourcelist):
             s = s.replace(' ' , '+')
             url = urlstart + s + urlend
             print(url)
-            driver = webdriver.PhantomJS()
-            driver.get(url)
-            try:
+            
+            try: 
+                driver.get(url)
                 resp = driver.find_element_by_xpath('//*[@class="xXx b"]')
-                # print('aaaaaa')
-                # resp = driver.find_element_by_css_selector('.xXx.b')
-                # print(resp, 'wwwwwwwwwwwww')
-                # print(resp.get_attribute('href'))
                 s = resp.get_attribute('href')
-                # print('QQ   ', s)
                 game = urllib.request.urlopen(s).read()
-                 #1
                 soup_game = BeautifulSoup(game)
-                 #2
                 soup_game.prettify()
-                 #3
                 game_name = soup_game.title.string
-                 #4
                 description = "" +soup_game.select_one("#adpepito").get_text()
                 jname = game_name[:-18]
                  #5
@@ -182,6 +186,7 @@ def find_games(sourcelist):
                     if 'Jugadores' in typ:
                          #15
                         game_type = prop
+
                     if 'Idioma' in typ:
                         print('!!!!!!!!!!!!!!!!!!!!!!!!Language:    ')
                          #16
@@ -193,29 +198,25 @@ def find_games(sourcelist):
                     req = gen_requisitos(s)
                     # print('HERE')
                     requisitos(req, this_game)  
-                     
                     sess.add_all([this_game])
-                     
                     sess.commit()
-                     
                     get_captures(soup_game , this_game.id)
                     image = soup_game.find(rel='image_src')
                     # print('****************')
                     im = image['href']
                     # print(im)
- #                   with urllib.request.urlopen(im) as response, open('web\img\Work\Games\\' + str(this_game.id) + 'image.jpeg', 'wb') as out_file:
-                    with urllib.request.urlopen(im) as response, open('web/img/Work/Games/' + str(this_game.id) + 'image.jpeg', 'wb') as out_file: 
+                    with urllib.request.urlopen(im) as response, open(games_dir + str(this_game.id) + 'image.jpeg', 'wb') as out_file: 
                         data = response.read()
                         out_file.write(data)
+            except TimeoutException:
+                print('La pagina se demoro demasiado')
             except NoSuchElementException:
                 not_found += (g + '\n')
-                print('it does not exist')
+                print('it does not exist') 
         else:
             print('ya has hecho esta busqueda ' + g)
-    #WINDOW
-    #with open('web\img\Work\Games\\notfound.txt' , 'at') as std:
-    #UBUNTU
-    with open('web/img/Work/Games/notfound.txt' , 'at') as std:
+    driver.quit()
+    with open(games_dir + 'notfound.txt' , 'at') as std:
         std.write(not_found)          
 
 def extract_info(url, build_method):
@@ -223,21 +224,33 @@ def extract_info(url, build_method):
     mov = urllib.request.urlopen(url)
     movsoup = BeautifulSoup(mov)
     movsoup.prettify()
+    print('h1')
     info = movsoup.find(class_='movie-info')
     name = ''
     generos = []
+    topics = []
     reparto = []
     directors = []
     sinopsis = ''
     anno = ''
     pais = ''
+    print('h2')
     for head in info.find_all('dt'):
         typ = head.get_text()
-        prop = head.find_next('dd').get_text()
+        nextI = head.find_next('dd')
+        prop = nextI.get_text()
         if 'Título original' in typ :
             name = re.sub( '\s+', ' ', prop ).strip()
         if 'Género' in typ :
-            generos = re.split('\\|' , re.sub( '\s+', ' ', prop ).strip() )
+            print('h3')
+            gens = nextI.find_all('a')
+            print('h4')
+            for g in gens:
+                print(g)
+                if 'moviegenre' in g['href']:
+                    generos.append(g.get_text())
+                elif 'movietopic' in g['href']:
+                    topics.append(g.get_text())
         if 'Reparto' in typ :
             reparto = re.split(',' , re.sub( '\s+', ' ', prop ).strip())
         if 'Sinopsis' in typ :
@@ -250,47 +263,61 @@ def extract_info(url, build_method):
         if 'País' in typ :
             pais = re.sub( '\s+', ' ', prop ).strip()
     image = movsoup.find('img' , itemprop="image")
+    scor = movsoup.find('div', id="movie-rat-avg")
+    try:
+        score = int(scor['content'])
+    except Exception:
+        score = 0
+    print(score)
+    print('h5')
     if not (image is None):
-        build_method(name, anno, pais, sinopsis, generos, directors, reparto, image['src'])
+        build_method(name, anno, pais, sinopsis, generos, directors, reparto, image['src'], score, topics)
 
-def build_serie(name, year, pais, sinopsis, generos, directors, reparto, image):
+def build_serie(name, year, pais, sinopsis, generos, directors, reparto, image, score, topics):
     name = name[:-11]
     already = sess.query(Serie).filter(Serie.title == name)
+    print('h6')
     if already.count() == 0:
-        serie = Serie(title=name , year= int(year), country=pais , sinopsis=sinopsis)
+        serie = Serie(title=name , year= int(year), country=pais , sinopsis=sinopsis, score=score)
         for g in generos:
-            serie.genders.append(SerieGender(name=g))
+            print(g)
+            add_tv_gender2(serie, g, False)
         for d in directors:
-            serie.directors.append(Director(name=d))
+            print(d)
+            add_director2(serie, d)
         for a in reparto:
-            serie.actors.append(Actor(name= a))
+            print(a)
+            add_actor2(serie, a)
+        for t in topics:
+            print(t)
+            add_topic2(serie, t, False)
+        print('h7')
         sess.add_all([serie])
         sess.commit()
-        #WINDOWS
-        #with urllib.request.urlopen(image) as response, open('web\img\Work\Series'+ '\\' + str(serie.id) + 'image.jpeg', 'wb') as out_file:
-        #UBUNTU
-        with urllib.request.urlopen(image) as response, open('web/img/Work/Series'+ '/' + str(serie.id) + 'image.jpeg', 'wb') as out_file:
+        print('h8')
+        print(image)
+        with urllib.request.urlopen(image) as response, open(series_dir + str(serie.id) + 'image.jpeg', 'wb') as out_file:
             data = response.read()
             out_file.write(data)
+        print('h9')
     else:
         print('Serie ' + name + ' already exists')
     
-def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image):
+def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image, score, topics):
     already = sess.query(Movie).filter(Movie.title == name)
     if already.count() == 0:
-        movie = Movie(title=name , year= int(year), country=pais , sinopsis=sinopsis)
+        movie = Movie(title=name , year= int(year), country=pais , sinopsis=sinopsis, score=score)
         for g in generos:
-            movie.genders.append(MovieGender(name=g))
+            add_tv_gender2(movie, g)
         for d in directors:
-            movie.directors.append(Director(name=d))
+            add_director2(movie, d)
         for a in reparto:
-            movie.actors.append(Actor(name= a))
+            add_actor2(movie, a)
+        for t in topics:
+            add_topic2(movie, t)
         sess.add_all([movie])
         sess.commit()
-        #WINDOWS
-        #with urllib.request.urlopen(image) as response, open('web\img\Work\Movies'+ '\\' + str(movie.id) + 'image.jpeg', 'wb') as out_file:
-        #UBUNTU
-        with urllib.request.urlopen(image) as response, open('web/img/Work/Movies'+ '/' + str(movie.id) + 'image.jpeg', 'wb') as out_file:
+        with urllib.request.urlopen(image) as response, open(movies_dir+ '/' + str(movie.id) + 'image.jpeg', 'wb') as out_file:
             data = response.read()
             out_file.write(data)
     else: 
@@ -333,16 +360,13 @@ def search(listdir , stype='' ):
                 print(a['href'])
                 if(stype == ''):
                     extract_info(a['href'], build_movie)
-                    #WINDOWS
-                    #direct = 'web\img\Work\Movies\\notfoundmovies.txt'
-                    #UBUNTU
-                    direct = 'web/img/Work/Movies/notfoundmovies.txt'
+                    direct = movies_dir + 'notfoundmovies.txt'
                 if(stype == 'TV_SE'):
                     extract_info(a['href'], build_serie)
                     #WINDOWS
                     #direct = 'web\img\Work\Series\\notfoundseries.txt'
                     #UBUNTU
-                    direct = 'web/img/Work/Series/notfoundseries.txt'
+                    direct = series_dir + 'notfoundseries.txt'
                 i = i + 1
             else: 
                 not_found += ( m + '\n' )
@@ -352,12 +376,12 @@ def search(listdir , stype='' ):
         #WINDOWS
         #direct = 'web\img\Work\Movies\\notfoundmovies.txt'
         #UBUNTU
-        direct = 'web/img/Work/Movies/notfoundmovies.txt'
+        direct = movies_dir + 'notfoundmovies.txt'
     if(stype == 'TV_SE'):
         #WINDOWS
         #direct = 'web\img\Work\Series\\notfoundseries.txt'
         #UBUNTU
-        direct = 'web/img/Work/Series/notfoundseries.txt'
+        direct = series_dir + 'notfoundseries.txt'
     print(direct + '**')
     with open(direct , 'at')as std:
                     std.write(not_found)
@@ -376,8 +400,8 @@ def search(listdir , stype='' ):
 # clean('web/img/Work/Series/series.txt')
 # clean('web/img/Work/Movies/movies.txt')
 # clean('games.txt')
-# search('series.txt', 'TV_SE')
-# search('movies.txt')
+search('series.txt', 'TV_SE')
+search('movies.txt')
 find_games('games.txt')
 ###########################################
 sess.close()
