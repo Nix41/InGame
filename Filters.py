@@ -22,38 +22,46 @@ def get_movie_genders():
         genders.append(gen.name)
     return genders
 
-def filter_games(name = "", gender = "" ):
+def match_games(game , name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0):
+    match_all = True
+    # if not((name in game.name) and (game_mode in game.game_mode) and (category == game.category.name) and (lenguage in game.lenguage) and (score <= game.score) and (launch >= game.launch)):
+    if not((game.name.contains(name)) and (game.game_mode.contains(game_mode)) and (game.category.name.contains(category)) and (game.lenguage.contains(lenguage)) and (score <= game.score) and (launch >= game.launch)):
+        match_all = False
+        return False
+    if not(players >= game.min_players and players <= game.max_players):
+        match_all = False
+        return False
+    gender = False
+    for g in game.genders:
+        if gender in g.name:
+            gender = True
+    match_all = gender
+    return match_all
+    
+
+def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0 ):
     games = {}
-    for c in sess.query(Game).filter(Game.name.contains(name)):
+    for c in sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch > launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score):
+        print(c.cover_path)
+        print(c.captures)
         genders = []
-        print()
-        print( c.launch )
-        print(c.game_mode)
-        print('aaa')
-        print('#',c.language, '#')
-        print('bbb')
-        print(c.puntuacion)
-        print(c.name)
-        print(c.category.name)
-        print(c.size)
-        print()
         gender_filter = False
         for g in c.genders:
             if gender in g.name:
                 gender_filter = True
             genders.append(g.name)
-        requirements = []
-        requirements.append([])
-        requirements.append([])
-        for r in c.requirements:
-            req = {}
-            req['type'] = r.req.req_type
-            req['req'] = r.req.req
-            if r.minormax == True:
-                requirements[0].append(req)
-            else:
-                requirements[1].append(req)
-        if gender_filter:
+        if gender_filter and category in c.category.name :
+            requirements = []
+            requirements.append([])
+            requirements.append([])
+            for r in c.requirements:
+                req = {}
+                req['type'] = r.req.req_type
+                req['req'] = r.req.req
+                if r.minormax == True:
+                    requirements[0].append(req)
+                else:
+                    requirements[1].append(req)
             games[c.id] = {}
             games[c.id]['id'] = c.id
             games[c.id]['name'] = c.name
@@ -66,6 +74,8 @@ def filter_games(name = "", gender = "" ):
             games[c.id]['game_mode'] = c.game_mode
             games[c.id]['language'] = c.language
             games[c.id]['score'] = c.puntuacion
+            games[c.id]['cover_path'] = c.cover_path
+            games[c.id]['captures'] = c.captures
     return games
 
 def filter_series(name = "", gender="", actor="", director=""):
@@ -171,4 +181,4 @@ def get_directors():
         directors.append(d.name)
     return directors
 
-filter_games()
+filter_games(name='a')

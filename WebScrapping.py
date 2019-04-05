@@ -204,8 +204,7 @@ def find_games(sourcelist):
                     # print('****************')
                     im = image['href']
                     # print(im)
-#                   with urllib.request.urlopen(im) as response, open('web\img\Work\Games\\' + str(this_game.id) + 'image.jpeg', 'wb') as out_file:
-                    with urllib.request.urlopen(im) as response, open('web/img/Work/Games/' + str(this_game.id) + 'image.jpeg', 'wb') as out_file: 
+                    with urllib.request.urlopen(im) as response, open(games_dir + str(this_game.id) + 'image.jpeg', 'wb') as out_file: 
                         data = response.read()
                         out_file.write(data)
             except TimeoutException:
@@ -215,11 +214,8 @@ def find_games(sourcelist):
                 print('it does not exist') 
         else:
             print('ya has hecho esta busqueda ' + g)
-    #WINDOW
-    #with open('web\img\Work\Games\\notfound.txt' , 'at') as std:
-    #UBUNTU
     driver.quit()
-    with open('web/img/Work/Games/notfound.txt' , 'at') as std:
+    with open(games_dir + 'notfound.txt' , 'at') as std:
         std.write(not_found)          
 
 def extract_info(url, build_method):
@@ -270,10 +266,7 @@ def build_serie(name, year, pais, sinopsis, generos, directors, reparto, image):
             serie.actors.append(Actor(name= a))
         sess.add_all([serie])
         sess.commit()
-        #WINDOWS
-        #with urllib.request.urlopen(image) as response, open('web\img\Work\Series'+ '\\' + str(serie.id) + 'image.jpeg', 'wb') as out_file:
-        #UBUNTU
-        with urllib.request.urlopen(image) as response, open('web/img/Work/Series'+ '/' + str(serie.id) + 'image.jpeg', 'wb') as out_file:
+        with urllib.request.urlopen(image) as response, open(series_dir + str(serie.id) + 'image.jpeg', 'wb') as out_file:
             data = response.read()
             out_file.write(data)
     else:
@@ -291,10 +284,7 @@ def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image):
             movie.actors.append(Actor(name= a))
         sess.add_all([movie])
         sess.commit()
-        #WINDOWS
-        #with urllib.request.urlopen(image) as response, open('web\img\Work\Movies'+ '\\' + str(movie.id) + 'image.jpeg', 'wb') as out_file:
-        #UBUNTU
-        with urllib.request.urlopen(image) as response, open('web/img/Work/Movies'+ '/' + str(movie.id) + 'image.jpeg', 'wb') as out_file:
+        with urllib.request.urlopen(image) as response, open(movies_dir+ '/' + str(movie.id) + 'image.jpeg', 'wb') as out_file:
             data = response.read()
             out_file.write(data)
     else: 
@@ -337,16 +327,13 @@ def search(listdir , stype='' ):
                 print(a['href'])
                 if(stype == ''):
                     extract_info(a['href'], build_movie)
-                    #WINDOWS
-                    #direct = 'web\img\Work\Movies\\notfoundmovies.txt'
-                    #UBUNTU
-                    direct = 'web/img/Work/Movies/notfoundmovies.txt'
+                    direct = movies_dir + 'notfoundmovies.txt'
                 if(stype == 'TV_SE'):
                     extract_info(a['href'], build_serie)
                     #WINDOWS
                     #direct = 'web\img\Work\Series\\notfoundseries.txt'
                     #UBUNTU
-                    direct = 'web/img/Work/Series/notfoundseries.txt'
+                    direct = series_dir + 'notfoundseries.txt'
                 i = i + 1
             else: 
                 not_found += ( m + '\n' )
@@ -356,12 +343,12 @@ def search(listdir , stype='' ):
         #WINDOWS
         #direct = 'web\img\Work\Movies\\notfoundmovies.txt'
         #UBUNTU
-        direct = 'web/img/Work/Movies/notfoundmovies.txt'
+        direct = movies_dir + 'notfoundmovies.txt'
     if(stype == 'TV_SE'):
         #WINDOWS
         #direct = 'web\img\Work\Series\\notfoundseries.txt'
         #UBUNTU
-        direct = 'web/img/Work/Series/notfoundseries.txt'
+        direct = series_dir + 'notfoundseries.txt'
     print(direct + '**')
     with open(direct , 'at')as std:
                     std.write(not_found)
