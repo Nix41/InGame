@@ -83,6 +83,7 @@ def extract_req(req, game, boo):
     game.requirements.append(gr)
     
 def requisitos(url, game):
+    print(url)
     req = urllib .request.urlopen(url)
     soup = BeautifulSoup(req)
     soup.prettify()
@@ -127,18 +128,14 @@ def find_games(sourcelist):
     chrome_prefs["profile.default_content_settings"] = {"images": 2}
     chrome_prefs["profile.managed_default_content_settings"] = {"images": 2}
     driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", options=options)
-    driver.set_page_load_timeout(120)
+    driver.set_page_load_timeout(60)
     for g in games:
         s = re.sub( ' +', ' ', g ).strip()
         already = sess.query(OnExistance).filter(OnExistance.name == g, OnExistance.tipo == 'Game')
         if already.count() == 0:
-            one = OnExistance(name = g, tipo = 'Game')
-            sess.add_all([one])
-            sess.commit()
             s = s.replace(' ' , '+')
             url = urlstart + s + urlend
             print(url)
-            
             try: 
                 driver.get(url)
                 resp = driver.find_element_by_xpath('//*[@class="xXx b"]')
@@ -184,7 +181,6 @@ def find_games(sourcelist):
                                 break
                         launch = year                       
                     if 'Jugadores' in typ:
-                         #15
                         game_type = prop
 
                     if 'Idioma' in typ:
@@ -195,16 +191,20 @@ def find_games(sourcelist):
                 if here.count() == 0:
                     print('#',language,'#')
                     this_game = Game(name = jname, description= description, game_mode =game_type, language= language, launch= launch, puntuacion = puntuacion )  
-                    req = gen_requisitos(s)
+                    r = soup_game.find('a' , text='Requisitos')
+                    print('NEW')
+                    print(r['href'])
+                    req = r['href']
                     # print('HERE')
-                    requisitos(req, this_game)  
-                    sess.add_all([this_game])
+                    requisitos(req, this_game)
+                    one = OnExistance(name = g, tipo = 'Game')  
+                    sess.add_all([this_game, one])
                     sess.commit()
                     get_captures(soup_game , this_game.id)
                     image = soup_game.find(rel='image_src')
                     # print('****************')
                     im = image['href']
-                    # print(im)
+                    print(im)
                     with urllib.request.urlopen(im) as response, open(games_dir + str(this_game.id) + 'image.jpeg', 'wb') as out_file: 
                         data = response.read()
                         out_file.write(data)
