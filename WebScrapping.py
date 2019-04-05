@@ -21,19 +21,13 @@ def track():
 
 def get_captures(game, ids):
     i = 0
-    #WINDOWS#
-    #dirt = 'web\img\Work\Games\\' + str(ids)
-    #UBUNTU
-    dirt = 'web/img/Work/Games/' + str(ids)
+    dirt = games_dir + str(ids)
     try:
         os.mkdir( dirt)
     except: FileExistsError
         
     for im in game.findAll('img', class_='wi100'):
-        #WINDOWS
-        #with urllib.request.urlopen(im['data-src']) as response, open(dirt + '\image' + str(i) + '.jpeg', 'wb') as out_file:
-        #UBUNTU
-        with urllib.request.urlopen(im['data-src']) as response, open(dirt + '/image' + str(i) + '.jpeg', 'wb') as out_file:
+        with urllib.request.urlopen(im['data-src']) as response, open(dirt + slash + 'image' + str(i) + '.jpeg', 'wb') as out_file:
             data = response.read()
             out_file.write(data)
         i = i + 1
@@ -221,6 +215,7 @@ def find_games(sourcelist):
 
 def extract_info(url, build_method):
     url = 'https://www.filmaffinity.com' + url
+    print(url)
     mov = urllib.request.urlopen(url)
     movsoup = BeautifulSoup(mov)
     movsoup.prettify()
@@ -264,8 +259,11 @@ def extract_info(url, build_method):
             pais = re.sub( '\s+', ' ', prop ).strip()
     image = movsoup.find('img' , itemprop="image")
     scor = movsoup.find('div', id="movie-rat-avg")
+
+    
     try:
-        score = int(scor['content'])
+        print('SCORE -> ',scor['content'])
+        score = float(scor['content'])
     except Exception:
         score = 0
     print(score)
@@ -341,12 +339,7 @@ def search(listdir , stype='' ):
             already = sess.query(OnExistance).filter(OnExistance.name == m, OnExistance.tipo == 'Serie' )
         print(already.count())
         if(already.count() == 0):
-            if(stype == ''):
-                one = OnExistance(name = m, tipo = 'Movie')
-            if(stype == 'TV_SE'):
-                one = OnExistance(name = m, tipo = 'Serie' )
-            sess.add_all([one])
-            sess.commit()
+            
             s = s.replace(' ' , '+')
             url = urlstart + s + urlmid + stype + urlend
             print(url)
@@ -363,24 +356,21 @@ def search(listdir , stype='' ):
                     direct = movies_dir + 'notfoundmovies.txt'
                 if(stype == 'TV_SE'):
                     extract_info(a['href'], build_serie)
-                    #WINDOWS
-                    #direct = 'web\img\Work\Series\\notfoundseries.txt'
-                    #UBUNTU
                     direct = series_dir + 'notfoundseries.txt'
+                if(stype == ''):
+                    one = OnExistance(name = m, tipo = 'Movie')
+                if(stype == 'TV_SE'):
+                    one = OnExistance(name = m, tipo = 'Serie' )
+                sess.add_all([one])
+                sess.commit()
                 i = i + 1
             else: 
                 not_found += ( m + '\n' )
         else:
             print('ya has hecho esta busqueda ' + m)
     if(stype == ''):
-        #WINDOWS
-        #direct = 'web\img\Work\Movies\\notfoundmovies.txt'
-        #UBUNTU
         direct = movies_dir + 'notfoundmovies.txt'
     if(stype == 'TV_SE'):
-        #WINDOWS
-        #direct = 'web\img\Work\Series\\notfoundseries.txt'
-        #UBUNTU
         direct = series_dir + 'notfoundseries.txt'
     print(direct + '**')
     with open(direct , 'at')as std:

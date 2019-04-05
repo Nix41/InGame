@@ -172,7 +172,7 @@ class Movie(TimestampMixin, Base):
     year = Column(Integer)
     country = Column(String)
     sinopsis = Column(String)
-    score = Column(Integer)
+    score = Column(Float)
     @hybrid_property
     def cover_path(self):
         return (series_dir[4:] + str(self.id))
@@ -196,7 +196,7 @@ class Serie(TimestampMixin, Base):
     year = Column(Integer)
     country = Column(String)
     sinopsis = Column(String)
-    score = Column(Integer)
+    score = Column(Float)
     @hybrid_property
     def cover_path(self):
         return (movies_dir[4:] + str(self.id))

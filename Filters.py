@@ -42,6 +42,7 @@ def match_games(game , name = "", gender = "", launch=0, players=0,game_mode="",
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0 ):
     games = {}
     for c in sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch > launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score):
+        print(c.name)
         print(c.cover_path)
         print(c.captures)
         genders = []
@@ -82,6 +83,8 @@ def filter_series(name = "", gender="", actor="", director=""):
     series = {}
     for s in sess.query(Serie).filter(Serie.title.contains(name)):
         genders = []
+        print(s.title)
+        print(s.score)
         gender_filter = False
         for g in s.genders:
             if gender in g.name:
@@ -114,6 +117,8 @@ def filter_movies(name = "", gender="", actor="", director=""):
     movies = {}
     for c in sess.query(Movie).filter(Movie.title.contains(name)):
         genders = []
+        print(c.title)
+        print(c.score)
         gender_filter = False
         for g in c.genders:
             if gender in g.name:
@@ -181,4 +186,6 @@ def get_directors():
         directors.append(d.name)
     return directors
 
-filter_games(name='a')
+filter_games()
+filter_series()
+filter_movies()
