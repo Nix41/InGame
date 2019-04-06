@@ -25,6 +25,9 @@ games_dir = MAIN_DIRECTORY + 'Games' + slash
 series_dir = MAIN_DIRECTORY + 'Series' + slash
 movies_dir = MAIN_DIRECTORY + 'Movies' + slash
 
+g_list = 'lists' + slash + 'games.txt'
+m_list = 'lists' + slash + 'movies.txt'
+s_list = 'lists' + slash + 'series.txt'
 
 direct = MAIN_DIRECTORY
 try:

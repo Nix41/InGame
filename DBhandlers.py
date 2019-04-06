@@ -161,7 +161,6 @@ def remove_images(id, path, game=False):
     except Exception:
         pass
     
-
 def add_director(tv, director, movie=True):
     if movie:
         tvo = find_movie(tv)
@@ -314,11 +313,30 @@ def find_game(ids):
     except NoResultFound:
         return -1
 
-
 def del_game(game):
     for r in game.requirements:
         sess.delete(r)
     sess.delete(game)
     sess.commit()
 
+def get_downloads():
+    d = {}
+    with open(g_list , "r") as std:
+        d['games'] = std.read()
+    with open(s_list , "r") as std:
+        d['series'] = std.read()
+    with open(m_list , "r") as std:
+        d['movies'] = std.read()
+    return d
 
+def set_downloads(games, series, movies):
+    with open(g_list , "w") as std:
+        std.write(games)
+    with open(s_list , "w") as std:
+        std.write(series)
+    with open(m_list , "w") as std:
+        std.write(movies)
+
+
+        
+print(get_downloads())

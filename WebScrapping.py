@@ -377,22 +377,12 @@ def search(listdir , stype='' ):
                     std.write(not_found)
      
 
-############### WINDOWS ###################
-# clean('web/img/Work/Series/series.txt')
-# clean('web/img/Work/Movies/movies.txt')
-# clean('web/img/Work/Games/games.txt')
-# search('web\img\Work\Series\series.txt', 'TV_SE')
-# search('web\img\Work\Movies\movies.txt')
-# find_games('web\img\Work\Games\games.txt')
-###########################################
+# clean(s_list)
+# clean(m_list)
+# clean(g_list)
+search(s_list, 'TV_SE')
+search(m_list)
+find_games(g_list)
 
-################ UBUNTU ###################
-# clean('web/img/Work/Series/series.txt')
-# clean('web/img/Work/Movies/movies.txt')
-# clean('games.txt')
-search('series.txt', 'TV_SE')
-search('movies.txt')
-find_games('games.txt')
-###########################################
 sess.close()
 
