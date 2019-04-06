@@ -1,6 +1,9 @@
 
 from DBstructure import *
+import DBstructure
 from sqlalchemy.orm.exc import NoResultFound
+import base64
+import shutil
 
 def add_category_to_game(game , category):
     cat = find_category(category)
@@ -22,7 +25,7 @@ def find_category(category):
         cat = GameCategory(name = category)
     return cat
 
-def CRUD_Serie(title, year, pais, sinopsis, generos=[], directors=[], reparto=[],id=-1, image_path="", delete=False):
+def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", delete=False):
     if id != -1: 
         serie = sess.query(Serie).filter(Serie.id == id).one()
         if not delete:
@@ -30,7 +33,10 @@ def CRUD_Serie(title, year, pais, sinopsis, generos=[], directors=[], reparto=[]
             serie.year = year
             serie.pais = pais
             serie.sinopsis = sinopsis
+            if image != '':
+                change_cover(serie, image, series_dir)
         else:
+            remove_images(serie.id, series_dir)
             sess.delete(serie)
         sess.commit()
     else:
@@ -43,20 +49,24 @@ def CRUD_Serie(title, year, pais, sinopsis, generos=[], directors=[], reparto=[]
             add_actor2(serie, a)
         sess.add_all([serie])
         sess.commit()
+        change_cover(serie, image, series_dir)
 
-def CRUD_Movie(title, year, pais, sinopsis, generos=[], directors=[], reparto=[],id=-1, image_path="", delete=False):
+def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", delete=False):
     if id != -1: 
-        movie = sess.query(Movie).filter(Movie.id == id).one()
+        movie = sess.query(DBstructure.Movie).filter(DBstructure.Movie.id == id).one()
         if not delete:
             movie.title = title
             movie.year = year
             movie.pais = pais
             movie.sinopsis = sinopsis
+            if image != '':
+                change_cover(movie, image, movies_dir)
         else:
+            remove_images(movie.id, movies_dir)
             sess.delete(movie)
         sess.commit()
     else:
-        Movie = Movie(title=title , year= int(year), country=pais , sinopsis=sinopsis)
+        Movie = DBstructure.Movie(title=title , year= int(year), country=pais , sinopsis=sinopsis)
         for g in generos:
             add_tv_gender2(movie, g)
         for d in directors:
@@ -65,10 +75,11 @@ def CRUD_Movie(title, year, pais, sinopsis, generos=[], directors=[], reparto=[]
             add_actor2(movie, a)
         sess.add_all([movie])
         sess.commit()
+        change_cover(movie, image, movies_dir)
 
-def CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders=[], requirements=[], id=-1, image_path="", captures=[], delete=False):
+def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=-1, image="", captures=[], delete=False):
     if id != -1: 
-        game = sess.query(Game).filter(Game.id == id).one()
+        game = sess.query(DBstructure.Game).filter(DBstructure.Game.id == id).one()
         if not delete:
             game.name = name
             game.launch = launch
@@ -78,31 +89,36 @@ def CRUD_Game(name, description, game_mode, language, launch, puntuacion, catego
             game.puntuancion = puntuacion
             # game.max_players = max_players
             # game.min_players = min_players
-            if game.cover_path != image_path and image_path != "":
-                change_cover(game, image_path)
+            if image != '':
+                change_cover(game, image, games_dir)
+            if len(captures) != 0:
+                load_captures(game.id, captures)
+            return game
         else:
-            sess.delete(game)
+            remove_images(game.id, games_dir ,True)
+            del_game(game)
         sess.commit()
     else:
-        Game = Game(name = name, description= description, game_mode =game_mode, language= language, launch= launch, puntuacion = puntuacion )
+        game = DBstructure.Game(name = name, description= description, game_mode =game_mode, language= language, launch= launch, puntuacion = puntuacion )
         for g in genders:
             add_game_gender(game, g)
         for r in requirements[0]:
             add_requirement(game, r['type'], r['req'], True)
         for r in requirements[1]:
-            add_requirement(game, r['type'], r['req'], False)
+            add_requirement(game, r['type'], r['req'], False)    
         add_category_to_game(game, category)
         sess.add_all([game])
         sess.commit()
+        change_cover(game, image, games_dir)
+        load_captures(game.id, captures)
+        return game
 
 def add_game_gender(game, gender):
-    gm = find_game(game)
-    if gm != -1:
-        try:  
-            gend = sess.query(GameGender).filter(GameGender.name == gender).one()
-        except NoResultFound:
-            gend = GameGender(name = gender)
-        game.genders.append(gend)
+    try:  
+        gend = sess.query(GameGender).filter(GameGender.name == gender).one()
+    except NoResultFound:
+        gend = GameGender(name = gender)
+    game.genders.append(gend)
     sess.commit()
 
 def del_game_gender(game, gender):
@@ -118,10 +134,33 @@ def add_requirement(game, type, req, minor):
     gr = GameReq(req = reqd, minormax = minor)
     game.requirements.append(gr)
 
-def change_cover(obj, path):
-    with open(path, 'rb') as response, open(games_dir + str(obj.id) + 'image.jpeg', 'wb') as out_file: 
-        data = response.read()
+def change_cover(obj, image, dir_path):
+    to_write = image[23:]
+    with open(dir_path + str(obj.id) + 'image.jpeg', 'wb') as out_file: 
+        data = base64.b64decode(to_write)
         out_file.write(data)
+
+def load_captures(id, images):
+    dirt = games_dir + str(id)
+    try:
+        os.mkdir( dirt)
+    except: FileExistsError
+    count = 0
+    for i in images:
+        to_write = i[23:]
+        with open(dirt +  slash +'image' + str(count) +'.jpeg', 'wb') as out_file: 
+            data = base64.b64decode(to_write)
+            out_file.write(data)
+        count +=1 
+
+def remove_images(id, path, game=False):
+    try:
+        os.remove(path + str(id) + 'image.jpeg')
+        if game:
+            shutil.rmtree(path + str(id))
+    except Exception:
+        pass
+    
 
 def add_director(tv, director, movie=True):
     if movie:
@@ -256,7 +295,6 @@ def add_topic2(tv, name, movie=True):
     tv.topics.append(topic)
     sess.commit()
 
-
 def find_serie(id):
     try: 
         return sess.query(Serie).filter(Serie.id == id).one()
@@ -269,8 +307,18 @@ def find_movie(id):
     except NoResultFound:
         return -1
 
-def find_game(id):
+def find_game(ids):
     try: 
-        return sess.query(Game).filter(Game.id == id).one()
+        g = sess.query(Game).filter(Game.id == ids).one()
+        return g
     except NoResultFound:
         return -1
+
+
+def del_game(game):
+    for r in game.requirements:
+        sess.delete(r)
+    sess.delete(game)
+    sess.commit()
+
+

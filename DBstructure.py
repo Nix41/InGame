@@ -26,19 +26,19 @@ series_dir = MAIN_DIRECTORY + 'Series' + slash
 movies_dir = MAIN_DIRECTORY + 'Movies' + slash
 
 
-direct = MAIN_DIRECTORY
-try:
-    os.mkdir( direct)
-except: FileExistsError
-try:
-    os.mkdir( games_dir)
-except: FileExistsError
-try:
-    os.mkdir( series_dir)
-except: FileExistsError
-try:
-    os.mkdir( series_dir)
-except: FileExistsError
+# direct = MAIN_DIRECTORY
+# try:
+#     os.mkdir( direct)
+# except: FileExistsError
+# try:
+#     os.mkdir( games_dir)
+# except: FileExistsError
+# try:
+#     os.mkdir( series_dir)
+# except: FileExistsError
+# try:
+#     os.mkdir( series_dir)
+# except: FileExistsError
 
 Base = declarative_base()
 
@@ -68,8 +68,8 @@ class GameReq(Base):
     left_id = Column(Integer, ForeignKey('game.id'), primary_key=True)
     right_id = Column(Integer, ForeignKey('requirement.id'), primary_key=True)
     minormax = Column(Boolean)
-    game = relationship("Game", cascade="save-update, merge, delete",back_populates="requirements")
-    req = relationship("Requirement",cascade="save-update, merge, delete", back_populates="games")
+    game = relationship("Game", single_parent=True ,back_populates="requirements")
+    req = relationship("Requirement",single_parent=True , back_populates="games")
 
 class Game(TimestampMixin, Base):
     __tablename__ = 'game'
