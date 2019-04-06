@@ -336,7 +336,4 @@ def set_downloads(games, series, movies):
         std.write(series)
     with open(m_list , "w") as std:
         std.write(movies)
-
-
         
-print(get_downloads())

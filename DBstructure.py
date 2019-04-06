@@ -30,18 +30,18 @@ m_list = 'lists' + slash + 'movies.txt'
 s_list = 'lists' + slash + 'series.txt'
 
 direct = MAIN_DIRECTORY
-try:
-    os.mkdir( direct)
-except: FileExistsError
-try:
-    os.mkdir( games_dir)
-except: FileExistsError
-try:
-    os.mkdir( series_dir)
-except: FileExistsError
-try:
-    os.mkdir( series_dir)
-except: FileExistsError
+# try:
+#     os.mkdir( direct)
+# except: FileExistsError
+# try:
+#     os.mkdir( games_dir)
+# except: FileExistsError
+# try:
+#     os.mkdir( series_dir)
+# except: FileExistsError
+# try:
+#     os.mkdir( series_dir)
+# except: FileExistsError
 
 Base = declarative_base()
 
@@ -93,6 +93,9 @@ class Game(TimestampMixin, Base):
     @hybrid_property
     def cover_path(self):
         return (games_dir[4:] + str(self.id))
+    @hybrid_property
+    def cover_direct(self):
+        return os.getcwd() + slash + games_dir + self.id 
     @hybrid_property
     def captures(self):
         caps = []
@@ -179,6 +182,9 @@ class Movie(TimestampMixin, Base):
     @hybrid_property
     def cover_path(self):
         return (series_dir[4:] + str(self.id))
+    @hybrid_property
+    def cover_direct(self):
+        return os.getcwd() + slash +games_dir + self.id 
     
 class SerieGender(Base):
     __tablename__ = 'seriegender'
@@ -203,6 +209,9 @@ class Serie(TimestampMixin, Base):
     @hybrid_property
     def cover_path(self):
         return (movies_dir[4:] + str(self.id))
+    @hybrid_property
+    def cover_direct(self):
+        return os.getcwd() + slash + games_dir + self.id 
 
 class OnExistance(Base):
     __tablename__ = 'onexistance'
