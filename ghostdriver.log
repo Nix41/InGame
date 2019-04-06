@@ -1,15 +1,12 @@
-[INFO  - 2019-04-04T03:17:30.380Z] GhostDriver - Main - running on port 60739
-[INFO  - 2019-04-04T03:17:31.261Z] Session [2ed1e780-5688-11e9-9be7-195be57598d6] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
-[INFO  - 2019-04-04T03:17:31.261Z] Session [2ed1e780-5688-11e9-9be7-195be57598d6] - page.customHeaders:  - {}
-[INFO  - 2019-04-04T03:17:31.261Z] Session [2ed1e780-5688-11e9-9be7-195be57598d6] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"linux-unknown-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
-[INFO  - 2019-04-04T03:17:31.261Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 2ed1e780-5688-11e9-9be7-195be57598d6
-[ERROR - 2019-04-04T03:17:39.953Z] Session [2ed1e780-5688-11e9-9be7-195be57598d6] - page.onError - msg: TypeError: null is not an object (evaluating 'container.offsetHeight')
+[INFO  - 2019-04-04T05:39:57.305Z] GhostDriver - Main - running on port 47327
+[INFO  - 2019-04-04T05:39:58.244Z] Session [153802f0-569c-11e9-a777-d57a3a659d45] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Unknown; Linux x86_64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2019-04-04T05:39:58.244Z] Session [153802f0-569c-11e9-a777-d57a3a659d45] - page.customHeaders:  - {}
+[INFO  - 2019-04-04T05:39:58.244Z] Session [153802f0-569c-11e9-a777-d57a3a659d45] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"linux-unknown-64bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2019-04-04T05:39:58.244Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 153802f0-569c-11e9-a777-d57a3a659d45
+[ERROR - 2019-04-04T05:40:07.442Z] Session [153802f0-569c-11e9-a777-d57a3a659d45] - page.onError - msg: TypeError: null is not an object (evaluating 'container.offsetHeight')
 
   phantomjs://platform/console++.js:263 in error
-[ERROR - 2019-04-04T03:17:39.953Z] Session [2ed1e780-5688-11e9-9be7-195be57598d6] - page.onError - stack:
-  resizeIframe (https://www.3djuegos.com/?q=Starsector&zona=resultados-buscador&id_foro=0&subzona=juegos&id_plat=1:1)
-
-  phantomjs://platform/console++.js:263 in error
-[ERROR - 2019-04-04T03:17:40.225Z] WebElementLocator - _handleLocateCommand - Element(s) NOT Found: GAVE UP. Search Stop Time: 1554347860197
+[ERROR - 2019-04-04T05:40:07.443Z] Session [153802f0-569c-11e9-a777-d57a3a659d45] - page.onError - stack:
+  resizeIframe (https://www.3djuegos.com/?q=Pro+Fishing+Simulator&zona=resultados-buscador&id_foro=0&subzona=juegos&id_plat=1:1)
 
   phantomjs://platform/console++.js:263 in error
