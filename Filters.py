@@ -85,6 +85,7 @@ def filter_series(name = "", gender="", actor="", director=""):
         genders = []
         print(s.title)
         print(s.score)
+        print(s.id)
         gender_filter = False
         for g in s.genders:
             if gender in g.name:
@@ -119,6 +120,7 @@ def filter_movies(name = "", gender="", actor="", director=""):
         genders = []
         print(c.title)
         print(c.score)
+        print(c.id)
         gender_filter = False
         for g in c.genders:
             if gender in g.name:
@@ -186,6 +188,6 @@ def get_directors():
         directors.append(d.name)
     return directors
 
-filter_games()
-filter_series()
-filter_movies()
+# filter_games()
+# filter_series()
+# filter_movies()

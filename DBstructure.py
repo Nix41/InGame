@@ -68,8 +68,8 @@ class GameReq(Base):
     left_id = Column(Integer, ForeignKey('game.id'), primary_key=True)
     right_id = Column(Integer, ForeignKey('requirement.id'), primary_key=True)
     minormax = Column(Boolean)
-    game = relationship("Game", cascade="save-update, merge, delete",back_populates="requirements")
-    req = relationship("Requirement",cascade="save-update, merge, delete", back_populates="games")
+    game = relationship("Game", single_parent=True ,back_populates="requirements")
+    req = relationship("Requirement",single_parent=True , back_populates="games")
 
 class Game(TimestampMixin, Base):
     __tablename__ = 'game'
