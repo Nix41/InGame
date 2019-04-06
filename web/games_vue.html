@@ -7,28 +7,67 @@
     <body class="back">
         <div id=root>
             <banner></banner>
-            <!-- Page section -->
-            <section id="root"  class="gallery" style="padding-left:8%; padding-right:8%;">
-                <div class="d-flex  justify-content-center fixed">
-                    <div class="p-2">
-                        <div class="card" style="background-color:black;">
-                            <img src="img/search_imput.png" class="img-fluid">
-                            <div class="card-img-overlay">
-                                <form>
-                                    <a href="#" onclick="filter_games_by_name()"><img src="img/search_icon.png" class="img-fluid" style="margin-top:-9px;"></a>
-                                    <input id='name_filter' type="text" class="form-control input" style="margin-top:-35px; width:280px; margin-left: 35px;" placeholder="Buscar...">
-                                </form>
+            <!--filters-->
+            <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:130px;">
+                <div class="d-flex justify-content-center" style="text-align:center;">
+                    <div v-for="gen in filter_gen">
+                        <div v-bind:id="'' + gen" class="p-2" :onclick="'filter_over(' + gen + ')'" :onmouseover="'filter_mouse(' + gen + ',' + '1' + ')'" :onmouseout="'filter_mouse(' + gen + ',' + '0' + ')'" v-bind:style="'width:100px; height:40px; color:white; background-color:rgb(77,77,77); margin:5px; border-radius: 15px;'">
+                            <div v-if="on_mouse[gen] > 0">
+                                <img src="img/filter_selected.png" class="card-img rounded-0 img-fluid" style="margin-top:-6px; width:100%;" alt="Responsive image">
+                                <div style="margin-top:-55px;">
+                                    <p>{{ gen }}</p>
+                                </div>
+                            </div>
+                            <div v-else>
+                                <p>{{ gen }}</p>
                             </div>
                         </div>
                     </div>
-                    <div class="p-2" style="padding:0px !important; margin-top:10px;">
-                        <a href="#"><img src="img/filter_icon.png" class="img-fluid"></a>
+                </div>
+            </div>
+            <div v-if="filter_key != 'Todos' && filter_key != ''">
+                <div style="background-color:rgb(77,77,77);width:100%;height:60px; margin-top:5px;">
+                    <div class="d-flex justify-content-center" style="text-align:center;">
+                        <div v-for="subgen in filter_subgen">
+                            <div v-bind:id="'' + subgen[0]" class="p-2" :onmouseover="'filter_subgen_mouse(' + subgen[0] + ',' + '1' + ')'" :onmouseout="'filter_subgen_mouse(' + subgen[0] + ',' + '0' + ')'" v-bind:style="'height:40px; color:white; background-color:rgb(51,51,51); margin-top:15px; margin-left:10px; border-radius: 15px;'">
+                                {{ subgen[1] }}
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <br>
-                <br>
-                <br>
-                <br>
+            </div>
+            <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:5px;">
+                <div class="d-flex justify-content-center">
+                    <div class="p-2" style="height:40px; width:350px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                        <form style="border-radius: 15px">
+                            <a href="#" onclick="filter_games_by_name()">
+                                <div>
+                                    <img src="img/search_icon.png" class="img-fluid" style="margin-top:-2; margin-left:5px;">
+                                </div>
+                            </a>
+                            <input id='name' type="text" v-model="title" class="input" style="margin-top:-33px; width:280px; height:35px; margin-left: 45px; color:white;" placeholder="Título...">
+                        </form>
+                    </div>
+                    <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                        <form style="border-radius: 15px;">
+                            <input id='name_filter' v-on:keyup="check_num" v-model="number" type="number" name="quantity" min="1" max="50" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Jugadores...">
+                        </form>
+                    </div>
+                    <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                        <form style="border-radius: 15px;">
+                            <input id='name_filter' v-on:keyup="check_year" v-model="year" type="number" name="quantity" min="1980" max="3000" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Lanzamiento...">
+                        </form>
+                    </div>
+                    <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                        <form style="border-radius: 15px;">
+                            <input id='name_filter' v-on:keyup="check_score" v-model="score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!--endfilters-->
+            <!-- Page section -->
+            <section style="padding-left:8%; padding-right:8%; margin-top:42px;">
                 <div v-for="games5 in games">
                     <div class="d-flex  justify-content-center" style="padding-bottom:2%;">
                         <div v-for="game in games5" class="p-2" style="text-align:center;">
@@ -75,24 +114,24 @@
                                         <img src="img/details_text.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
                                         <div style="color:white;">
                                             <div style="margin-top:-28px; margin-left:20px;">
-                                                <p>{{ name }}</p>
+                                                <p>Título:  {{ name }}</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="d-flex" style="margin-top:-50px;">
-                                        <div style="width:350px; height:100px;">
-                                            <img src="img/details_2.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                        <div style="width:175px; height:100px;">
+                                            <img src="img/date.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
                                             <div style="color:white;">
                                                 <div style="margin-top:-28px; margin-left:20px;">
-                                                    <p>Lanzamiento</p>
+                                                    <p>fecha:  {{ launch }}</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="width:350px; height:100px; margin-left:40px;">
-                                            <img src="img/details_2.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                        <div style="width:546px; height:100px; margin-left:20px;">
+                                            <img src="img/game_mode.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
                                             <div style="color:white;">
-                                                <div style="margin-top:-28px; margin-left:20px;">
-                                                    <p>Jugadores</p>
+                                                <div style="margin-top:-30px; margin-left:20px;">
+                                                    <p> modo de juego:  {{ gamemode }} </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -101,8 +140,11 @@
                                         <div style="width:224px; height:100px;">
                                             <img src="img/details_3.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
                                             <div style="color:white;">
-                                                <div style="margin-top:-28px; margin-left:20px;">
-                                                    <p>Rankin</p>
+                                                <div v-if="score > 0" style="margin-top:-28px; margin-left:20px;">
+                                                    <p>puntuación:  {{ score }} puntos </p>
+                                                </div>
+                                                <div v-else style="margin-top:-28px; margin-left:20px;">
+                                                    <p>puntuación:  ??? puntos </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -110,48 +152,88 @@
                                             <img src="img/details_3.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
                                             <div style="color:white;">
                                                 <div style="margin-top:-28px; margin-left:20px;">
-                                                    <p>Idioma</p>
+                                                    <p>idioma:  {{ language }} </p>
                                                 </div>
                                             </div>
                                         </div>
                                         <div style="width:224px; height:100px; margin-left:34px;">
                                             <img src="img/details_3.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
                                             <div style="color:white;">
-                                                <div style="margin-top:-28px; margin-left:20px;">
-                                                    <p>Peso</p>
+                                                <div v-if="size > 0" style="margin-top:-28px; margin-left:20px;">
+                                                    <p>espacio en disco:  {{ size }} GB</p>
                                                 </div>
+                                                <div v-else style="margin-top:-28px; margin-left:20px;">
+                                                    <p>espacio en disco:  ??? GB</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style="margin-top:-50px;">
+                                        <div style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px">
+                                            <div>
+                                                <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ category }} </p>
+                                            </div>
+                                        </div>
+                                        <div v-for="cat in genders" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:20px;">
+                                            <div>
+                                                <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ cat }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style="padding-top:20px;">
+                                        <div style="color: white; background-color:rgb(53,181,78); height:40px; border-radius: 20px">
+                                            <div>
+                                                <p style="margin-left:20px; margin-right:20px; margin-top:8px; font-weight:bold;"> Capturas </p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="" style="width:1040px; height:100px; margin-left:34px; margin-top:30px; color:white;">
-                                Descripción
-                                <img src="img/details_desc.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
-                                <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:1010px; margin-top:-220px; margin-left:20px;" id="style-13">
-                                    <div class="container">
-                                    {{ description }}
+                            <div class="d-flex">
+                                <div class="" style="width:560px; height:260px; margin-left:34px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                    <div style="text-align:center; margin-top:10px;">Descripción:</div>
+                                    <div>
+                                        <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:535px; margin:10px;" id="style-13">
+                                            <div class="container">
+                                                <p style="margin-top:2px;">{{ description }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="" style="width:460px; height:260px; margin-left:10px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                        <div style="text-align:center; margin-top:10px;">Requerimientos:</div>
+                                    <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:432px; margin:10px;" id="style-13">
+                                        <div class="container inverse-scroll">
+                                            <div style="margin-top:6px;"></div>
+                                            <h5>Requisitos Minimos:</h5>
+                                            <div style="font-size:18px;">
+                                                <ul v-for="req in requirements[0]">
+                                                    <li v-if="req.req != 'Desconocidos'" >{{ req.type }} : {{ req.req }}</li>
+                                                    <p v-else>Desconocidos<p>
+                                                </ul>
+                                            </div>
+                                            <h5>Requisitos Recomendados:</h5>
+                                            <div style="font-size:18px;">
+                                                <ul v-for="req in requirements[1]">
+                                                    <li v-if="req.req != 'Desconocidos'" >{{ req.type }} : {{ req.req }}</li>
+                                                    <p v-else>Desconocidos<p>
+                                                </ul>
+                                            </div>  
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="" style="width:1040px; height:100px; margin-left:34px; margin-top:180px; color:white">
-                                Requerimientos
-                                <img src="img/details_desc.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
-                                <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:1010px; margin-top:-220px; margin-left:20px;" id="style-13">
-                                    <div class="container">
-                                        <h4>Requisitos Minimos:</h4>
-                                        <div style="font-size:18px;">
-                                            <ul v-for="req in requirements[0]">
-                                                <li>{{ req.type }} : {{ req.req }}</li>
-                                            </ul>
+                            <div class="d-flex">
+                                <div class="" style="width:1030px; height:270px; margin-left:34px; margin-top:10px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                        <div class="table-wrapper-scroll-x my-custom-scrollbar1" style="color:white; width:1000px; height:250px; margin:5px; margin-left:12px;" id="style-h">
+                                            <div class="d-flex">
+                                                <div v-for="x in 6">
+                                                    <div class="p-2" style="width:340px; height:230px; margin-top:10px; border-radius: 20px; padding:0px important!;">
+                                                        <img :src="'img/Work/Games/' +  key  + '/image' + x + '.jpeg'" class="img img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <h4>Requisitos Recomendados:</h4>
-                                        <div style="font-size:18px;">
-                                            <ul v-for="req in requirements[1]">
-                                                <li>{{ req.type }} : {{ req.req }}</li>
-                                            </ul>
-                                        </div>  
-                                    </div>
                                 </div>
                             </div>
                         </div>
