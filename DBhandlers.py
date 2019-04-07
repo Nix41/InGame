@@ -91,7 +91,7 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
             game.description = description
             game.game_mode = game_mode
             game.language = language
-            game.puntuancion = float(puntuacion)
+            game.puntuacion = float(puntuacion)
             print('name:', name)
             print('launch:',launch)
             print('desc:',description)
@@ -100,7 +100,6 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
             print('score:',puntuacion)
             # game.max_players = max_players
             # game.min_players = min_players
-            print('image: ',image)
             if image != '':
                 print('here!!!!!!!!!!!!!!!!!!')
                 change_cover(game, image, games_dir)
@@ -109,13 +108,8 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
             print('EEEEEEEEEEE', category)
             add_category_to_game(game, category)
             print('out again')
-            game.requirements = []
-            for r in game.requirements:
-                sess.delete(r)
-            for r in requirements[0]:
-                add_requirement(game, r['type'], r['req'], True)
-            for r in requirements[1]:
-                add_requirement(game, r['type'], r['req'], False)  
+            change_req(game, requirements)
+
         else:
             remove_images(game.id, games_dir ,True)
             del_game(game)
@@ -336,5 +330,14 @@ def set_downloads(games, series, movies):
     with open(m_list , "w") as std:
         std.write(movies)
 
-
-     
+def change_req(game,reqs):
+    for r in game.requirements:
+        if r.minormax:
+            for rq in reqs[0]:
+                if rq['type'] == r.req.req_type:
+                    r.req.req = rq['req']
+        else:
+            for rq in reqs[1]:
+                if rq['type'] == r.req.req_type:
+                    r.req.req = rq['req']
+    sess.commit()

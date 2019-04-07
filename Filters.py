@@ -38,11 +38,16 @@ def get_movie_topics():
 
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0 ):
     games = {}
-    # for c in sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch > launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score):
-    for c in sess.query(Game).all():
+    if launch == "":
+        launch = 0
+    if score == "":
+        score = 0
+    for c in sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch >= launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score):
+    # for c in sess.query(Game).all():
         genders = []
-        print(c.name)
-        print(c.category.name)
+        # print('**')
+        # print(c.name)
+        # print(c.category.name)
         gender_filter = False
         for g in c.genders:
             if gender in g.name:

@@ -81,13 +81,16 @@ var app = new Vue({
         filter_subgen:[[0,"Acción táctica"],[1,"Acción y aventura,Battle royale"],[2,"Beat'em up,Hack and Slash"],[3,"Lucha"],[4,"Plataformas"],[5,"Primera persona (FPS)"],[6,"Runner"],[7,"Shoot'Em Up"],[8,"Shooter"],[9,"Supervivencia"],[10,"Survival horror"]],
         on_mouse: {'Todos':0, 'Acción':0, 'Aventuras':0, 'Casual':0, 'Conducción':0, 'Deportes':0, 'Estrategia':0, 'MMO':0, 'Rol':0, 'Simulación':0},
         filter_key: '',
+        filter_selected_gen:'',
+        filter_selected_subgen:'',
         
         //filters
         number:'',
         year:'',
         title:'',
-        language:'',
+        filter_language:'',
         filter_score:'',
+        filter_mode:'',
         //edit
         edit_Min_req:[],
         edit_Max_req:[],

@@ -29,7 +29,7 @@
                 <div style="background-color:rgb(77,77,77);width:100%;height:60px; margin-top:5px;">
                     <div class="d-flex justify-content-center" style="text-align:center;">
                         <div v-for="subgen in filter_subgen">
-                            <div v-bind:id="'' + subgen[0]" class="p-2" :onmouseover="'filter_subgen_mouse(' + subgen[0] + ',' + '1' + ')'" :onmouseout="'filter_subgen_mouse(' + subgen[0] + ',' + '0' + ')'" v-bind:style="'height:40px; color:white; background-color:rgb(51,51,51); margin-top:15px; margin-left:10px; border-radius: 15px;'">
+                            <div v-bind:id="'' + subgen[0]" class="p-2" :onmouseover="'filter_subgen_mouse(' + subgen[0] + ',' + '1' + ')'" :onmouseout="'filter_subgen_mouse(' + subgen[0] + ',' + '0' + ')'" :onclick="'filter_subgen_clk(' + subgen[0] +')'"  v-bind:style="'height:40px; color:white; background-color:rgb(51,51,51); margin-top:15px; margin-left:10px; border-radius: 15px;'">
                                 {{ subgen[1] }}
                             </div>
                         </div>
@@ -50,17 +50,22 @@
                     </div>
                     <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                         <form style="border-radius: 15px;">
-                            <input id='name_filter' v-on:keyup="check_num" v-model="number" type="number" name="quantity" min="1" max="50" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Jugadores...">
+                            <input id='name_filter' v-on:keyup="check_year"min="0" v-model="year" type="number" name="quantity" min="1980" max="3000" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Lanzamiento...">
                         </form>
                     </div>
                     <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                         <form style="border-radius: 15px;">
-                            <input id='name_filter' v-on:keyup="check_year" v-model="year" type="number" name="quantity" min="1980" max="3000" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Lanzamiento...">
+                            <input id='name_filter' v-on:keyup="check_score"min="0" v-model="filter_score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
                         </form>
                     </div>
                     <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                         <form style="border-radius: 15px;">
-                            <input id='name_filter' v-on:keyup="check_score" v-model="filter_score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
+                            <input id='name_filter' type="text" v-model="filter_language" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Idioma...">
+                        </form>
+                    </div>
+                    <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                        <form style="border-radius: 15px;">
+                            <input id='name_filter' type="text" v-model="filter_mode" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Modo de Juego...">
                         </form>
                     </div>
                 </div>
