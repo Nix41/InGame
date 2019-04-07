@@ -53,12 +53,8 @@ def extract_req(req, game, boo):
         # print('h2')
         reqd = Requirement(req_type = "" , req = sep[0])
 
-    if boo == 0:
-        # print('h3')
-        gr = GameReq(req = reqd, minormax = False)
-    else:
-        # print('h4')
-        gr = GameReq(req = reqd, minormax = True)
+    gr = GameReq(req = reqd, minormax = boo)
+
     # print('#################################################################')
     print(sep[0])
     for key in space_key:
@@ -99,9 +95,15 @@ def requisitos(url, game):
     # print('QQQQQQQQQQQQQQQQQQQQQQQQQQQ')
     for gr in reqs:
         # print(str(i))
+        print('********')
+        print(gr.find_previous().get_text())
+        if 'recomendados' in gr.find_previous().get_text():
+            boo = False
+        else:
+            boo = True
         for lis in gr.find_all('li'):
             # print(str(lis.get_text()))
-            extract_req(lis.get_text(), game, i)
+            extract_req(lis.get_text(), game, boo)
         i = i + 1
     
     print('next')
@@ -380,8 +382,8 @@ def search(listdir , stype='' ):
 # clean(s_list)
 # clean(m_list)
 # clean(g_list)
-search(s_list, 'TV_SE')
-search(m_list)
+# search(s_list, 'TV_SE')
+# search(m_list)
 find_games(g_list)
 
 sess.close()

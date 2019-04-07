@@ -76,7 +76,7 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
         sess.add_all([movie])
         sess.commit()
         change_cover(movie, image, movies_dir)
-
+ 
 def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=-1, image="", captures=[], delete=False):
     if id != -1: 
         game = sess.query(DBstructure.Game).filter(DBstructure.Game.id == id).one()
@@ -92,7 +92,8 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
             if image != '':
                 change_cover(game, image, games_dir)
             if len(captures) != 0:
-                load_captures(game.id, captures)
+                change_captures(game, captures)
+            add_category_to_game(game, category)
             return game
         else:
             remove_images(game.id, games_dir ,True)
@@ -114,20 +115,22 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
         return game
 
 def add_game_gender(game, gender):
-    try:  
-        gend = sess.query(GameGender).filter(GameGender.name == gender).one()
-    except NoResultFound:
-        gend = GameGender(name = gender)
-    game.genders.append(gend)
-    sess.commit()
+    if not(game is None) and game != -1:
+        try:  
+            gend = sess.query(GameGender).filter(GameGender.name == gender).one()
+        except NoResultFound:
+            gend = GameGender(name = gender)
+        game.genders.append(gend)
+        sess.commit()
 
 def del_game_gender(game, gender):
-    gm = find_game(game)
-    if gm != -1:
-        for g in gm.genders:
-            if g.name == gender:
-                gm.genders.remove(g)
-                break
+    if not(game is None) and game != -1:
+        gm = find_game(game)
+        if gm != -1:
+            for g in gm.genders:
+                if g.name == gender:
+                    gm.genders.remove(g)
+                    break
 
 def add_requirement(game, type, req, minor):
     reqd = Requirement(req_type = type , req = req)
@@ -153,6 +156,20 @@ def load_captures(id, images):
             out_file.write(data)
         count +=1 
 
+def change_captures(game, images):
+    old = game.captures()
+    c = len(old)
+    for o in old:
+        if not(o in images):
+            os.remove(o)
+    for i in images:
+        if not(i in images):
+            to_write = i[23:]
+            with open(games_dir +  slash +'image' + str(c) +'.jpeg', 'wb') as out_file: 
+                data = base64.b64decode(to_write)
+                out_file.write(data)
+            c +=1 
+
 def remove_images(id, path, game=False):
     try:
         os.remove(path + str(id) + 'image.jpeg')
@@ -174,125 +191,81 @@ def add_director(tv, director, movie=True):
         tvo.directors.append(director)
     sess.commit()
 
-def del_director(tv, director, movie=True):
-    if movie:
-        tvo = find_movie(tv)
-    else:
-        tvo = find_serie(tv)
-    if tvo != -1:
-        for d in tvo.directors:
+def del_director(tv, director):
+    if not(tv is None) and tv != -1:
+        for d in tv.directors:
             if d.name == director:
-                tvo.directors.remove(d)
-    sess.commit()
+                tv.directors.remove(d)
+        sess.commit()
 
 def add_director2(tv, director):
-    try: 
-        director = sess.query(Director).filter(Director.name == director).one()
-    except NoResultFound:
-        director = Director(name = director)
-    tv.directors.append(director)
+    if not(tv is None) and tv != -1:
+        try: 
+            director = sess.query(Director).filter(Director.name == director).one()
+        except NoResultFound:
+            director = Director(name = director)
+        tv.directors.append(director)
+        sess.commit()
+
+def del_actor(tv, actor):
+    if not(tv is None) and tv != -1:
+        for d in tv.actors:
+            if d.name == actor:
+                tv.actors.remove(d)
     sess.commit()
 
-def add_actor(tv, actor, movie=True):
-    if movie:
-        tvo = find_movie(tv)
-    else:
-        tvo = find_serie(tv)
-    if tvo != -1:
+def add_actor2(tv, actor):
+    if not(tv is None) and tv != -1:
         try: 
             actor = sess.query(Actor).filter(Actor.name == actor).one()
         except NoResultFound:
             actor = Actor(name = actor)
-        tvo.actors.append(actor)
-    sess.commit()
-
-def del_actor(tv, actor, movie=True):
-    if movie:
-        tvo = find_movie(tv)
-    else:
-        tvo = find_serie(tv)
-    if tvo != -1:
-        for d in tvo.actors:
-            if d.name == actor:
-                tvo.actors.remove(d)
-    sess.commit()
-
-def add_actor2(tv, actor):
-    try: 
-        actor = sess.query(Actor).filter(Actor.name == actor).one()
-    except NoResultFound:
-        actor = Actor(name = actor)
-    tv.actors.append(actor)
-    sess.commit()
-
-def add_tv_gender(tv, name, movie=True):
-    if movie:
-        tvo = find_movie(tv)
-        table = MovieGender
-    else:
-        tvo = find_serie(tv)
-        table = SerieGender
-    if tvo != -1:
-        try: 
-            gender = sess.query(table).filter(table.name == name).one()
-        except NoResultFound:
-            gender = table(name = name)
-        tvo.genders.append(gender)
-    sess.commit()
+        tv.actors.append(actor)
+        sess.commit()
 
 def add_tv_gender2(tv, name, movie=True):
-    if movie:
-        try: 
-            gender = sess.query(MovieGender).filter(MovieGender.name == name).one()
-        except NoResultFound:
-            gender = MovieGender(name = name)
-    else:
-        try: 
-            gender = sess.query(SerieGender).filter(SerieGender.name == name).one()
-        except NoResultFound:
-            gender = SerieGender(name = name)
-    tv.genders.append(gender)
-    sess.commit()
+    if not(tv is None) and tv != -1:
+        if movie:
+            try: 
+                gender = sess.query(MovieGender).filter(MovieGender.name == name).one()
+            except NoResultFound:
+                gender = MovieGender(name = name)
+        else:
+            try: 
+                gender = sess.query(SerieGender).filter(SerieGender.name == name).one()
+            except NoResultFound:
+                gender = SerieGender(name = name)
+        tv.genders.append(gender)
+        sess.commit()
 
-def del_tv_gender(tv, gender, movie=True):
-    if movie:
-        tvo = find_movie(tv)
-    else:
-        tvo = find_serie(tv)
-    if tvo != -1:
-        for d in tvo.genders:
+def del_tv_gender(tv, gender):
+    if not(tv is None) and tv != -1:
+        for d in tv.genders:
             if d.name == gender:
-                tvo.genders.remove(d)
-    sess.commit()
-
-def add_topic(tv, name, movie=True):
-    if movie:
-        tvo = find_movie(tv)
-        table = MovieTopic
-    else:
-        tvo = find_serie(tv)
-        table = SerieTopic
-    if tvo != -1:
-        try: 
-            topic = sess.query(table).filter(table.name == name).one()
-        except NoResultFound:
-            topic = table(name = name)
-        tvo.topics.append(topic)
+                tv.genders.remove(d)
     sess.commit()
 
 def add_topic2(tv, name, movie=True):
-    if movie:
-        try: 
-            topic = sess.query(MovieTopic).filter(MovieTopic.name == name).one()
-        except NoResultFound:
-            topic = MovieTopic(name = name)
-    else:
-        try: 
-            topic = sess.query(SerieTopic).filter(SerieTopic.name == name).one()
-        except NoResultFound:
-            topic = SerieTopic(name = name)
-    tv.topics.append(topic)
-    sess.commit()
+    if not(tv is None) and tv != -1:
+        if movie:
+            try: 
+                topic = sess.query(MovieTopic).filter(MovieTopic.name == name).one()
+            except NoResultFound:
+                topic = MovieTopic(name = name)
+        else:
+            try: 
+                topic = sess.query(SerieTopic).filter(SerieTopic.name == name).one()
+            except NoResultFound:
+                topic = SerieTopic(name = name)
+        tv.topics.append(topic)
+        sess.commit()
+
+def del_topic(tv, name): 
+    if not(tv is None) and tv != -1:
+        for t in tv.topics:
+            if t.name == name:
+                tv.topics.remove(t)
+        sess.commit()
 
 def find_serie(id):
     try: 
@@ -336,4 +309,6 @@ def set_downloads(games, series, movies):
         std.write(series)
     with open(m_list , "w") as std:
         std.write(movies)
-        
+
+
+     
