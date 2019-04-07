@@ -26,6 +26,12 @@ function push_prin(gen){
     app.pgen_check = 3;
 }
 
+function push_prin_create(id){
+    app.create_prin = app.create_gen[id][1];
+    app.pgen_check = 3;
+}
+
+
 function subpush(id){
     app.create_selected.push([app.create_selected.length,app.create_gensub[id][1]]);
     app.pgen_check = 3;
@@ -107,4 +113,11 @@ async function del_game_gen(name){
 function delgen_prin(){
     app.pgen_check = 0;
     app.create_prin = '';
+}
+
+function create_game(){
+    app.requirements = [];
+    app.requirements.push(app.Min_req);
+    app.requirements.push(app.Max_req);
+    update_game(app.name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas);
 }

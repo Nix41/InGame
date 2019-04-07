@@ -1,15 +1,8 @@
 <html>
     <head>
-        <title>Games</title>
+        <title>Config</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/owl.carousel.css">
-        <link rel="stylesheet" href="css/font-awesome.min.css"/>
-        <script src="js/jquery-3.2.1.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/owl.carousel.min.js"></script>
-        <script src="js/vue.js"></script>
-        <script src="/eel.js"></script>
     </head>
 
     <body class="back">
@@ -18,7 +11,7 @@
         <!--Menu-->
         <section style="padding-left:8%; padding-right:8%; margin-top:122px;">
             <div class="d-flex justify-content-center">
-                <div class="p-2 d-flex justify-content-center align-items-center" onclick="cleardata()" data-toggle="modal" data-target="#myModal" style="background-color:rgb(31,31,31); width:360px; height:340px; margin:20px; border-radius: 60px;">
+                <div class="p-2 d-flex justify-content-center align-items-center" onclick="cleardata()" data-toggle="modal" data-target="#ModalCreate" style="background-color:rgb(31,31,31); width:360px; height:340px; margin:20px; border-radius: 60px;">
                     <div class="p-2" style="width:160px; height:100px;">
                         <img :src="'img/add_game.png'" class="card-img img-fluid" style="height: 100%; width:100%; margin:0 important;" alt="Responsive image">
                     </div>
@@ -58,7 +51,7 @@
         <!--EndMenu-->
          <!-- The Modal -->
          <section>
-            <div class="modal fade" id="myModal">
+            <div class="modal fade" id="ModalCreate">
                 <div class="modal-dialog modal-xl modal-dialog-centered">
                     <div class="modal-content shadow-lg rounded-1" style="background-color:rgb(50,50,50); border-radius: 20px;">
                     <!-- Modal body -->
@@ -137,6 +130,37 @@
                                     </div>
                                 </div>
                                 <div class="d-flex flex-wrap align-items-start" style="margin-top:-55px; max-width:750px;">
+                                    <div v-if="create_prin != ''" id="Principal" class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:10px;">
+                                        <div>
+                                            <div class="d-flex" style="margin-top:-8px;">
+                                                <div class="p-2">
+                                                    <p style="margin-left:20px;">{{ create_prin }}</p>
+                                                </div>
+                                                <div class="p-2">
+                                                    <img src="img/delete_gen.png" :onclick="'delgen_prin()'" class="card-img img-fluid" style="width:25px;" alt="Responsive image">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-if="pgen_check == 1">
+                                        <div class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); margin-right:10px; border-radius: 20px;">
+                                            <div class="dropdown">
+                                                <button class="dropdown-toggle btn btn-secondary" type="button" id="dropdownMenuButton1" style="background:none; border:none;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <div style="margin-top:-7px;">Genero Principal</div>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                    <div v-for="gen in create_gen">
+                                                        <a class="dropdown-item" :onclick="'push_prin_create(' + gen[0] + ')'" href="#">{{gen[1]}}</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div v-if="pgen_check == 0" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-top:5px;">
+                                        <div onclick='agregate_gen_prin()'>
+                                            <img src="img/agregate_gen.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                        </div>
+                                    </div>
                                     <div v-for="cat in create_selected" v-if="cat != undefined">
                                         <div v-bind:id="'' + cat[0]" class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:10px;">
                                             <div>
@@ -153,20 +177,6 @@
                                         <div style="height:5px;">
                                         </div>
                                     </div>
-                                    <div v-if="pgen_check == 1">
-                                        <div class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); margin-right:10px; border-radius: 20px;">
-                                            <div class="dropdown">
-                                                <button class="dropdown-toggle btn btn-secondary" type="button" id="dropdownMenuButton" style="background:none; border:none;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <div style="margin-top:-7px;">Genero Principal</div>
-                                                </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <div v-for="gen in create_gen">
-                                                        <a :onclick="'push(' + gen[0] + ')'" class="dropdown-item" href="#">{{gen[1]}}</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div v-if="pgen_check == 2">
                                         <div class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); margin-right:10px; border-radius: 20px;">
                                             <div class="dropdown">
@@ -181,7 +191,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-top:5px;">
+                                    <div v-if="pgen_check == 3" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-top:5px;">
                                         <div onclick='agregate_gen()'>
                                             <img src="img/agregate_gen.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
                                         </div>
@@ -245,6 +255,13 @@
                                 <input type="file" @change="cat_images" accept="image/*" id="open_file2" style="display:none;" multiple/>
                             </div>
                         </div>
+                        <div class="d-flex">
+                            <div style="margin-left:34px;">
+                                <div class="p-2" onclick="add_game()" data-dismiss="modal" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; width:40px; margin:5px; margin-top:10px; color:white;">
+                                    <p style="margin-top:-5px;">Ok</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     
                     </div>
@@ -304,7 +321,7 @@
                                 </div>        
                             </div>
                         </div>
-                        <div class="p-2" onclick="add_req()" data-dismiss="modal" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; width:40px; margin:5px;">
+                        <div class="p-2" onclick="req()" data-dismiss="modal" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; width:40px; margin:5px;">
                             <p style="margin-top:-5px;">Ok</p>
                         </div>
                     </div>
@@ -319,6 +336,7 @@
     <script src="js/bootstrap.min.js"></script>
     <script src="js/vue.js"></script>
     <script src="js/main.js"></script>
+    <script src="js/games.js"></script>
     <script src="js/config.js"></script>
     <script src="/eel.js"></script>
     </body>
