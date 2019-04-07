@@ -29,7 +29,7 @@ def get_recent():
 
 @eel.expose
 def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", delete=False):
-    if current is None and current != -1:
+    if current is None or current == -1:
         DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, id, image, delete)
     else:
         DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, current.id, image, delete)
@@ -37,18 +37,23 @@ def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
 
 @eel.expose
 def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", delete=False):
-    if current is None and current != -1:
+    if current is None or current == -1:
         DBhandlers.CRUD_Movie(title, year, pais, sinopsis, generos, directors, reparto, id, image, delete)
     else:
         DBhandlers.CRUD_Movie(title, year, pais, sinopsis, generos, directors, reparto, current.id, image, delete)
         Done_update()
 
 @eel.expose
-def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=-1, image="", captures=[], delete=False):
-    if current is None and current != -1:
-        DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image, captures, delete)
+def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=-1, cover="", captures=[], delete=False):
+    print('h1')
+    print(cover)
+    print(name)
+    if current is None or current == -1:
+        print('h2')
+        DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image=cover, captures=captures, delete=delete)
     else:
-        DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, current.id, image, captures, delete)
+        print('h3')
+        DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, current.id, image=cover, captures=captures, delete=delete)
         Done_update()
 
 @eel.expose

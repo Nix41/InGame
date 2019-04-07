@@ -97,7 +97,7 @@ class Game(TimestampMixin, Base):
     def cover_direct(self):
         return os.getcwd() + slash + games_dir + self.id 
     @hybrid_property
-    def captures(self):
+    def captures_list(self):
         caps = []
         for r, d, f in os.walk(games_dir + str(self.id) + slash):
             for file in f:

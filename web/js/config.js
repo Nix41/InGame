@@ -29,8 +29,16 @@ function push_prin(gen){
 function subpush(id){
     app.create_selected.push([app.create_selected.length,app.create_gensub[id][1]]);
     app.pgen_check = 3;
+    add_gender_game(app.create_gensub[id][1]);
 }
 
+async function add_gender_game(name){
+    eel.add_game_gender(name)();
+}
+
+async function set_game(id){
+    eel.Set_Game(id)();
+}
 function req_type(x){
     app.req_type = x;
     if(x == 0){
@@ -87,8 +95,13 @@ function cleardata(){
 }
 
 function delgen(id){
+    del_game_gen(app.create_selected[id][1]);
     delete app.create_selected[id];
     $('#'+id).remove();
+}
+
+async function del_game_gen(name){
+    eel.del_game_gender(name);
 }
 
 function delgen_prin(){

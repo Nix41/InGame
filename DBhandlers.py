@@ -6,8 +6,12 @@ import base64
 import shutil
 
 def add_category_to_game(game , category):
+    print('QQQQQQQQ')
+    print(category)
     cat = find_category(category)
     game.category = cat
+    sess.commit()
+    print(game.category.name)
 
 def add_gender_to_game(game, gender, category = None):
     try: 
@@ -81,24 +85,42 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
     if id != -1: 
         game = sess.query(DBstructure.Game).filter(DBstructure.Game.id == id).one()
         if not delete:
+            print('here')
             game.name = name
             game.launch = launch
             game.description = description
             game.game_mode = game_mode
             game.language = language
-            game.puntuancion = puntuacion
+            game.puntuancion = float(puntuacion)
+            print('name:', name)
+            print('launch:',launch)
+            print('desc:',description)
+            print('gm:',game_mode)
+            print('lang:',language)
+            print('score:',puntuacion)
             # game.max_players = max_players
             # game.min_players = min_players
+            print('image: ',image)
             if image != '':
+                print('here!!!!!!!!!!!!!!!!!!')
                 change_cover(game, image, games_dir)
             if len(captures) != 0:
                 change_captures(game, captures)
+            print('EEEEEEEEEEE', category)
             add_category_to_game(game, category)
-            return game
+            print('out again')
+            game.requirements = []
+            for r in game.requirements:
+                sess.delete(r)
+            for r in requirements[0]:
+                add_requirement(game, r['type'], r['req'], True)
+            for r in requirements[1]:
+                add_requirement(game, r['type'], r['req'], False)  
         else:
             remove_images(game.id, games_dir ,True)
             del_game(game)
         sess.commit()
+        print('AScore:' , game.puntuacion)
     else:
         game = DBstructure.Game(name = name, description= description, game_mode =game_mode, language= language, launch= launch, puntuacion = puntuacion )
         for g in genders:
@@ -124,13 +146,14 @@ def add_game_gender(game, gender):
         sess.commit()
 
 def del_game_gender(game, gender):
+    print(gender)
     if not(game is None) and game != -1:
-        gm = find_game(game)
-        if gm != -1:
-            for g in gm.genders:
-                if g.name == gender:
-                    gm.genders.remove(g)
-                    break
+        for g in game.genders:
+            if g.name == gender:
+                game.genders.remove(g)
+                sess.commit()
+                break
+    print(game.genders)
 
 def add_requirement(game, type, req, minor):
     reqd = Requirement(req_type = type , req = req)
@@ -157,18 +180,21 @@ def load_captures(id, images):
         count +=1 
 
 def change_captures(game, images):
-    old = game.captures()
+    old = game.captures_list
+    print(old)
+    print()
     c = len(old)
     for o in old:
         if not(o in images):
             os.remove(o)
     for i in images:
-        if not(i in images):
+        if not(i in old):
             to_write = i[23:]
-            with open(games_dir +  slash +'image' + str(c) +'.jpeg', 'wb') as out_file: 
+            with open(games_dir +  slash + str(game.id) + slash +'image' + str(c) +'.jpeg', 'wb') as out_file: 
                 data = base64.b64decode(to_write)
                 out_file.write(data)
             c +=1 
+    print('OUT OF HERE')
 
 def remove_images(id, path, game=False):
     try:

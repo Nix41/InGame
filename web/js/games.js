@@ -97,6 +97,7 @@ function filter_subgen_mouse(id,x){
 }
 
 function edit_cleardata(key){
+    set_game(app.games_dic[key].id);
     app.Max_req=[];
     app.edit_Max_req=[];
     if(app.games_dic[key].requirements[1][0].req == "Desconocidos"){
@@ -210,7 +211,7 @@ function add_game(){
     app.games_dic[app.key].score = app.score;
     app.games_dic[app.key].size = app.size;
     app.games_dic[app.key].language = app.language;
-    app.games_dic[app.key].game_mode = app.game_mode;
+    app.games_dic[app.key].game_mode = app.create_mode;
     app.games_dic[app.key].category = app.category;
     app.games_dic[app.key].cover_path = app.cover_path;
     app.games_dic[app.key].captures = app.captures;
@@ -226,9 +227,14 @@ function add_game(){
     app.games[fil][id].score = app.score;
     app.games[fil][id].size = app.size;
     app.games[fil][id].language = app.language;
-    app.games[fil][id].game_mode = app.game_mode;
+    app.games[fil][id].game_mode = app.create_mode;
     app.games[fil][id].category = app.category;
     app.games[fil][id].cover_path = app.cover_path;
-    app.games[fil][id].app.captures = app.captures;
+    app.games[fil][id].captures = app.captures;
+
+    update_game(app.name, app.description, app.create_mode, app.language, app.launch, app.score, app.category, app.requirements, app.data, app.datas);
 }
 
+async function update_game(name, des, mode, language, launch, score, category, requirements, cover, captures){
+    eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=[], requirements = requirements,id=-1,cover = cover, captures = captures)();
+}

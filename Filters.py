@@ -38,16 +38,18 @@ def get_movie_topics():
 
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0 ):
     games = {}
-    for c in sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch > launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score):
-        # print(c.name)
-        # print(c.cover_path)
-        # print(c.captures)
+    # for c in sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch > launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score):
+    for c in sess.query(Game).all():
         genders = []
+        print(c.name)
+        print(c.category.name)
         gender_filter = False
         for g in c.genders:
             if gender in g.name:
                 gender_filter = True
             genders.append(g.name)
+        if len(c.genders) == 0 and gender == "":
+            gender_filter = True
         if gender_filter and category in c.category.name :
             requirements = []
             requirements.append([])
@@ -73,7 +75,7 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
             games[c.id]['language'] = c.language
             games[c.id]['score'] = c.puntuacion
             games[c.id]['cover_path'] = c.cover_path
-            games[c.id]['captures'] = c.captures
+            games[c.id]['captures'] = c.captures_list
     return games
 
 def filter_series(name = "", gender="", actor="", director="", score=0):
@@ -190,6 +192,8 @@ def get_directors():
     return directors
 
 # filter_games()
+
+# s
 # filter_series()
 # filter_movies()
 
