@@ -60,6 +60,8 @@ var app = new Vue({
         games: [],
         games_dic: {},
         Temp: [0,1,2,3,4,5,6,7,8],
+        series : [],
+        series_dic:{},
 
         //game_select
         name: '',
@@ -77,10 +79,12 @@ var app = new Vue({
         captures: '',
 
         //filter_vew
-        filter_gen:{0:'Todos', 1:'Acción', 2:'Aventuras', 3:'Casual', 4:'Conducción', 5:'Deportes', 6:'Estrategia', 7:'MMO', 8:'Rol', 9:'Simulación'},
+        filter_gen:{},
         filter_subgen:[[0,"Acción táctica"],[1,"Acción y aventura,Battle royale"],[2,"Beat'em up,Hack and Slash"],[3,"Lucha"],[4,"Plataformas"],[5,"Primera persona (FPS)"],[6,"Runner"],[7,"Shoot'Em Up"],[8,"Shooter"],[9,"Supervivencia"],[10,"Survival horror"]],
-        on_mouse: {'Todos':0, 'Acción':0, 'Aventuras':0, 'Casual':0, 'Conducción':0, 'Deportes':0, 'Estrategia':0, 'MMO':0, 'Rol':0, 'Simulación':0},
+        on_mouse: {},
+        categories:{},
         filter_key: '',
+        filter_subgen_key:'',
         filter_selected_gen:'',
         filter_selected_subgen:'',
         

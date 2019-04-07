@@ -29,7 +29,7 @@
                 <div style="background-color:rgb(77,77,77);width:100%;height:60px; margin-top:5px;">
                     <div class="d-flex justify-content-center" style="text-align:center;">
                         <div v-for="subgen in filter_subgen">
-                            <div v-bind:id="'' + subgen[0]" class="p-2" :onmouseover="'filter_subgen_mouse(' + subgen[0] + ',' + '1' + ')'" :onmouseout="'filter_subgen_mouse(' + subgen[0] + ',' + '0' + ')'" :onclick="'filter_subgen_clk(' + subgen[0] +')'"  v-bind:style="'height:40px; color:white; background-color:rgb(51,51,51); margin-top:15px; margin-left:10px; border-radius: 15px;'">
+                            <div v-bind:id="'as' + subgen[0]" class="p-2" :onmouseover="'filter_subgen_mouse(' + subgen[0] + ',' + '1' + ')'" :onmouseout="'filter_subgen_mouse(' + subgen[0] + ',' + '0' + ')'" :onclick="'filter_subgen_clk(' + subgen[0] +')'"  v-bind:style="'height:40px; color:white; background-color:rgb(51,51,51); margin-top:15px; margin-left:10px; border-radius: 15px;'">
                                 {{ subgen[1] }}
                             </div>
                         </div>
@@ -79,16 +79,16 @@
                             <div :onclick="'see(' + game.id + ')'" data-toggle="modal" data-target="#myModal" style="height: 250px; width:220px; margin-bottom:80px; margin-left:20px; margin-right:20px;">
                                 <div class="card">
                                     <img :src="'' + game.cover_path" class="card-img img-fluid" style="height: 100%; width:100%; margin:0 important;" alt="Responsive image">
-                                    <div class="card-img-overlay score red">9.3</div>
+                                    <div v-if="game.score != 0" class="card-img-overlay score red">{{game.score}}</div>
                                 </div>
                                 <div class="review-text" style="margin-top:10px;">
                                     <h5 style="text-align:center; margin-bottom:2%;">{{ game.name }}</h5>
                                     <div class="rating" style="text-align:center; margin-bottom:2%;">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star is-fade"></i>
+                                        <i v-if="game.score/2 >= 1" class="fa fa-star"></i>
+                                        <i v-if="game.score/2 >= 2" class="fa fa-star"></i>
+                                        <i v-if="game.score/2 >= 3" class="fa fa-star"></i>
+                                        <i v-if="game.score/2 >= 4" class="fa fa-star"></i>
+                                        <i v-if="game.score/2 >= 5" class="fa fa-star is-fade"></i>
                                     </div>
                                 </div>
                             </div>

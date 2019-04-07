@@ -181,7 +181,8 @@ class Movie(TimestampMixin, Base):
     score = Column(Float)
     @hybrid_property
     def cover_path(self):
-        return (series_dir[4:] + str(self.id))
+        print(series_dir[4:] + str(self.id) + 'image.jpeg')
+        return (series_dir[4:] + str(self.id) + 'image.jpeg')
     @hybrid_property
     def cover_direct(self):
         return os.getcwd() + slash +games_dir + self.id 
@@ -208,7 +209,7 @@ class Serie(TimestampMixin, Base):
     score = Column(Float)
     @hybrid_property
     def cover_path(self):
-        return (movies_dir[4:] + str(self.id))
+        return (movies_dir[4:] + str(self.id) + 'image.jpeg')
     @hybrid_property
     def cover_direct(self):
         return os.getcwd() + slash + games_dir + self.id 

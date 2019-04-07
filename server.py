@@ -1,7 +1,7 @@
 import eel
 import Filters
 import DBhandlers
-
+import seed
 
 eel.init('web')
 
@@ -20,6 +20,10 @@ def filter_movies(name="", gender="",actor="",director="", score=0):
 @eel.expose
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0):
     print('n',name, 'g', gender, 'l',launch, 'p',players,'gm' ,game_mode, 'cat',category,'len',lenguage, 's', score)
+    if category == 'Todos':
+        category = ''
+    if gender == 'Todos':
+        gender = ''
     games = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score)
     print(len(games))
     return games
@@ -47,21 +51,18 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
 
 @eel.expose
 def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=-1, cover="", captures=[], delete=0):
-    print('h1')
-    print(cover)
-    print(name)
-    print(id)
+    if gender == 'Todos':
+        gender = ''
+    if category == 'Todos':
+        category = ''
     if current is None or current == -1:
         print('h2')
         if delete == 0:
             dele = False
         else:
             dele = True
-        print('DEL:',dele)
         DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image=cover, captures=captures, delete=dele)
     else:
-        print('h3')
-        print('NO DEL')
         DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, current.id, image=cover, captures=captures, delete=False)
         Done_update()
 
@@ -125,7 +126,7 @@ def del_game_gender(name):
 
 @eel.expose
 def get_game_genders():
-    return Filters.get_game_genders()
+    return seed.game_categories
 
 @eel.expose
 def get_serie_genders():

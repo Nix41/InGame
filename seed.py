@@ -1,11 +1,7 @@
 
-from DBhandlers import *
-import Filters
+game_categories = {}
 
-
-game_categories = {
-'Todos' : [],'Acción':[],'Aventura':[],'Casual':[],'Conducción':[],'Deportes':[],'Estrategia':[],'MMO':[],'Rol':[],'Simulación':[],'Otros':[] 
-}
+game_categories['Todos'] = []
 
 game_categories['Acción'] = [
 'Todos',
@@ -51,5 +47,72 @@ game_categories['Conducción'] =[
 'Rally / Cross'
 ]
 
+game_categories['Deportes']=[
+'Todos',
+'Baloncesto',
+'Béisbol',
+'Billar',
+'Bolos',
+'Boxeo',
+'Caza / Pesca',
+'Esquí / Snowboard',
+'Extremos',
+'Fútbol',
+'Fútbol americano',
+'Golf',
+'Hockey',
+'Manager',
+'Olimpiadas',
+'Skate',
+'Tenis'
+]
+
+game_categories['Estrategia']=[
+'Todos',
+'Cartas',
+'City-builder',
+'Gestión y temáticos',
+'MOBA',
+'Tiempo real',
+'Tower Defense',
+'Turnos',
+'Vida virtual'
+]
+
+game_categories['MMO']=[
+'Todos',
+'Con cuotas',
+'Sin cuotas',
+]
+
+game_categories['Rol']=[
+'Todos',
+'Acción RPG',
+'Combate por turnos',
+'Multijugador Online Masivo'
+]
+
+game_categories['Simulación'] = [
+'Todos',
+'Acción',
+'Espacial',
+'Marítimo',
+'Tanque',
+'Trenes',
+'Vuelo'
+]
+
+game_categories['Otros'] = [
+'Todos',
+'Educativo',
+'Hardware',
+'Minijuegos',
+'Motor gráfico',
+'Música',
+'Pinball',
+'Puzle',
+'Realidad Virtual',
+'Recopilación'
+]
 
 

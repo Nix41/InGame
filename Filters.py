@@ -126,7 +126,7 @@ def filter_series(name = "", gender="", actor="", director="", score=0):
             series[s.id]['genders'] = genders
             series[s.id]['actors'] = actors
             series[s.id]['directors'] = directors
-            series[s.id]['score'] = score
+            series[s.id]['score'] = s.score
             series[s.id]['cover_path'] = s.cover_path
     return series
 
@@ -154,7 +154,7 @@ def filter_movies(name = "", gender="", actor="", director="", score=0):
             if director in d.name:
                 director_filter = True
             directors.append(d.name)
-        if gender_filter and actor_filter and director_filter and s.score >= score:
+        if gender_filter and actor_filter and director_filter and c.score >= score:
             movies[c.id] = {}
             movies[c.id]['id'] = c.id
             movies[c.id]['title'] = c.title
@@ -206,7 +206,7 @@ def get_directors():
         directors.append(d.name)
     return directors
 
-filter_games()
+# filter_games()
 
 # s
 # filter_series()

@@ -14,6 +14,14 @@ async function get_games(){
         key = "id" + i;
         i++;
     }
+    let gens = await eel.get_game_genders()();
+    let k = 0;
+    for (x in gens){
+        Vue.set(app.filter_gen, k, x);
+        Vue.set(app.on_mouse, x, 0);
+        k++;
+    }
+    app.categories = gens;
     app.games.push(list);
 }
 async function filter_games_by_name(){
@@ -61,6 +69,15 @@ function see(id){
 
 function filter_over(gen){
     app.filter_selected_gen = gen.id;
+    let g = 0;
+    app.filter_subgen = [];
+    for (x in app.categories[gen.id]){
+        let l = [];
+        l.push(g);
+        l.push(app.categories[gen.id][x] );
+        app.filter_subgen.push(l);
+        g = g + 1;
+    }
     if(app.filter_key != ''){
         $("#" + app.filter_key).css("background-color","rgb(77,77,77)");
         $("#" + app.filter_key).css("margin","5px");
@@ -91,7 +108,20 @@ function filter_mouse(id,x){
 
 function filter_subgen_clk(sgen){
     app.filter_subgen_selected = app.filter_subgen[sgen][1];
-    alert(app.filter_subgen[sgen][1]);
+    
+    app.filter_subgen_key = app.filter_subgen[sgen][1];
+    $("#as" + sgen).css("background-color","rgb(209,4,4)");
+    app.filter_subgen_key = app.filter_subgen[sgen][1];
+    let i = 0;
+    for (x in app.filter_subgen){
+        if (sgen != i){
+            $("#as" + i).css("background-color","rgb(51,51,51)");
+            $("#as" + i).css("margin-top","15px");
+            $("#as" + i).css("border-radius","15px");
+            $("#as" + i).css("margin-left","10px");
+        }
+        i++;
+    }
 }
 
 function filter_subgen_mouse(id,x){
