@@ -39,9 +39,9 @@ def get_movie_topics():
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0 ):
     games = {}
     for c in sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch > launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score):
-        print(c.name)
-        print(c.cover_path)
-        print(c.captures)
+        # print(c.name)
+        # print(c.cover_path)
+        # print(c.captures)
         genders = []
         gender_filter = False
         for g in c.genders:

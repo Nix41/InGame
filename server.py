@@ -1,7 +1,7 @@
 import eel
 import Filters
 import DBhandlers
-import 
+
 
 eel.init('web')
 
@@ -19,7 +19,7 @@ def filter_movies(name="", gender="",actor="",director="", score=0):
 
 @eel.expose
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0):
-    games = Filters.filter_games(name, gender, launch,game_mode, category, lenguage, score)
+    games = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score)
     return games
 
 @eel.expose
@@ -30,7 +30,7 @@ def get_recent():
 @eel.expose
 def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", delete=False):
     if current is None and current != -1:
-    DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, id, image, delete)
+        DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, id, image, delete)
     else:
         DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, current.id, image, delete)
         Done_update()
