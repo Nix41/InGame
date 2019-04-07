@@ -59,32 +59,39 @@ var app = new Vue({
         recent: [],
         games: [],
         games_dic: {},
-        key: '',
-        games_dic: {},
+        Temp: [0,1,2,3,4,5,6,7,8],
+
+        //game_select
         name: '',
-        description: '',
-        genders: [],
+        key: '',
         requirements: '',
-        launch: '',
         score:'',
         size:'',
         language:'',
         gamemode:'',
         category:'',
-        Temp: [0,1,2,3,4,5,6,7,8],
+        description: '',
+        genders: [],
+        launch: '',
+        cover_path: '',
+        captures: '',
 
         //filter_vew
         filter_gen:{0:'Todos', 1:'Acción', 2:'Aventuras', 3:'Casual', 4:'Conducción', 5:'Deportes', 6:'Estrategia', 7:'MMO', 8:'Rol', 9:'Simulación'},
         filter_subgen:[[0,"Acción táctica"],[1,"Acción y aventura,Battle royale"],[2,"Beat'em up,Hack and Slash"],[3,"Lucha"],[4,"Plataformas"],[5,"Primera persona (FPS)"],[6,"Runner"],[7,"Shoot'Em Up"],[8,"Shooter"],[9,"Supervivencia"],[10,"Survival horror"]],
         on_mouse: {'Todos':0, 'Acción':0, 'Aventuras':0, 'Casual':0, 'Conducción':0, 'Deportes':0, 'Estrategia':0, 'MMO':0, 'Rol':0, 'Simulación':0},
         filter_key: '',
+        
         //filters
         number:'',
         year:'',
         title:'',
         language:'',
-        score:'',
-
+        filter_score:'',
+        //edit
+        edit_Min_req:[],
+        edit_Max_req:[],
+        edit_check:'',
         //agregate
         file:'',
         data:'',
@@ -111,6 +118,7 @@ var app = new Vue({
         create_language:'',
         create_size:'',
         create_description:'',
+        create_prin:'',
     },
 
     methods:{

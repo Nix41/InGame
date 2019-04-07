@@ -92,7 +92,7 @@ class Game(TimestampMixin, Base):
 
     @hybrid_property
     def cover_path(self):
-        return (games_dir[4:] + str(self.id))
+        return (games_dir[4:] + str(self.id) + 'image.jpeg')
     @hybrid_property
     def cover_direct(self):
         return os.getcwd() + slash + games_dir + self.id 

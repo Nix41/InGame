@@ -60,7 +60,7 @@
                     </div>
                     <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                         <form style="border-radius: 15px;">
-                            <input id='name_filter' v-on:keyup="check_score" v-model="score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
+                            <input id='name_filter' v-on:keyup="check_score" v-model="filter_score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
                         </form>
                     </div>
                 </div>
@@ -73,7 +73,7 @@
                         <div v-for="game in games5" class="p-2" style="text-align:center;">
                             <div :onclick="'see(' + game.id + ')'" data-toggle="modal" data-target="#myModal" style="height: 250px; width:220px; margin-bottom:80px; margin-left:20px; margin-right:20px;">
                                 <div class="card">
-                                    <img :src="'img/Work/Games/' + game.id + 'image.jpeg'" class="card-img img-fluid" style="height: 100%; width:100%; margin:0 important;" alt="Responsive image">
+                                    <img :src="'' + game.cover_path" class="card-img img-fluid" style="height: 100%; width:100%; margin:0 important;" alt="Responsive image">
                                     <div class="card-img-overlay score red">9.3</div>
                                 </div>
                                 <div class="review-text" style="margin-top:10px;">
@@ -96,20 +96,19 @@
             <section>
                 <div class="modal fade" id="myModal">
                     <div class="modal-dialog modal-xl modal-dialog-centered">
-                        <div class="modal-content shadow-lg rounded-1" style="background-color:rgb(50,50,50); height:900px; border-radius: 20px;">
+                        <div class="modal-content shadow-lg rounded-1" style="background-color:rgb(50,50,50); border-radius: 20px;">
                         <!-- Modal body -->
                         <div class="modal-body">
                             <div class="span-12" style="margin-right:8px;">
                                 <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
                             </div>
                             <div class="d-flex" style="margin-top:30px;">
-                                <div class="p-2" style="width:250px; height:250px !important; margin-left:25px;">
-                                    <img src="img/details_img.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
-                                    <div class="card-img-overlay" style="width:250px; height:250px; margin-top:46px; margin-left:42px;">
-                                        <img :src="'img/Work/Games/' + key + 'image.jpeg'" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                <div class="p-2" style="height:277px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:33px;">
+                                    <div class="" style="width:250px; height:250px; margin-top:5px;">
+                                        <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
                                     </div>
                                 </div>
-                                <div class="p-2" style="margin-left:40px;">
+                                <div class="p-2" style="margin-left:20px;">
                                     <div style="width:740px; height:100px;">
                                         <img src="img/details_text.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
                                         <div style="color:white;">
@@ -136,54 +135,44 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex" style="margin-top:-50px;">
-                                        <div style="width:224px; height:100px;">
-                                            <img src="img/details_3.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                    <div class="d-flex flex-wrap" style="margin-top:-50px;">
+                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
                                             <div style="color:white;">
-                                                <div v-if="score > 0" style="margin-top:-28px; margin-left:20px;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-if="score > 0" style="margin-top:-28px; margin-left:20px;">
                                                     <p>puntuación:  {{ score }} puntos </p>
                                                 </div>
-                                                <div v-else style="margin-top:-28px; margin-left:20px;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-else style="margin-top:-28px; margin-left:20px;">
                                                     <p>puntuación:  ??? puntos </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="width:224px; height:100px; margin-left:34px;">
-                                            <img src="img/details_3.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
                                             <div style="color:white;">
-                                                <div style="margin-top:-28px; margin-left:20px;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;">
                                                     <p>idioma:  {{ language }} </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="width:224px; height:100px; margin-left:34px;">
-                                            <img src="img/details_3.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
                                             <div style="color:white;">
-                                                <div v-if="size > 0" style="margin-top:-28px; margin-left:20px;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-if="size > 0" style="margin-top:-28px; margin-left:20px;">
                                                     <p>espacio en disco:  {{ size }} GB</p>
                                                 </div>
-                                                <div v-else style="margin-top:-28px; margin-left:20px;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-else style="margin-top:-28px; margin-left:20px;">
                                                     <p>espacio en disco:  ??? GB</p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="d-flex" style="margin-top:-50px;">
-                                        <div style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px">
+                                    <div class="d-flex flex-wrap" style="max-width:750px;">
+                                        <div style="color:white; height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:20px;">
                                             <div>
                                                 <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ category }} </p>
                                             </div>
                                         </div>
-                                        <div v-for="cat in genders" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:20px;">
+                                        <div v-for="cat in genders" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:20px; margin-bottom:10px;">
                                             <div>
                                                 <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ cat }} </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex" style="padding-top:20px;">
-                                        <div style="color: white; background-color:rgb(53,181,78); height:40px; border-radius: 20px">
-                                            <div>
-                                                <p style="margin-left:20px; margin-right:20px; margin-top:8px; font-weight:bold;"> Capturas </p>
                                             </div>
                                         </div>
                                     </div>
@@ -200,7 +189,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="" style="width:460px; height:260px; margin-left:10px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                <div class="" style="width:470px; height:260px; margin-left:10px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
                                         <div style="text-align:center; margin-top:10px;">Requerimientos:</div>
                                     <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:432px; margin:10px;" id="style-13">
                                         <div class="container inverse-scroll">
@@ -224,16 +213,24 @@
                                 </div>
                             </div>
                             <div class="d-flex">
-                                <div class="" style="width:1030px; height:270px; margin-left:34px; margin-top:10px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
-                                        <div class="table-wrapper-scroll-x my-custom-scrollbar1" style="color:white; width:1000px; height:250px; margin:5px; margin-left:12px;" id="style-h">
-                                            <div class="d-flex">
-                                                <div v-for="x in 6">
-                                                    <div class="p-2" style="width:340px; height:230px; margin-top:10px; border-radius: 20px; padding:0px important!;">
-                                                        <img :src="'img/Work/Games/' +  key  + '/image' + x + '.jpeg'" class="img img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
-                                                    </div>
+                                <div class="" style="width:1040px; height:270px; margin-left:34px; margin-top:10px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                    <div class="table-wrapper-scroll-x my-custom-scrollbar1" style="color:white; width:1010px; height:250px; margin:5px; margin-left:12px;" id="style-h">
+                                        <div class="d-flex">
+                                            <div v-for="x in captures">
+                                                <div class="p-2" style="width:340px; height:230px; margin-top:10px; border-radius: 20px; padding:0px important!;">
+                                                    <img :src="'' + x" class="img img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="p-2" :onclick="'edit_cleardata('+key+')'" data-toggle="modal" data-target="#ModalEdit"  style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; margin-left:34px; margin-top:10px; color:white;">
+                                    <p style="margin-top:-5px;">Editar</p>
+                                </div>
+                                <div class="p-2" onclick="req()" data-dismiss="modal" style="background-color:rgb(209,4,4); border-radius: 20px; height:30px; margin-left:10px; margin-top:10px; color:white;">
+                                    <p style="margin-top:-5px;">Eliminar</p>
                                 </div>
                             </div>
                         </div>
@@ -243,13 +240,272 @@
                 </div>
             </section>
             <!--Modal end-->
+            <!-- Modal Edit -->
+            <section>
+                <div class="modal fade" id="ModalEdit">
+                    <div class="modal-dialog modal-xl modal-dialog-centered">
+                        <div class="modal-content shadow-lg rounded-1" style="background-color:rgb(50,50,50); border-radius: 20px;">
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="span-12" style="margin-right:8px;">
+                                <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                            </div>
+                            <div class="d-flex" style="margin-top:30px;">
+                                <div class="p-2 custom-file" style="width:250px; height:250px !important; margin-left:25px;">
+                                    <img src="img/details_img.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                    <div class="card-img-overlay" style="width:250px; height:250px;">
+                                        <div v-if="data == ''">
+                                            <div style="width:210px;" onclick="false_input()">
+                                                <div>
+                                                    <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-else style="width:210px;" onclick="false_input()">
+                                            <img :src="data" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                        </div>
+                                    </div>
+                                    <input type="file" @change="cat_image" accept="image/*" id="open_file" style="display:none;"/>
+                                </div>
+                                <div class="p-2" style="margin-left:40px;">
+                                    <div style="width:740px; height:100px;">
+                                        <img src="img/details_text.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                        <div style="color:white;">
+                                            <div style="margin-top:-28px; margin-left:20px;">
+                                                <input type="text" v-model="create_name" class="input" style="margin-top:-4px; width:95%; height:30px; margin-left: 2px; color:white; background-color:rgb(77,77,77);" placeholder="Título...">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style="margin-top:-50px;">
+                                        <div style="width:175px; height:100px;">
+                                            <img src="img/date.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            <div style="color:white;">
+                                                <div style="margin-top:-28px; margin-left:20px;">
+                                                    <input id="year" type="number" min="1980" max="3000" v-model="create_year" class="input" style="margin-top:-4px; width:90%; height:30px; color:white; background-color:rgb(77,77,77);" placeholder="Año...">                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width:546px; height:100px; margin-left:20px;">
+                                            <img src="img/game_mode.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            <div style="color:white;">
+                                                <div style="margin-top:-30px; margin-left:20px;">
+                                                    <input type="text" v-model="create_mode" class="input" style="margin-top:-2px; width:95%; height:30px; color:white; background-color:rgb(77,77,77);" placeholder="Modo de Juego...">                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style="margin-top:-50px;">
+                                        <div style="width:224px; height:100px;">
+                                            <img src="img/details_3.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            <div style="color:white;">
+                                                <div style="margin-top:-28px; margin-left:20px;">
+                                                    <input id="score" type="number" min="1" max="10" v-model="create_score" class="input" style="margin-top:-4px; width:90%; height:30px; color:white; background-color:rgb(77,77,77);" placeholder="Puntuación...">                                                                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width:224px; height:100px; margin-left:34px;">
+                                            <img src="img/details_3.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            <div style="color:white;">
+                                                <div style="margin-top:-28px; margin-left:20px;">
+                                                <input type="text" v-model="create_language" class="input" style="margin-top:-4px; width:95%; height:30px; color:white; background-color:rgb(77,77,77);" placeholder="Idioma...">                                                
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width:224px; height:100px; margin-left:34px;">
+                                            <img src="img/details_3.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            <div style="color:white;">
+                                                <div style="margin-top:-28px; margin-left:20px;">
+                                                    <input id="score" type="number" min="0" v-model="create_size" class="input" style="margin-top:-4px; width:90%; height:30px; color:white; background-color:rgb(77,77,77);" placeholder="Espacio en disco...">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-wrap align-items-start" style="margin-top:-55px; max-width:750px;">
+                                        <div v-if="create_prin != ''" id="Principal" class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:10px;">
+                                            <div>
+                                                <div class="d-flex" style="margin-top:-8px;">
+                                                    <div class="p-2">
+                                                        <p style="margin-left:20px;">{{ create_prin }}</p>
+                                                    </div>
+                                                    <div class="p-2">
+                                                        <img src="img/delete_gen.png" :onclick="'delgen_prin()'" class="card-img img-fluid" style="width:25px;" alt="Responsive image">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-if="pgen_check == 1">
+                                            <div class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); margin-right:10px; border-radius: 20px;">
+                                                <div class="dropdown">
+                                                    <button class="dropdown-toggle btn btn-secondary" type="button" id="dropdownMenuButton1" style="background:none; border:none;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <div style="margin-top:-7px;">Genero Principal</div>
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                        <div v-for="gen in create_gen">
+                                                            <a :onclick="'push_prin(' + gen[1] + ')'" class="dropdown-item" href="#">{{gen[1]}}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-if="pgen_check == 0" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-top:5px;">
+                                            <div onclick='agregate_gen_prin()'>
+                                                <img src="img/agregate_gen.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            </div>
+                                        </div>
+                                        <div v-for="cat in create_selected" v-if="cat[1] != undefined">
+                                            <div v-bind:id="'' + cat[0]" class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:10px;">
+                                                <div>
+                                                    <div class="d-flex" style="margin-top:-8px;">
+                                                        <div class="p-2">
+                                                            <p style="margin-left:20px;">{{ cat[1] }}</p>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <img src="img/delete_gen.png" :onclick="'delgen(' + cat[0] + ')'" class="card-img img-fluid" style="width:25px;" alt="Responsive image">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div style="height:5px;">
+                                            </div>
+                                        </div>
+                                        <div v-if="pgen_check == 2">
+                                            <div class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); margin-right:10px; border-radius: 20px;">
+                                                <div class="dropdown">
+                                                    <button class="dropdown-toggle btn btn-secondary" type="button" id="dropdownMenuButton2" style="background:none; border:none;" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <div style="margin-top:-7px;">Subgenero</div>
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                        <div v-for="gen in create_gensub">
+                                                            <a :onclick="'subpush(' + gen[0] + ')'" class="dropdown-item" href="#">{{gen[1]}}</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div v-if="pgen_check == 3" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-top:5px;">
+                                            <div onclick='agregate_gen()'>
+                                                <img src="img/agregate_gen.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="" style="width:560px; height:260px; margin-left:34px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                    <div style="text-align:center; margin-top:10px;">Descripción:</div>
+                                    <div>
+                                        <div class="" style="color:white; width:550px; margin:10px;" id="style-13">
+                                            <div class="container">
+                                                <textarea class="form-control" v-model="create_description" aria-label="With textarea" style="width:100%; height:200px; background-color:rgb(77,77,77); color:white; border:none; border-radius: 20px;" id="style-13"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="" style="width:460px; height:260px; margin-left:10px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                    <div style="text-align:center; margin-top:10px;">Requerimientos:</div>
+                                    <div class="d-flex justify-content-center">
+                                        <div class="p-2" onclick="editcheck(0)" data-toggle="modal" data-target="#ModalE" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; margin:5px;">
+                                            <p style="margin-top:-5px;">Mínimos</p>
+                                        </div>
+                                        <div class="p-2" onclick="editcheck(1)" data-toggle="modal" data-target="#ModalE" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; margin:5px;">
+                                            <p style="margin-top:-5px;">Máximos</p>
+                                        </div>
+                                    </div>
+                                    <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:430px; height:150px; margin:10px;" id="style-13">
+                                        <div class="container inverse-scroll">
+                                            <div style="margin-top:6px;"></div>
+                                            <h5>Requisitos Minimos:</h5>
+                                            <div style="font-size:18px;">
+                                                <ul v-for="req in Min_req">
+                                                    <li v-if="req.req != 'Desconocidos'" >{{ req.req }} : {{ req.type }}</li>
+                                                    <p v-else>Desconocidos<p>
+                                                </ul>
+                                            </div>
+                                            <h5>Requisitos Recomendados:</h5>
+                                            <div style="font-size:18px;">
+                                                <ul v-for="req in Max_req">
+                                                    <li v-if="req.req != 'Desconocidos'" >{{ req.req }} : {{ req.type }}</li>
+                                                    <p v-else>Desconocidos<p>
+                                                </ul>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="" style="width:1030px; height:270px; margin-left:34px; margin-top:10px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                    <div class="table-wrapper-scroll-x my-custom-scrollbar1" onclick="false_input2()" style="color:white; width:1000px; height:250px; margin-left:15px;" id="style-h">
+                                        <div class="d-flex">
+                                            <div v-for="x in datas">
+                                                <div class="p-2" style="width:340px; height:230px; margin-top:10px; border-radius: 20px; padding:0px important!;">
+                                                    <img :src="'' + x" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="file" @change="cat_images" accept="image/*" id="open_file2" style="display:none;" multiple/>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div style="margin-left:34px;">
+                                    <div class="p-2" onclick="add_game()" data-dismiss="modal" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; width:40px; margin:5px; margin-top:10px; color:white;">
+                                        <p style="margin-top:-5px;">Ok</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Modal Edit end-->
+            <!--Modal game requirements-->
+            <section>
+                <div class="modal fade" id="ModalE">
+                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content shadow-lg rounded-1" style="background-color:rgb(50,50,50); border-radius: 20px;">
+                        <!-- Modal body -->
+                        <div class="modal-body" style="color:white">
+                            <div class="span-12" style="margin-right:8px;">
+                                <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                            </div>
+                            <div style="margin-top:60px;">
+                                <div v-if="edit_check == 0">
+                                    <div v-for="req in edit_Min_req" style="margin-top:10px;">
+                                        <div class="">
+                                            <div style="height:35px; background-color:rgb(31,31,31); border-radius: 20px;">
+                                                <input id='name' type="text" v-model="req.req" class="input" style="width:700px; height:35px; margin-left: 25px; color:white; border-radius: 20px;" v-bind:placeholder="req.type + ' ...'">
+                                            </div>        
+                                        </div>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <div v-for="req in edit_Max_req" style="margin-top:10px;">
+                                        <div class="">
+                                            <div style="height:35px; background-color:rgb(31,31,31); border-radius: 20px;">
+                                                <input id='name' type="text" v-model="req.req" class="input" style="width:700px; height:35px; margin-left: 25px; color:white; border-radius: 20px;" v-bind:placeholder="req.type + ' ...'">
+                                            </div>        
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="p-2" onclick="add_req(edit_check)" data-dismiss="modal" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; width:40px; margin:5px; margin-top:10px;">
+                                <p style="margin-top:-5px;">Ok</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Modal game requirements-->
             <footerv></footerv>
         </div>
         <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/vue.js"></script>
         <script src="js/main.js"></script>
         <script src="js/games.js"></script>
+        <script src="js/config.js"></script>
         <script src="/eel.js"></script>
         <script>
                 $(document).ready(function(){

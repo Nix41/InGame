@@ -16,8 +16,13 @@ function agregate_gen(){
     }
 }
 
-function push(id){
-    app.create_selected.push([app.create_selected.length,app.create_gen[id][1]],'1');
+function agregate_gen_prin(){
+    app.pgen_check = 1;
+}
+
+
+function push_prin(gen){
+    app.create_prin = gen.id;
     app.pgen_check = 3;
 }
 
@@ -78,12 +83,15 @@ function cleardata(){
     app.create_size='';
     app.datas=[];
     app.create_description='';
+    app.create_prin='';
 }
 
 function delgen(id){
-    if(app.create_selected[id].length == 2){
-        app.pgen_check = '0';
-    }
     delete app.create_selected[id];
     $('#'+id).remove();
+}
+
+function delgen_prin(){
+    app.pgen_check = 0;
+    app.create_prin = '';
 }

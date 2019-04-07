@@ -55,6 +55,8 @@ function see(id){
     app.language = app.games_dic[id].language;
     app.gamemode = app.games_dic[id].game_mode;
     app.category = app.games_dic[id].category;
+    app.cover_path = app.games_dic[id].cover_path;
+    app.captures = app.games_dic[id].captures;
 }
 
 function filter_over(gen){
@@ -94,5 +96,139 @@ function filter_subgen_mouse(id,x){
         }
 }
 
+function edit_cleardata(key){
+    app.Max_req=[];
+    app.edit_Max_req=[];
+    if(app.games_dic[key].requirements[1][0].req == "Desconocidos"){
+        app.edit_Max_req.push({'type':'Sistema Operativo:', 'req':app.sO });
+        app.edit_Max_req.push({'type':'Memoria:', 'req':app.Memori });
+        app.edit_Max_req.push({'type':'Procesador:', 'req':app.Micro });
+        app.edit_Max_req.push({'type':'Graficos:', 'req':app.Video });
+        app.edit_Max_req.push({'type':'Direct X:', 'req':app.dX });
+        app.edit_Max_req.push({'type':'Almacenamiento:', 'req':app.gB });
+        app.edit_Max_req.push({'type':'Sonido:', 'req':app.Sound });
+        app.edit_Max_req.push({'type':'Notas:', 'req':app.Notes });
+    }else{
+        for(x in app.games_dic[key].requirements[1]){
+            app.Max_req.push(app.games_dic[key].requirements[1][x]);
+            app.edit_Max_req.push(app.games_dic[key].requirements[1][x])
+        }
+    }
+    app.Memori='';
+    app.Micro='';
+    app.Min_req=[];
+    app.edit_Min_req=[];
+    if(app.games_dic[key].requirements[0][0].req == "Desconocidos"){
+        app.edit_Min_req.push({'type':'Sistema Operativo:', 'req':app.sO });
+        app.edit_Min_req.push({'type':'Memoria:', 'req':app.Memori });
+        app.edit_Min_req.push({'type':'Procesador:', 'req':app.Micro });
+        app.edit_Min_req.push({'type':'Graficos:', 'req':app.Video });
+        app.edit_Min_req.push({'type':'Direct X:', 'req':app.dX });
+        app.edit_Min_req.push({'type':'Almacenamiento:', 'req':app.gB });
+        app.edit_Min_req.push({'type':'Sonido:', 'req':app.Sound });
+        app.edit_Min_req.push({'type':'Notas:', 'req':app.Notes });
+    }else{
+        for(x in app.games_dic[key].requirements[0]){
+            app.Min_req.push(app.games_dic[key].requirements[0][x]);
+            app.edit_Min_req.push(app.games_dic[key].requirements[0][x])
+        }
+    }
+    app.Notes='';
+    app.Sound='';
+    app.Video='';
+    app.data='';
+    app.file='';
+    app.create_prin='';
+    app.pgen_check='3';
+    app.create_prin = app.games_dic[key].category;
+    app.create_selected=[];
+    for(x in app.games_dic[key].genders){
+        app.create_selected.push([app.create_selected.length,app.games_dic[key].genders[x]]);
+    }
+    app.req_type='';
+    app.create_name=app.games_dic[key].name;
+    app.create_mode=app.games_dic[key].game_mode;
+    app.create_year=app.games_dic[key].launch;
+    app.create_score=app.games_dic[key].score;
+    app.create_language=app.games_dic[key].language;
+    app.create_size=app.games_dic[key].size;
+    app.datas=app.games_dic[key].captures;
+    app.create_description=app.games_dic[key].description;
+}
 
+function add_req(n){
+    if(n == 1){
+        app.Max_req = [];
+        for(x in app.edit_Max_req){
+            app.Max_req.push(app.edit_Max_req[x]);
+            if(app.edit_Max_req[x].req = ""){
+                app.Max_req[app.Max_req.length - 1].req = 'Desconocidos';
+            }
+        }
+    }else{
+        app.Min_req = [];
+        for(x in app.edit_Min_req){
+            app.Min_req.push(app.edit_Min_req[x]);
+            if(app.edit_Min_req[x].req = ""){
+                app.Min_req[app.Max_req.length - 1].req = 'Desconocidos';
+            }
+        }
+    }
+}
+
+function editcheck(x){
+    app.edit_check = x;
+}
+
+function add_game(){
+    app.name= app.create_name;
+    app.requirements[0]= app.Min_req;
+    app.requirements[1]= app.Max_req;
+    app.score=app.create_score;
+    app.size=app.create_size;
+    app.language=app.create_language;
+    app.gamemode=app.create_mode;
+    app.category=app.create_prin;
+    app.genders = [];
+    for(x in app.create_selected){
+        if(app.create_selected[x] != undefined){
+            app.genders.push(app.create_selected[x][1]);
+        }
+    }
+    app.description= app.create_description;
+    app.launch= app.create_year;
+    if(app.data != ''){
+        app.cover_path = app.data;
+    }
+    app.captures = app.datas;
+
+    app.games_dic[app.key].name = app.name;
+    app.games_dic[app.key].description = app.description;
+    app.games_dic[app.key].requirements = app.requirements;
+    app.games_dic[app.key].genders = app.genders;
+    app.games_dic[app.key].launch = app.launch;
+    app.games_dic[app.key].score = app.score;
+    app.games_dic[app.key].size = app.size;
+    app.games_dic[app.key].language = app.language;
+    app.games_dic[app.key].game_mode = app.game_mode;
+    app.games_dic[app.key].category = app.category;
+    app.games_dic[app.key].cover_path = app.cover_path;
+    app.games_dic[app.key].captures = app.captures;
+
+    fil = (app.key - app.key%5)/5;
+    id = app.key%5 - 1
+
+    app.games[fil][id].name = app.name;
+    app.games[fil][id].description = app.description;
+    app.games[fil][id].requirements = app.requirements;
+    app.games[fil][id].genders = app.genders;
+    app.games[fil][id].launch = app.launch;
+    app.games[fil][id].score = app.score;
+    app.games[fil][id].size = app.size;
+    app.games[fil][id].language = app.language;
+    app.games[fil][id].game_mode = app.game_mode;
+    app.games[fil][id].category = app.category;
+    app.games[fil][id].cover_path = app.cover_path;
+    app.games[fil][id].app.captures = app.captures;
+}
 
