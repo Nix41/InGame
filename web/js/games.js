@@ -106,7 +106,7 @@ function edit_cleardata(key){
     set_game(app.games_dic[key].id);
     app.Max_req=[];
     app.edit_Max_req=[];
-    if(app.games_dic[key].requirements[1][0].req == "Desconocidos"){
+    if( app.games_dic[key].requirements[1][0].req == "Desconocidos" ){
         app.edit_Max_req.push({'type':'Sistema Operativo:', 'req':app.sO });
         app.edit_Max_req.push({'type':'Memoria:', 'req':app.Memori });
         app.edit_Max_req.push({'type':'Procesador:', 'req':app.Micro });
@@ -244,3 +244,13 @@ function add_game(){
 async function update_game(name, des, mode, language, launch, score, category, requirements, cover, captures){
     eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=[], requirements = requirements,id=-1,cover = cover, captures = captures)();
 }
+
+function del_game(x){
+    alert(app.games_dic[x].id)
+   delete_game(app.games_dic[x].id)
+}
+
+async function delete_game(id){
+    eel.CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=id, cover="", captures=[], 1)();
+}
+

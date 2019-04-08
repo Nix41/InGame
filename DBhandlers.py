@@ -82,6 +82,8 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
         change_cover(movie, image, movies_dir)
  
 def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=-1, image="", captures=[], delete=False):
+    print('Creating')
+    print(id)
     if id != -1: 
         game = sess.query(DBstructure.Game).filter(DBstructure.Game.id == id).one()
         if not delete:
@@ -111,18 +113,31 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
             change_req(game, requirements)
 
         else:
+            print('ÉRASEEEEEEE')
             remove_images(game.id, games_dir ,True)
             del_game(game)
         sess.commit()
         print('AScore:' , game.puntuacion)
     else:
+        print("heresasssss")
+        print('name:', name)
+        print('launch:',launch)
+        print('desc:',description)
+        print('gm:',game_mode)
+        print('lang:',language)
+        print('score:',puntuacion)
+        print('category:', category)
         game = DBstructure.Game(name = name, description= description, game_mode =game_mode, language= language, launch= launch, puntuacion = puntuacion )
         for g in genders:
             add_game_gender(game, g)
+        if len(requirements[0]) == 0:
+            add_requirement(game, ' ', 'Desconocidos', True)
+        if len(requirements[0]) == 0:
+            add_requirement(game, ' ', 'Desconocidos', False)
         for r in requirements[0]:
-            add_requirement(game, r['type'], r['req'], True)
+            add_requirement(game, r[0], r[1], True)
         for r in requirements[1]:
-            add_requirement(game, r['type'], r['req'], False)    
+            add_requirement(game, r[0], r[1], False)    
         add_category_to_game(game, category)
         sess.add_all([game])
         sess.commit()

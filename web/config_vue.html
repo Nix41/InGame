@@ -185,7 +185,7 @@
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                     <div v-for="gen in create_gensub">
-                                                        <a :onclick="'subpush(' + gen[0] + ')'" class="dropdown-item" href="#">{{gen[1]}}</a>
+                                                        <a :onclick="'subpush_create(' + gen[0] + ')'" class="dropdown-item" href="#">{{gen[1]}}</a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -257,7 +257,7 @@
                         </div>
                         <div class="d-flex">
                             <div style="margin-left:34px;">
-                                <div class="p-2" onclick="add_game()" data-dismiss="modal" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; width:40px; margin:5px; margin-top:10px; color:white;">
+                                <div class="p-2" onclick="create_game()" data-dismiss="modal" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; width:40px; margin:5px; margin-top:10px; color:white;">
                                     <p style="margin-top:-5px;">Ok</p>
                                 </div>
                             </div>

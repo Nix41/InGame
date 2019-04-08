@@ -46,7 +46,7 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
     # for c in sess.query(Game).all():
         genders = []
         # print('**')
-        # print(c.name)
+        print(c.name)
         # print(c.category.name)
         gender_filter = False
         for g in c.genders:
@@ -55,7 +55,13 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
             genders.append(g.name)
         if len(c.genders) == 0 and gender == "":
             gender_filter = True
-        if gender_filter and category in c.category.name :
+        cat = False
+        if not (c.category is None):
+            cat = category in c.category.name
+        else:
+            print('NO CATEGORY ')
+            cat = True
+        if gender_filter and cat :
             requirements = []
             requirements.append([])
             requirements.append([])
@@ -74,7 +80,11 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
             games[c.id]['genders'] = genders
             games[c.id]['requirements'] = requirements
             games[c.id]['size'] = c.size
-            games[c.id]['category'] = c.category.name
+            if not (c.category is None):
+                cate = c.category.name
+            else:
+                cate = ''
+            games[c.id]['category'] = cate
             games[c.id]['launch'] = c.launch
             games[c.id]['game_mode'] = c.game_mode
             games[c.id]['language'] = c.language
@@ -196,7 +206,7 @@ def get_directors():
         directors.append(d.name)
     return directors
 
-# filter_games()
+filter_games()
 
 # s
 # filter_series()

@@ -38,6 +38,11 @@ function subpush(id){
     add_gender_game(app.create_gensub[id][1]);
 }
 
+function subpush_create(id){
+    app.create_selected.push([app.create_selected.length,app.create_gensub[id][1]]);
+    app.pgen_check = 3;
+}
+
 async function add_gender_game(name){
     eel.add_game_gender(name)();
 }
@@ -116,8 +121,17 @@ function delgen_prin(){
 }
 
 function create_game(){
+    alert('here 1');
     app.requirements = [];
     app.requirements.push(app.Min_req);
     app.requirements.push(app.Max_req);
-    update_game(app.name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas);
+    var genders = [];
+    for(x in app.create_selected){
+        genders.push(app.create_selected[x][1])
+    }
+    create_game_for_real(app.create_name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas, genders);
+}
+
+async function create_game_for_real(name, des, mode, language, launch, score, category, requirements, cover, captures, genders){
+    eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=genders, requirements = requirements,id=-1,cover = cover, captures = captures)();
 }
