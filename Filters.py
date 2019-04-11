@@ -122,7 +122,8 @@ def filter_series(name = "", gender="", actor="", director="", score=0):
             series[s.id]['id'] = s.id
             series[s.id]['title'] = s.title
             series[s.id]['year'] = s.year 
-            series[s.id]['country'] = s.sinopsis
+            series[s.id]['sinopsis'] = s.sinopsis
+            series[s.id]['country'] = s.country
             series[s.id]['genders'] = genders
             series[s.id]['actors'] = actors
             series[s.id]['directors'] = directors
@@ -159,7 +160,8 @@ def filter_movies(name = "", gender="", actor="", director="", score=0):
             movies[c.id]['id'] = c.id
             movies[c.id]['title'] = c.title
             movies[c.id]['year'] = c.year 
-            movies[c.id]['country'] = c.sinopsis
+            movies[c.id]['sinopsis'] = c.sinopsis
+            movies[c.id]['country'] = c.country
             movies[c.id]['genders'] = genders
             movies[c.id]['actors'] = actors
             movies[c.id]['directors'] = directors
