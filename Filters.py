@@ -93,7 +93,7 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
             games[c.id]['captures'] = c.captures_list
     return games
 
-def filter_series(name = "", gender="", actor="", director="", score=0):
+def filter_series(name = "", gender="", actor="", director="", score=0, topics=[]):
     series = {}
     for s in sess.query(Serie).filter(Serie.title.contains(name)):
         genders = []
@@ -105,6 +105,18 @@ def filter_series(name = "", gender="", actor="", director="", score=0):
             if gender in g.name:
                 gender_filter = True
             genders.append(g.name)
+        topic_filter  = True
+        for topic in topics:
+            this_topic = False
+            for t in s.topics:
+                if topic in t:
+                    this_topic = True
+            if not this_topic:
+                topic_filter = False
+                break
+        stopics = []
+        for t in s.topics:
+            stopics.append(t.name)
         actor_filter  = False
         actors = []
         for a in s.actors:
@@ -117,11 +129,12 @@ def filter_series(name = "", gender="", actor="", director="", score=0):
             if director in d.name:
                 director_filter = True
             directors.append(d.name)
-        if gender_filter and actor_filter and director_filter and s.score >= score:
+        if gender_filter and actor_filter and director_filter and s.score >= score and topic_filter:
             series[s.id] = {}
             series[s.id]['id'] = s.id
             series[s.id]['title'] = s.title
             series[s.id]['year'] = s.year 
+            series[s.ir]['topics'] = stopics
             series[s.id]['sinopsis'] = s.sinopsis
             series[s.id]['country'] = s.country
             series[s.id]['genders'] = genders
@@ -131,18 +144,27 @@ def filter_series(name = "", gender="", actor="", director="", score=0):
             series[s.id]['cover_path'] = s.cover_path
     return series
 
-def filter_movies(name = "", gender="", actor="", director="", score=0):
+def filter_movies(name = "", gender="", actor="", director="", score=0, topics=[]):
     movies = {}
     for c in sess.query(Movie).filter(Movie.title.contains(name)):
         genders = []
-        print(c.title)
-        print(c.score)
-        print(c.id)
         gender_filter = False
         for g in c.genders:
             if gender in g.name:
                 gender_filter = True
             genders.append(g.name)
+        topic_filter  = True
+        for topic in topics:
+            this_topic = False
+            for t in c.topics:
+                if topic in t:
+                    this_topic = True
+            if not this_topic:
+                topic_filter = False
+                break
+        stopics = []
+        for t in c.topics:
+            stopics.append(t.name) 
         actor_filter = False
         actors = []
         for a in c.actors:
@@ -155,11 +177,12 @@ def filter_movies(name = "", gender="", actor="", director="", score=0):
             if director in d.name:
                 director_filter = True
             directors.append(d.name)
-        if gender_filter and actor_filter and director_filter and c.score >= score:
+        if gender_filter and actor_filter and director_filter and c.score >= score and topic_filter:
             movies[c.id] = {}
             movies[c.id]['id'] = c.id
             movies[c.id]['title'] = c.title
             movies[c.id]['year'] = c.year 
+            movies[c.id]['topics'] = stopics
             movies[c.id]['sinopsis'] = c.sinopsis
             movies[c.id]['country'] = c.country
             movies[c.id]['genders'] = genders
