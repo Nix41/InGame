@@ -76,9 +76,9 @@
                 <div v-for="games5 in games">
                     <div class="d-flex  justify-content-center" style="padding-bottom:2%;">
                         <div v-for="game in games5" class="p-2" style="text-align:center;">
-                            <div :onclick="'see(' + game.id + ')'" data-toggle="modal" data-target="#myModal" style="height: 250px; width:220px; margin-bottom:80px; margin-left:20px; margin-right:20px;">
+                            <div :onclick="'see(' + game.id + ')'" data-toggle="modal" data-target="#myModal" style="height: 337px; width:240px; margin-bottom:80px; margin-left:5px; margin-right:5px;">
                                 <div class="card">
-                                    <img :src="'' + game.cover_path" class="card-img img-fluid" style="height: 100%; width:100%; margin:0 important;" alt="Responsive image">
+                                    <img :src="'' + game.cover_path" class="card-img img-fluid" style="height: 18vw; width:100%; margin:0 important; object-fit: cover;" alt="Responsive image">
                                     <div v-if="game.score != 0" class="card-img-overlay score red">{{game.score}}</div>
                                 </div>
                                 <div class="review-text" style="margin-top:10px;">
@@ -108,13 +108,13 @@
                                 <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
                             </div>
                             <div class="d-flex" style="margin-top:30px;">
-                                <div class="p-2" style="height:277px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:33px;">
-                                    <div class="" style="width:250px; height:250px; margin-top:5px;">
-                                        <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                <div class="p-2" style="height:300px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:33px;">
+                                    <div class="" style="width:200px; height:280px; margin-top:2px; margin-left: 10px;">
+                                        <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:10vw; border-radius: 20px; object-fit: cover;" alt="Responsive image">
                                     </div>
                                 </div>
                                 <div class="p-2" style="margin-left:20px;">
-                                    <div style="width:740px; height:100px;">
+                                    <div style="width:785px; height:100px;">
                                         <img src="img/details_text.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
                                         <div style="color:white;">
                                             <div style="margin-top:-28px; margin-left:20px;">
@@ -131,7 +131,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="width:546px; height:100px; margin-left:20px;">
+                                        <div style="width:591px; height:100px; margin-left:20px;">
                                             <img src="img/game_mode.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
                                             <div style="color:white;">
                                                 <div style="margin-top:-30px; margin-left:20px;">

@@ -18,7 +18,7 @@ import datetime
 # slash = '\\'
 ###########################
 ######### LINUX ###########
-slash = '/'
+slash = '\\'
 
 MAIN_DIRECTORY = 'web'+ slash + 'img' + slash+ 'Work' + slash 
 games_dir = MAIN_DIRECTORY + 'Games' + slash
@@ -181,8 +181,8 @@ class Movie(TimestampMixin, Base):
     score = Column(Float)
     @hybrid_property
     def cover_path(self):
-        print(series_dir[4:] + str(self.id) + 'image.jpeg')
-        return (series_dir[4:] + str(self.id) + 'image.jpeg')
+        print(movies_dir[4:] + str(self.id) + 'image.jpeg')
+        return (movies_dir[4:] + str(self.id) + 'image.jpeg')
     @hybrid_property
     def cover_direct(self):
         return os.getcwd() + slash +games_dir + self.id 

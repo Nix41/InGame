@@ -51,10 +51,6 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
 
 @eel.expose
 def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=-1, cover="", captures=[], delete=0):
-    if gender == 'Todos':
-        gender = ''
-    if category == 'Todos':
-        category = ''
     if current is None or current == -1:
         print('h2')
         if delete == 0:

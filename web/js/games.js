@@ -272,6 +272,7 @@ function add_game(){
 }
 
 async function update_game(name, des, mode, language, launch, score, category, requirements, cover, captures){
+    alert(score);
     eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=[], requirements = requirements,id=-1,cover = cover, captures = captures)();
 }
 
