@@ -60,8 +60,12 @@ var app = new Vue({
         games: [],
         games_dic: {},
         Temp: [0,1,2,3,4,5,6,7,8],
-        series : [],
+
+        //series
         series_dic:{},
+        series : [],
+        country:'',
+        
 
         //game_select
         name: '',

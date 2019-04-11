@@ -38,14 +38,14 @@ async function get_films(){
 }
 
 function see_s(id){
-    app.s_name = app.series_dic[id].title;
-    app.s_description = app.games_dic[id].sinopsis;
-    app.s_genders = app.games_dic[id].genders;
-    app.s_key = id;
-    app.s_launch = app.games_dic[id].year;
-    app.s_score = app.games_dic[id].score;
-    app.s_country = app.games_dic[id].country;
-    app.s_actors = app.games_dic[id].actors;
-    app.s_directors = app.games_dic[id].directors;
-    app.s_cover_path = app.games_dic[id].cover_path;
+    app.name = app.series_dic[id].title;
+    //app.description = app.series_dic[id].sinopsis;
+    app.genders = app.series_dic[id].genders;
+    app.key = id;
+    app.launch = app.series_dic[id].year;
+    app.score = app.series_dic[id].score;
+    app.country = app.series_dic[id].country;
+    //app.actors = app.series_dic[id].actors;
+    //app.directors = app.series_dic[id].directors;
+    app.cover_path = app.series_dic[id].cover_path;
 }
