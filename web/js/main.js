@@ -65,7 +65,16 @@ var app = new Vue({
         series_dic:{},
         series : [],
         country:'',
-        
+        actors:[],
+        directors:[],
+        create_actors:[],
+        create_directors:[],
+        create_country:'',
+        create_video_gen:'',
+        create_dic:'',
+        create_act:'',
+        dic_check:'0',
+        act_check:'0',
 
         //game_select
         name: '',
