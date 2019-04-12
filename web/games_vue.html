@@ -424,14 +424,14 @@
                                             <h5>Requisitos Minimos:</h5>
                                             <div style="font-size:18px;">
                                                 <ul v-for="req in Min_req">
-                                                    <li v-if="req.req != 'Desconocidos'" >{{ req.req }} : {{ req.type }}</li>
+                                                    <li v-if="req.req != 'Desconocidos'" >{{ req.type }} : {{ req.req }}</li>
                                                     <p v-else>Desconocidos<p>
                                                 </ul>
                                             </div>
                                             <h5>Requisitos Recomendados:</h5>
                                             <div style="font-size:18px;">
                                                 <ul v-for="req in Max_req">
-                                                    <li v-if="req.req != 'Desconocidos'" >{{ req.req }} : {{ req.type }}</li>
+                                                    <li v-if="req.req != 'Desconocidos'" >{{ req.type }} : {{ req.req }}</li>
                                                     <p v-else>Desconocidos<p>
                                                 </ul>
                                             </div> 

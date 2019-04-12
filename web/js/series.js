@@ -45,8 +45,14 @@ function see_s(id){
     app.launch = app.series_dic[id].year;
     app.score = app.series_dic[id].score;
     app.country = app.series_dic[id].country;
-    app.actors = app.series_dic[id].actors;
-    app.directors = app.series_dic[id].directors;
+    app.actors = [];
+    for(x in app.series_dic[id].actors){
+        app.actors.push([x,app.series_dic[id].actors[x]]);
+    }
+    app.directors = [];
+    for(x in app.series_dic[id].directors){
+        app.directors.push([x,app.series_dic[id].directors[x]]);
+    }
     app.cover_path = app.series_dic[id].cover_path;
 }
 
@@ -54,11 +60,11 @@ function series_edit_cleardata(id){
         app.create_country = app.country;
         app.create_directors = [];
         for(x in app.directors){
-            app.create_directors.push([x,app.directors[x]]);
+            app.create_directors.push(app.directors[x]);
         }
         app.create_actors = [];
         for(x in app.actors){
-            app.create_actors.push([x,app.actors[x]]);
+            app.create_actors.push(app.actors[x]);
         }
         app.create_name = app.name;
         app.create_description = app.description;
