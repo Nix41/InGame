@@ -84,7 +84,7 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
         sess.commit()
         change_cover(movie, image, movies_dir)
  
-def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=-1, image="", captures=[], delete=False):
+def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[[],[]], id=-1, image="", captures=[], delete=False):
     print('Creating')
     print(id)
     if id != -1: 
@@ -114,7 +114,7 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
             add_category_to_game(game, category)
             print('out again')
             change_req(game, requirements)
-
+            
         else:
             print('ÉRASEEEEEEE')
             remove_images(game.id, games_dir ,True)
@@ -355,6 +355,9 @@ def set_downloads(games, series, movies):
         std.write(movies)
 
 def change_req(game,reqs):
+    if len(reqs) == 0:
+        print('had to here')
+        reqs = [[],[]]
     for r in game.requirements:
         if r.minormax:
             for rq in reqs[0]:

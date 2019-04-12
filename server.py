@@ -50,22 +50,29 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
         Done_update()
 
 @eel.expose
-def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=-1, cover="", captures=[], delete=0):
+def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[[],[]], id=-1, cover="", captures=[], delete=0):
     if current is None or current == -1:
         print('h2')
         if delete == 0:
             dele = False
         else:
             dele = True
+        if len(requirements) == 0:
+            print('had to')
+            requirements = [[],[]]
         DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image=cover, captures=captures, delete=dele)
     else:
+        print('begin_update')
         DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, current.id, image=cover, captures=captures, delete=False)
+        print('done_update')
         Done_update()
 
 @eel.expose
 def Set_Game(id):
     global current
+    print('id', id )
     current = DBhandlers.find_game(id)
+    print('current:' , current)
 @eel.expose
 def Set_Serie(id):
     global current
@@ -79,6 +86,7 @@ def Set_Movie(id):
 def Done_update():
     global current
     current = None
+    print('Done update')
 
 @eel.expose
 def add_director(name):

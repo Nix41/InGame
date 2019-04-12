@@ -252,22 +252,6 @@ function add_game(){
     app.games_dic[app.key].cover_path = app.cover_path;
     app.games_dic[app.key].captures = app.captures;
 
-    fil = (app.key - app.key%5)/5;
-    id = app.key%5 - 1
-
-    app.games[fil][id].name = app.name;
-    app.games[fil][id].description = app.description;
-    app.games[fil][id].requirements = app.requirements;
-    app.games[fil][id].genders = app.genders;
-    app.games[fil][id].launch = app.launch;
-    app.games[fil][id].score = app.score;
-    app.games[fil][id].size = app.size;
-    app.games[fil][id].language = app.language;
-    app.games[fil][id].game_mode = app.create_mode;
-    app.games[fil][id].category = app.category;
-    app.games[fil][id].cover_path = app.cover_path;
-    app.games[fil][id].captures = app.captures;
-
     update_game(app.name, app.description, app.create_mode, app.language, app.launch, app.score, app.category, app.requirements, app.data, app.datas);
 }
 
@@ -278,7 +262,8 @@ async function update_game(name, des, mode, language, launch, score, category, r
 
 function del_game(x){
     alert(app.games_dic[x].id)
-   delete_game(app.games_dic[x].id)
+    delete_game(app.games_dic[x].id)
+    document.location.reload(true);
 }
 
 async function delete_game(id){

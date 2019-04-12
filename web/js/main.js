@@ -79,7 +79,7 @@ var app = new Vue({
         //game_select
         name: '',
         key: '',
-        requirements: '',
+        requirements: [[],[]],
         score:'',
         size:'',
         language:'',
