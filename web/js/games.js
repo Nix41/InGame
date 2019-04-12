@@ -27,7 +27,7 @@ async function get_games(){
 async function filter_games_by_name(){
     app.games = []
     let filter = document.getElementById("name_filter");
-    let value = await eel.filter_games(name = app.title, gender = app.filter_subgen_selected, launch=app.year, players=0,game_mode=app.filter_mode, category=app.filter_selected_gen, lenguage=app.filter_language, score=app.filter_score )();
+    let value = await eel.filter_games(name = app.title, gender = app.filter_selected_subgen, launch=app.year, players=0,game_mode=app.filter_mode, category=app.filter_selected_gen, lenguage=app.filter_language, score=app.filter_score )();
     let i = 1;
     let list = [];
     for (x in value) {
@@ -107,7 +107,7 @@ function filter_mouse(id,x){
 }
 
 function filter_subgen_clk(sgen){
-    app.filter_subgen_selected = app.filter_subgen[sgen][1];
+    app.filter_selected_subgen = app.filter_subgen[sgen][1];
     
     app.filter_subgen_key = app.filter_subgen[sgen][1];
     $("#as" + sgen).css("background-color","rgb(209,4,4)");

@@ -42,6 +42,8 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
         launch = 0
     if score == "":
         score = 0
+    # if gender is None:
+    #     gender = ""
     for c in sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch >= launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score):
     # for c in sess.query(Game).all():
         genders = []
