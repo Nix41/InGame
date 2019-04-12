@@ -136,7 +136,7 @@ def filter_series(name = "", gender="", actor="", director="", score=0, topics=[
             series[s.id]['id'] = s.id
             series[s.id]['title'] = s.title
             series[s.id]['year'] = s.year 
-            series[s.ir]['topics'] = stopics
+            series[s.id]['topics'] = stopics
             series[s.id]['sinopsis'] = s.sinopsis
             series[s.id]['country'] = s.country
             series[s.id]['genders'] = genders
