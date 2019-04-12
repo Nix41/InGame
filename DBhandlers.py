@@ -40,8 +40,11 @@ def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             if image != '':
                 change_cover(serie, image, series_dir)
         else:
+            print('HERE!!')
             remove_images(serie.id, series_dir)
+            print('HERE222222!!')
             sess.delete(serie)
+            print('Done delete')
         sess.commit()
     else:
         serie = Serie(title=title , year= int(year), country=pais , sinopsis=sinopsis)
@@ -117,7 +120,6 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
             remove_images(game.id, games_dir ,True)
             del_game(game)
         sess.commit()
-        print('AScore:' , game.puntuacion)
     else:
         print("heresasssss")
         print('name:', name)
@@ -206,11 +208,16 @@ def change_captures(game, images):
     print('OUT OF HERE')
 
 def remove_images(id, path, game=False):
+    print('removing images')
+    print(path + str(id) + 'image.jpeg')
     try:
         os.remove(path + str(id) + 'image.jpeg')
         if game:
+            print('got here')
             shutil.rmtree(path + str(id))
     except Exception:
+        print(e)
+        print('Not found')
         pass
     
 def add_director(tv, director, movie=True):
@@ -322,10 +329,12 @@ def find_game(ids):
         return -1
 
 def del_game(game):
+    print('Game leaving')
     for r in game.requirements:
         sess.delete(r)
     sess.delete(game)
     sess.commit()
+    print('Game Gone')
 
 def get_downloads():
     d = {}
