@@ -18,7 +18,7 @@ import datetime
 # slash = '\\'
 ###########################
 ######### LINUX ###########
-slash = '\\'
+slash = '/'
 
 MAIN_DIRECTORY = 'web'+ slash + 'img' + slash+ 'Work' + slash 
 games_dir = MAIN_DIRECTORY + 'Games' + slash
