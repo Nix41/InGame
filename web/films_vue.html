@@ -100,7 +100,7 @@
                                         <div class="d-flex flex-wrap" style="max-width:750px;">
                                             <div v-for="dic in directors" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:20px; margin-bottom:10px;">
                                                 <div>
-                                                    <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ dic }} </p>
+                                                    <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ dic[1] }} </p>
                                                 </div>
                                             </div>
                                         </div>
@@ -124,7 +124,7 @@
                                                 <div style="margin-top:6px;"></div>
                                                 <div style="font-size:18px;">
                                                     <ul v-for="act in actors" style="text-align: center;">
-                                                        <li v-if="act != ''" >{{ act }}</li>
+                                                        <li v-if="act != ''" >{{ act[1] }}</li>
                                                         <p v-else>Desconocidos<p></p>
                                                     </ul>
                                                 </div>

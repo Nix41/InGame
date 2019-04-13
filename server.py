@@ -34,19 +34,27 @@ def get_recent():
     return recent
 
 @eel.expose
-def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", delete=False):
+def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=-1, image="", topics=[], delete=0):
     if current is None or current == -1:
-        DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, id, image, delete)
+        if delete == 0:
+            dele = False
+        else:
+            dele = True
+        DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, score, id, image, topics, dele)
     else:
-        DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, current.id, image, delete)
+        DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto,score, current.id, image, topics, delete = False)
         Done_update()
 
 @eel.expose
-def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", delete=False):
+def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0, id=-1, image="", topics=[], delete=0):
     if current is None or current == -1:
-        DBhandlers.CRUD_Movie(title, year, pais, sinopsis, generos, directors, reparto, id, image, delete)
+        if delete == 0:
+            dele = False
+        else:
+            dele = True
+        DBhandlers.CRUD_Movie(title, year, pais, sinopsis, generos, directors, reparto, score, id, image, topics, dele)
     else:
-        DBhandlers.CRUD_Movie(title, year, pais, sinopsis, generos, directors, reparto, current.id, image, delete)
+        DBhandlers.CRUD_Movie(title, year, pais, sinopsis, generos, directors, reparto,score, current.id, image, topics, delete = False)
         Done_update()
 
 @eel.expose
