@@ -29,7 +29,11 @@ def find_category(category):
         cat = GameCategory(name = category)
     return cat
 
+<<<<<<< HEAD
 def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", topics=[] , delete=False):
+=======
+def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0 ,id=-1, image="", topics=[],delete=False):
+>>>>>>> 5b0bd4e1683d79594c05d1109335fdb8faa582ad
     if id != -1: 
         serie = sess.query(Serie).filter(Serie.id == id).one()
         if not delete:
@@ -47,7 +51,7 @@ def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             print('Done delete')
         sess.commit()
     else:
-        serie = Serie(title=title , year= int(year), country=pais , sinopsis=sinopsis)
+        serie = Serie(title=title , year= int(year), country=pais , sinopsis=sinopsis, score=score)
         for g in generos:
             add_tv_gender2(serie, g, False)
         for d in directors:
@@ -60,7 +64,7 @@ def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
         sess.commit()
         change_cover(serie, image, series_dir)
 
-def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", delete=False):
+def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0, id=-1, image="", topics=[], delete=False):
     if id != -1: 
         movie = sess.query(DBstructure.Movie).filter(DBstructure.Movie.id == id).one()
         if not delete:
@@ -75,13 +79,15 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             sess.delete(movie)
         sess.commit()
     else:
-        Movie = DBstructure.Movie(title=title , year= int(year), country=pais , sinopsis=sinopsis)
+        Movie = DBstructure.Movie(title=title , year= int(year), country=pais , sinopsis=sinopsis, score=0)
         for g in generos:
             add_tv_gender2(movie, g)
         for d in directors:
             add_director2(movie, d)
         for a in reparto:
             add_actor2(movie, a)
+        for t in topics:
+            add_topic2(movie, t)
         sess.add_all([movie])
         sess.commit()
         change_cover(movie, image, movies_dir)
