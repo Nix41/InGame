@@ -29,7 +29,7 @@ def find_category(category):
         cat = GameCategory(name = category)
     return cat
 
-def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", delete=False):
+def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", topics=[] , delete=False):
     if id != -1: 
         serie = sess.query(Serie).filter(Serie.id == id).one()
         if not delete:
@@ -54,6 +54,8 @@ def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             add_director2(serie, d)
         for a in reparto:
             add_actor2(serie, a)
+        for t in topics:
+            add_topic2(serie, t)
         sess.add_all([serie])
         sess.commit()
         change_cover(serie, image, series_dir)
