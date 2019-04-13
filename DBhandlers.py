@@ -29,11 +29,7 @@ def find_category(category):
         cat = GameCategory(name = category)
     return cat
 
-<<<<<<< HEAD
-def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", topics=[] , delete=False):
-=======
 def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0 ,id=-1, image="", topics=[],delete=False):
->>>>>>> 5b0bd4e1683d79594c05d1109335fdb8faa582ad
     if id != -1: 
         serie = sess.query(Serie).filter(Serie.id == id).one()
         if not delete:

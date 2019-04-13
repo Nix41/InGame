@@ -35,25 +35,15 @@ def get_recent():
     return recent
 
 @eel.expose
-<<<<<<< HEAD
-def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],id=-1, image="", delete=0):
-=======
 def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=-1, image="", topics=[], delete=0):
->>>>>>> 5b0bd4e1683d79594c05d1109335fdb8faa582ad
     if current is None or current == -1:
         if delete == 0:
             dele = False
         else:
             dele = True
-<<<<<<< HEAD
-        DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, id, image, dele)
-    else:
-        DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, current.id, image, delete = False)
-=======
         DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, score, id, image, topics, dele)
     else:
         DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto,score, current.id, image, topics, delete = False)
->>>>>>> 5b0bd4e1683d79594c05d1109335fdb8faa582ad
         Done_update()
 
 @eel.expose
