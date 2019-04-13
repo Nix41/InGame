@@ -136,7 +136,7 @@ input[type=file] {
 
 .my-custom-scrollbar {
 	position: relative;
-	height: 750px;
+	height: 648px;
 	overflow: auto;
 	direction:rtl;
 }
@@ -173,6 +173,11 @@ input[type=file] {
     overflow: auto;
 }
 
+.my-custom-scrollbar2 {
+    position: relative;
+	height: 645px;
+    overflow: auto;
+}
 
 #style-13::-webkit-scrollbar-track
 {

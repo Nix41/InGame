@@ -22,6 +22,7 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
     print('n',name, 'g', gender, 'l',launch, 'p',players,'gm' ,game_mode, 'cat',category,'len',lenguage, 's', score)
     if category == 'Todos':
         category = ''
+        gender=''
     if gender == 'Todos':
         gender = ''
     games = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score)

@@ -105,6 +105,18 @@ function cleardata(){
     app.create_prin='';
 }
 
+function cleardata_s(){
+    app.create_country = app.country;
+    app.create_directors = [];
+    app.create_actors = [];
+    app.create_name = app.name;
+    app.create_description = app.description;
+    app.create_gen = [];
+    app.create_year = app.launch;
+    app.create_score = app.score; 
+    app.data = '';
+}
+
 function delgen(id){
     del_game_gen(app.create_selected[id][1]);
     delete app.create_selected[id];

@@ -61,12 +61,17 @@ var app = new Vue({
         games_dic: {},
         Temp: [0,1,2,3,4,5,6,7,8],
 
+        //list Mode
+        list:'0',
+        list_select:'0',
+
         //series
         series_dic:{},
         series : [],
         country:'',
         actors:[],
         directors:[],
+        sinopsis:'',
         create_actors:[],
         create_directors:[],
         create_country:'',

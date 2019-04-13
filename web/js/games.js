@@ -270,3 +270,48 @@ async function delete_game(id){
     eel.CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=id, cover="", captures=[], 1)();
 }
 
+//list
+
+function List(){
+    app.description='';
+    app.name='';
+    app.score='';
+    app.Max_req='';
+    app.Min_req='';
+    app.data='';
+    app.datas='';
+    app.year='';
+    app.genders='';
+    app.size='';
+    app.sinopsis='';
+    if(app.list == 0){
+        app.list = '1';
+    }else{
+        app.list = '0';
+    }
+}
+
+function restore(x){
+    let key = x;
+    $("#L" + key).css("background-color","rgb(26,26,26)");
+    $("#details").css("background-color","rgb(26,26,26)");
+}
+
+function change(x){
+    let key = x;
+    $("#L" + key).css("background-color","rgb(51,51,51)");
+    $("#details").css("background-color","rgb(51,51,51)");
+    app.description = app.games_dic[x].description;
+    app.Max_req = app.games_dic[x].requirements[1];
+    app.Min_req = app.games_dic[x].requirements[0];
+    app.datas = [];
+    for(y=0;y < app.games_dic[x].captures.length; y++){
+        var list = [];
+        list.push(app.games_dic[x].captures[y]);
+        if(y+1 <= app.games_dic[x].captures.length - 1){
+            list.push(app.games_dic[x].captures[y+1]);
+            y++;
+        }
+        app.datas.push(list)
+    }
+}

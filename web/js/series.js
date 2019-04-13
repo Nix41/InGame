@@ -56,7 +56,9 @@ function see_s(id){
     app.cover_path = app.series_dic[id].cover_path;
 }
 
-function series_edit_cleardata(id){
+function series_edit_cleardata(id, type = 's'){
+        app.key = id;
+        set_video(id,type);
         app.create_country = app.country;
         app.create_directors = [];
         for(x in app.directors){
@@ -76,14 +78,32 @@ function series_edit_cleardata(id){
         app.create_score = app.score; 
 }
 
+async function set_video(id,type){
+    if(type == 's'){
+        eel.Set_Serie(id)();
+    }else{
+        eel.Set_Movie(id)();
+    }
+}
+
 function agregate_gen_video(){
     app.create_gen.push([app.create_gen.length,app.create_video_gen]);
     app.pgen_check = 0;
+    add_tv_gender(app.create_video_gen);
+}
+
+async function add_tv_gender(gen){
+    eel.add_tv_gender(gen)();
 }
 
 function delgenvideo(id){
+    del_tv_gender(app.create_gen[id][1]);
     delete app.create_gen[id];
     $('#'+id).remove();
+}
+
+async function del_tv_gender(gen){
+    eel.del_tv_gender(gen)();
 }
 
 function agregate_dic(){
@@ -99,16 +119,31 @@ function agregate_dic(){
 function push_dic(){
     app.create_directors.push([app.create_directors.length,app.create_dic]);
     app.dic_check = 0;
+    add_director(app.create_dic);
+}
+
+async function add_director(dir){
+    eel.add_director(dir)();
 }
 
 function deldic(id){
+    del_director(app.create_directors[id][1]);
     delete app.create_directors[id];
     $('#D'+id).remove();
 }
 
+async function del_director(dir){
+    eel.del_director(dir)();
+}
+
 function delact(id){
+    del_actor(app.create_actors[id][1]);
     delete app.create_actors[id];
     $('#A'+id).remove();
+}
+
+async function del_actor(dir){
+    eel.del_actor(dir)();
 }
 
 function addact(){
@@ -118,4 +153,45 @@ function addact(){
 function pushact(){
     app.create_actors.push([app.create_actors.length,app.create_act]);
     app.act_check = 0;
+    add_actor(app.create_act)
+}
+
+async function add_actor(dir){
+    eel.add_actor(dir)();
+}
+
+//list
+
+function List_s(){
+    app.sinopsis='';
+    app.name='';
+    app.score='';
+    app.year='';
+    app.genders='';
+    if(app.list == 0){
+        app.list = '1';
+    }else{
+        app.list = '0';
+    }
+}
+
+function restore_s(x){
+    let key = x;
+    $("#L" + key).css("background-color","rgb(26,26,26)");
+    $("#details").css("background-color","rgb(26,26,26)");
+}
+
+function change_s(x){
+    let key = x;
+    $("#L" + key).css("background-color","rgb(51,51,51)");
+    $("#details").css("background-color","rgb(51,51,51)");
+    app.sinopsis = app.series_dic[x].sinopsis;
+}
+
+function list_red(){
+    app.list_select = 1;
+}
+
+function list_gray(){
+    app.list_select = 0;
 }
