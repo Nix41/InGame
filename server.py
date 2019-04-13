@@ -64,6 +64,7 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
         if delete == 0:
             dele = False
         else:
+            #qqqqqqq
             dele = True
         if len(requirements) == 0:
             print('had to')
