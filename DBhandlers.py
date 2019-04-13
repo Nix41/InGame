@@ -75,7 +75,7 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             sess.delete(movie)
         sess.commit()
     else:
-        Movie = DBstructure.Movie(title=title , year= int(year), country=pais , sinopsis=sinopsis, score=0)
+        Movie = DBstructure.Movie(title=title , year= int(year), country=pais , sinopsis=sinopsis, score=score)
         for g in generos:
             add_tv_gender2(movie, g)
         for d in directors:
