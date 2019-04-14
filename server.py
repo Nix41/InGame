@@ -11,7 +11,8 @@ eel.init('web')
 current = None
 to_show = []
 index = 0
-load_amount = 9
+load_amount = 1
+initial_load = 10
 
 @eel.expose
 def get_more(i = 1):
@@ -19,7 +20,10 @@ def get_more(i = 1):
     global to_show
     l = len(to_show)
     if i == 1:
-        up = min(l, index + load_amount)
+        if index == 0:
+            up = min(l, index + inital_load)
+        else:
+            up = min(l, index + load_amount)
         r = to_show[index: up]
         index = up
     else:
