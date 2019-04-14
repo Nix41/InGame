@@ -59,13 +59,142 @@ var app = new Vue({
         recent: [],
         games: [],
         games_dic: {},
-        key: '',
-        games_dic: {},
+        Temp: [0,1,2,3,4,5,6,7,8],
+
+        //list Mode
+        list:'0',
+        list_select:'0',
+
+        //series
+        series_dic:{},
+        series : [],
+        country:'',
+        actors:[],
+        directors:[],
+        sinopsis:'',
+        create_actors:[],
+        create_directors:[],
+        create_country:'',
+        create_video_gen:'',
+        create_dic:'',
+        create_act:'',
+        dic_check:'0',
+        act_check:'0',
+
+        //game_select
         name: '',
+        key: '',
+        requirements: [[],[]],
+        score:'',
+        size:'',
+        language:'',
+        gamemode:'',
+        category:'',
         description: '',
         genders: [],
-        requirements: '',
+        launch: '',
+        cover_path: '',
+        captures: '',
+
+        //filter_vew
+        filter_gen:{},
+        filter_subgen:[[0,"Acción táctica"],[1,"Acción y aventura,Battle royale"],[2,"Beat'em up,Hack and Slash"],[3,"Lucha"],[4,"Plataformas"],[5,"Primera persona (FPS)"],[6,"Runner"],[7,"Shoot'Em Up"],[8,"Shooter"],[9,"Supervivencia"],[10,"Survival horror"]],
+        on_mouse: {},
+        categories:{},
+        filter_key: '',
+        filter_subgen_key:'',
+        filter_selected_gen:'',
+        filter_selected_subgen:'',
+        
+        //filters
+        number:'',
+        year:'',
+        title:'',
+        filter_language:'',
+        filter_score:'',
+        filter_mode:'',
+        //edit
+        edit_Min_req:[],
+        edit_Max_req:[],
+        edit_check:'',
+        //agregate
+        file:'',
+        data:'',
+        datas:[],
+        create_gen:{1:[1,'Acción'], 2:[2,'Aventuras'], 3:[3,'Casual'], 4:[4,'Conducción'], 5:[5,'Deportes'], 6:[6,'Estrategia'], 7:[7,'MMO'], 8:[8,'Rol'], 9:[9,'Simulación']},
+        create_gensub:[[0,"Acción táctica"],[1,"Acción y aventura,Battle royale"],[2,"Beat'em up,Hack and Slash"],[3,"Lucha"],[4,"Plataformas"],[5,"Primera persona (FPS)"],[6,"Runner"],[7,"Shoot'Em Up"],[8,"Shooter"],[9,"Supervivencia"],[10,"Survival horror"]],
+        pgen_check:'0',
+        create_selected:[],
+        sO:'',
+        Micro:'',
+        Memori:'',
+        Video:'',
+        dX:'',
+        gB:'',
+        Sound:'',
+        Notes:'',
+        Min_req: [],
+        Max_req: [],
+        req_type: '',
+        create_name:'',
+        create_mode:'',
+        create_year:'',
+        create_score:'',
+        create_language:'',
+        create_size:'',
+        create_description:'',
+        create_prin:'',
     },
+
+    methods:{
+        check_num(){
+            if(this.number != '' && this.number > 50 || this.number < 0){
+                alert("El numero debe ser mayor que 1 y menor que 51");
+                this.number = '';
+            }
+        },
+
+        check_year(){
+            if(this.year != '' && this.year > 3000 || this.year < 0){
+                alert("El numero debe ser mayor que 1980 y menor que 3000");
+                this.year = '';
+            }
+        },
+
+        check_score(){
+            if(this.score != '' && (this.score > 10 || this.score < 0)){
+                alert("El numero debe ser mayor que 1 y menor que 10");
+                this.score = '';
+            }
+        },
+
+        cat_image: function(event){
+            var input = event.target;
+            if(input.files && input.files[0]){
+                var reader = new FileReader();
+                reader.onload = (e) => {
+                    this.data = e.target.result;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+
+        },
+
+        cat_images: function(event){
+            var input = event.target;
+            for(i = 0; i < input.files.length; i++){
+                if(input.files && input.files[i]){
+                    var reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.datas.push(e.target.result);
+                    }
+                    reader.readAsDataURL(input.files[i]);
+                }
+            }
+
+        },
+    },
+
     var: 0,
 });
 

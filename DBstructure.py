@@ -25,8 +25,11 @@ games_dir = MAIN_DIRECTORY + 'Games' + slash
 series_dir = MAIN_DIRECTORY + 'Series' + slash
 movies_dir = MAIN_DIRECTORY + 'Movies' + slash
 
+g_list = 'lists' + slash + 'games.txt'
+m_list = 'lists' + slash + 'movies.txt'
+s_list = 'lists' + slash + 'series.txt'
 
-# direct = MAIN_DIRECTORY
+direct = MAIN_DIRECTORY
 # try:
 #     os.mkdir( direct)
 # except: FileExistsError
@@ -68,7 +71,7 @@ class GameReq(Base):
     left_id = Column(Integer, ForeignKey('game.id'), primary_key=True)
     right_id = Column(Integer, ForeignKey('requirement.id'), primary_key=True)
     minormax = Column(Boolean)
-    game = relationship("Game", single_parent=True ,back_populates="requirements")
+    game = relationship("Game", single_parent=True , cascade='save-update, delete, delete-orphan',back_populates="requirements")
     req = relationship("Requirement",single_parent=True , back_populates="games")
 
 class Game(TimestampMixin, Base):
@@ -89,9 +92,12 @@ class Game(TimestampMixin, Base):
 
     @hybrid_property
     def cover_path(self):
-        return (games_dir[4:] + str(self.id))
+        return (games_dir[4:] + str(self.id) + 'image.jpeg')
     @hybrid_property
-    def captures(self):
+    def cover_direct(self):
+        return os.getcwd() + slash + games_dir + self.id 
+    @hybrid_property
+    def captures_list(self):
         caps = []
         for r, d, f in os.walk(games_dir + str(self.id) + slash):
             for file in f:
@@ -175,7 +181,11 @@ class Movie(TimestampMixin, Base):
     score = Column(Float)
     @hybrid_property
     def cover_path(self):
-        return (series_dir[4:] + str(self.id))
+        print(movies_dir[4:] + str(self.id) + 'image.jpeg')
+        return (movies_dir[4:] + str(self.id) + 'image.jpeg')
+    @hybrid_property
+    def cover_direct(self):
+        return os.getcwd() + slash +games_dir + self.id 
     
 class SerieGender(Base):
     __tablename__ = 'seriegender'
@@ -199,7 +209,10 @@ class Serie(TimestampMixin, Base):
     score = Column(Float)
     @hybrid_property
     def cover_path(self):
-        return (movies_dir[4:] + str(self.id))
+        return (series_dir[4:] + str(self.id) + 'image.jpeg')
+    @hybrid_property
+    def cover_direct(self):
+        return os.getcwd() + slash + games_dir + self.id 
 
 class OnExistance(Base):
     __tablename__ = 'onexistance'
