@@ -245,7 +245,7 @@ def download_movies():
         print('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
         return -1
 
-@eel.expowe
+@eel.expose
 def gen_pdf():
     pass
 

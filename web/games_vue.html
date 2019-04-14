@@ -121,46 +121,46 @@
                 <!--Table-->
                 <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; height:850px; margin-bottom: 150px; margin-top:50px;">
                         <div class="d-flex">
-                            <div class="table-wrapper-scroll-y my-custom-scrollbar col-md-7" style="padding:0 !important;" id="style-scroll">
+                            <div onscroll="OnScroll()" class="table-wrapper-scroll-y my-custom-scrollbar col-md-7" style="padding:0 !important;" id="style-scroll">
                             <div class="p-2 inverse-scroll" style="padding:0 !important; margin-left:30px;">
-                                <div v-for="game in games_dic">
-                                <div :onmouseover="'change(' + game.id + ')'" :onmouseout="'restore(' + game.id + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
-                                    <div v-bind:id="'L'+ game.id" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px;">
+                                <div id="inf" v-for="game in games_dic">
+                                <div :onmouseover="'change(' + game[0] + ')'" :onmouseout="'restore(' + game[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
+                                    <div v-bind:id="'L'+ game[0]" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px;">
                                         <div class="d-flex">
                                             <div class="p-2">
-                                                <div class="score_list red">{{ game.score }}</div>
+                                                <div class="score_list red">{{ game[1].score }}</div>
                                             </div>
                                             <div class="p-2" style=" padding-left:10px; font-size:20px; color:white; margin-top: -7px; padding-right:0 !important;">
-                                                <div style="width:480px;">{{ game.name }}</div>
+                                                <div style="width:480px;">{{ game[1].name }}</div>
                                                 <div>
                                                     <div class="row">
                                                         <div class="rating" style="padding-left:15px;">
-                                                            <i v-if="game.score/2 >= 1" class="fa fa-star"></i>
+                                                            <i v-if="game[1].score/2 >= 1" class="fa fa-star"></i>
                                                             <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
-                                                            <i v-if="game.score/2 >= 2" class="fa fa-star"></i>
+                                                            <i v-if="game[1].score/2 >= 2" class="fa fa-star"></i>
                                                             <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
-                                                            <i v-if="game.score/2 >= 3" class="fa fa-star"></i>
+                                                            <i v-if="game[1].score/2 >= 3" class="fa fa-star"></i>
                                                             <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
-                                                            <i v-if="game.score/2 >= 4" class="fa fa-star"></i>
+                                                            <i v-if="game[1].score/2 >= 4" class="fa fa-star"></i>
                                                             <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
-                                                            <i v-if="game.score/2 >= 5" class="fa fa-star is-fade"></i>
+                                                            <i v-if="game[1].score/2 >= 5" class="fa fa-star is-fade"></i>
                                                             <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
                                                         </div>
                                                         <div style="padding-left:15px;">
-                                                            {{ game.category }}
+                                                            {{ game[1].category }}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="p-2" style="font-size:20px; color:white; margin-left:50px; padding-top:10px;">
-                                                {{ game.launch }}
+                                                {{ game[1].launch }}
                                             </div>
                                             <div class="p-2" style="font-size:20px; color:white; margin-left:25px; padding-top:10px;">
                                                 4 player
                                             </div>
                                             <div class="p-2" style="font-size:20px; color:white; margin-left:25px; padding-top:10px;">
-                                                <div v-if="game.size != null">
-                                                    {{ game.size }} Gb
+                                                <div v-if="game[1].size != null">
+                                                    {{ game[1].size }} Gb
                                                 </div>
                                                 <div v-else>
                                                     ???
