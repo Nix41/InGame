@@ -134,7 +134,6 @@ function delgen_prin(){
 }
 
 function create_game(){
-    alert('here 1');
     app.requirements = [];
     app.requirements.push(app.Min_req);
     app.requirements.push(app.Max_req);
@@ -150,7 +149,6 @@ async function create_game_for_real(name, des, mode, language, launch, score, ca
 }
 
 function create_video(type){
-    alert(type);
     app.name = app.create_name;
     app.description = app.create_description;
     app.launch = app.create_year;
@@ -184,7 +182,6 @@ function create_video(type){
 
 async function create_video_back(name, description, year, country, score, type, gen, dir, act){
     if(type == 's'){
-        alert('Gonna create Serie');
         await eel.CRUD_Serie(title=name, year=year, pais=country,sinopsis=description, genero=gen,directors=dir,reparto=act,score=score, id=-1,image=app.data)();
         window.location.reload(true);
     }else{
@@ -195,6 +192,35 @@ async function create_video_back(name, description, year, country, score, type, 
 }
 
 async function download_games(){
-    alert('here');
-    await eel.download_games();
+    r = await eel.download_games()();
+    if (r == -1){
+        alert('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
+    }
+    if (r == 2){
+        alert('Comenzando Descarga en la consola')
+    }
+}
+
+async function download_series(){
+    r = await eel.download_series()();
+    if (r == -1){
+        alert('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
+    }
+     if (r == 2){
+        alert('Comenzando Descarga en la consola')
+    }
+}
+
+async function download_movies(){
+    r = await eel.download_movies()();
+    if (r == -1){
+        alert('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
+    }
+     if (r == 2){
+        alert('Comenzando Descarga en la consola')
+    }
+}
+
+async function gen_pdf(){
+    
 }

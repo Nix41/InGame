@@ -14,7 +14,7 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
         year = 0
     year = int(year)
     score = int(score)
-    print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
+     #('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     series = Filters.filter_series(name, gender,actor,director, score, year, topic)
     return series
 
@@ -26,20 +26,20 @@ def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, to
         year = 0
     year = int(year)
     score = int(score)
-    print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
+     #('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
     return movies
 
 @eel.expose
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0):
-    print('n',name, 'g', gender, 'l',launch, 'p',players,'gm' ,game_mode, 'cat',category,'len',lenguage, 's', score)
+     #('n',name, 'g', gender, 'l',launch, 'p',players,'gm' ,game_mode, 'cat',category,'len',lenguage, 's', score)
     if category == 'Todos':
         category = ''
         gender=''
     if gender == 'Todos':
         gender = ''
     games = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score)
-    print(len(games))
+     #(len(games))
     return games
 
 @eel.expose

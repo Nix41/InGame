@@ -67,12 +67,10 @@ function filter_mouse_out(gen){
 async function filter_series_all(typ ='s'){
     app.series = []
     let value = [];
-    alert(app.filter_selected_gens);
     if (typ == 's'){
         value = await eel.filter_series(name=app.title , gender=app.filter_selected_gens, actor=app.filter_language, director=app.filter_mode, score=app.filter_score, year=app.year, topic=app.filter_topic )();
     }
     else{
-        alert('h3');
         value = await eel.filter_movies(name=app.title , gender=app.filter_selected_gens, actor=app.filter_language, director=app.filter_mode, score=app.filter_score, year=app.year, topic=app.filter_topic )();
     }
     let i = 1;
@@ -176,10 +174,8 @@ function agregate_gen_video(type = 's'){
 
 async function add_tv_gender(gen, type = 's'){
     if(type == 's'){
-        alert('aqui');
         eel.add_tv_gender(gen, false)();
     }else{
-        alert('where i should be');
         eel.add_tv_gender(gen, true)();
     }
 }

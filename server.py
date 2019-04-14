@@ -3,6 +3,8 @@ import Filters
 import DBhandlers
 import seed
 from WebScrapping import Down_Games, Down_Movies, Down_Series
+from urllib.error import URLError
+import urllib
 
 eel.init('web')
 
@@ -36,11 +38,11 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
         year = 0
     year = int(year)
     score = int(score)
-    print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
+     #('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     series = Filters.filter_series(name, gender,actor,director, score, year, topic)
-    to_show = series
-    index = 0
-    return get_more()
+    # to_show = series
+    # index = 0
+    return series
 
 @eel.expose
 def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, topic=""):
@@ -52,11 +54,11 @@ def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, to
         year = 0
     year = int(year)
     score = int(score)
-    print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
+     #('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
-    to_show = movies
-    index = 0
-    return get_more()
+    # to_show = movies
+    # index = 0
+    return movies
 
 @eel.expose
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0):
@@ -68,9 +70,9 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
     if gender == 'Todos':
         gender = ''
     games = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score)
-    to_show = games
-    index = 0
-    return get_more()
+    # to_show = games
+    # index = 0
+    return games
 
 @eel.expose
 def get_recent():
@@ -79,7 +81,7 @@ def get_recent():
 
 @eel.expose
 def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=-1, image="", topics=[], delete=0):
-    print(image)
+     #(image)
     if current is None or current == -1:
         if delete == 0:
             dele = False
@@ -105,35 +107,35 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
 @eel.expose
 def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[[],[]], id=-1, cover="", captures=[],size=0, delete=0):
     if current is None or current == -1:
-        print('h2')
+         #('h2')
         if delete == 0:
             dele = False
         else:
             #qqqqqqq
             dele = True
         if len(requirements) == 0:
-            print('had to')
+             #('had to')
             requirements = [[],[]]
         DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image=cover, captures=captures, size = size, delete=dele)
     else:
-        print('begin_update')
+         #('begin_update')
         DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, current.id, image=cover, captures=captures,size=size, delete=False)
-        print('done_update')
+         #('done_update')
         Done_update()
 
 @eel.expose
 def Set_Game(id):
     global current
-    print('id', id )
+     #('id', id )
     current = DBhandlers.find_game(id)
-    print('current:' , current)
+     #('current:' , current)
 
 @eel.expose
 def Set_Serie(id):
-    print('ID:',id)
+     #('ID:',id)
     global current
     current = DBhandlers.find_serie(id)
-    print('çurrent: ', current)
+     #('çurrent: ', current)
 @eel.expose
 def Set_Movie(id):
     global current
@@ -163,7 +165,7 @@ def del_actor(name):
 
 @eel.expose
 def add_tv_gender(name, typ=True):
-    print('Serv: ', typ)
+     #('Serv: ', typ)
     DBhandlers.add_tv_gender2(current, name, typ)
 
 @eel.expose
@@ -210,20 +212,43 @@ def get_movie_topics():
 def get_downloads():
     return DBhandlers.get_downloads()
 
+def try_connection():
+    try:
+        r = urllib.request.urlopen('http://google.com')
+        return 2
+    except URLError:
+        print('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
+        return -1
+
 @eel.expose
 def download_games():
-    print('h')
-    Down_Games();
+    r = try_connection()
+    if r == 2:
+        Down_Games();
+    return r
 
 @eel.expose
 def download_series():
-    Down_Series();
+    try:
+        Down_Series();
+        return 2
+    except URLError:
+        print('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
+        return -1
 
 @eel.expose
 def download_movies():
-    Down_Movies();
+    try:
+        Down_Movies();
+        return 2
+    except URLError:
+        print('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
+        return -1
 
-
+@eel.expowe
+def gen_pdf():
+    pass
 
 eel.start('index_vue.html')
+
 

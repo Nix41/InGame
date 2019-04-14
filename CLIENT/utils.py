@@ -34,7 +34,7 @@ def clean_line(A):
             x -= 1
     else:
         C = B
-    print(C)
+     #(C)
     return C
 
 def stupidshit(w, p):

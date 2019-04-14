@@ -173,10 +173,8 @@ function agregate_gen_video(type = 's'){
 
 async function add_tv_gender(gen, type = 's'){
     if(type == 's'){
-        alert('aqui');
         eel.add_tv_gender(gen, false)();
     }else{
-        alert('where i should be');
         eel.add_tv_gender(gen, true)();
     }
 }

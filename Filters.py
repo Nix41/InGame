@@ -48,7 +48,7 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
     # for c in sess.query(Game).all():
         genders = []
         # print('**')
-        print(c.name)
+         #(c.name)
         # print(c.category.name)
         gender_filter = False
         for g in c.genders:
@@ -116,7 +116,7 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
             if not this_topic:
                 topic_filter = False
                 break
-            print(topic_filter)
+             #(topic_filter)
         genders = []
         for t in s.genders:
             genders.append(t.name)
@@ -168,7 +168,7 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
             if not this_topic:
                 topic_filter = False
                 break
-            print(topic_filter)
+             #(topic_filter)
         genders = []
         for t in c.genders:
             genders.append(t.name)

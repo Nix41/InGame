@@ -134,7 +134,6 @@ function delgen_prin(){
 }
 
 function create_game(){
-    alert('here 1');
     app.requirements = [];
     app.requirements.push(app.Min_req);
     app.requirements.push(app.Max_req);
@@ -150,7 +149,6 @@ async function create_game_for_real(name, des, mode, language, launch, score, ca
 }
 
 function create_video(type){
-    alert(type);
     app.name = app.create_name;
     app.description = app.create_description;
     app.launch = app.create_year;
@@ -184,7 +182,6 @@ function create_video(type){
 
 async function create_video_back(name, description, year, country, score, type, gen, dir, act){
     if(type == 's'){
-        alert('Gonna create Serie');
         await eel.CRUD_Serie(title=name, year=year, pais=country,sinopsis=description, genero=gen,directors=dir,reparto=act,score=score, id=-1,image=app.data)();
         window.location.reload(true);
     }else{

@@ -48,7 +48,6 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
     # for c in sess.query(Game).all():
         genders = []
         # print('**')
-        print(c.name)
         # print(c.category.name)
         gender_filter = False
         for g in c.genders:
@@ -61,7 +60,7 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
         if not (c.category is None):
             cat = category in c.category.name
         else:
-            print('NO CATEGORY ')
+             #('NO CATEGORY ')
             cat = True
         if gender_filter and cat :
             requirements = []
@@ -116,7 +115,7 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
             if not this_topic:
                 topic_filter = False
                 break
-            print(topic_filter)
+             #(topic_filter)
         genders = []
         for t in s.genders:
             genders.append(t.name)
@@ -167,7 +166,7 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
             if not this_topic:
                 topic_filter = False
                 break
-            print(topic_filter)
+             #(topic_filter)
         genders = []
         for t in c.genders:
             genders.append(t.name)
@@ -212,14 +211,17 @@ def get_recent():
         game['id'] = games[i].id
         game['name'] = games[i].name
         game['description'] = games[i].description
+        game['src'] = games[i].cover_path
         serie = {}
         serie['id'] = series[i].id
         serie['name'] = series[i].title
         serie['description'] = series[i].sinopsis
+        serie['src'] = series[i].cover_path
         movie = {}
         movie['id'] = movies[i].id
         movie['name'] = movies[i].title
         movie['description'] = movies[i].sinopsis
+        movie['src'] = movies[i].cover_path
         recent.append(game)
         recent.append(serie)
         recent.append(movie)

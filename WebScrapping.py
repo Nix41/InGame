@@ -339,7 +339,7 @@ def search(listdir , stype='' ):
         direct = m_list
     if(stype == 'TV_SE'):
         direct = s_list
-    print(direct + '**')
+     #(direct + '**')
     with open(direct , 'w+')as std:
                     std.write(not_found)
      
