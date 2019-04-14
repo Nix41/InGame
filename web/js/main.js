@@ -58,7 +58,7 @@ var app = new Vue({
     data: {
         recent: [],
         games: [],
-        games_dic: {},
+        games_dic: [],
         Temp: [0,1,2,3,4,5,6,7,8],
 
         //list Mode
@@ -82,6 +82,9 @@ var app = new Vue({
         act_check:'0',
 
         //game_select
+            //games_dic_key
+            games_low_key: 1,
+            games_higth_key: 1,
         name: '',
         key: '',
         requirements: [[],[]],
@@ -206,6 +209,21 @@ async function get_recent(){
     }
 }
 
-function active_item(){
-    
+var pos1 = 0;
+async function OnScroll(){
+    var pos2 = $("#style-scroll").scrollTop();
+    if(pos1 < pos2){
+        // alert(app.games_low_key);
+        // alert(app.games_higth_key);
+        var next = eel.get_more()();
+        var l = app.games_dic.length;
+        for(x in next){
+            app.games_dic.push([l,next[x]]);
+            l++;
+        }
+    }else{
+       
+    }
+    pos1 = pos2;
 }
+
