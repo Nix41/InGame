@@ -141,9 +141,9 @@ function create_game(){
     for(x in app.create_selected){
         genders.push(app.create_selected[x][1])
     }
-    create_game_for_real(app.create_name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas, genders);
+    create_game_for_real(app.create_name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas, genders, app.create_size);
 }
 
-async function create_game_for_real(name, des, mode, language, launch, score, category, requirements, cover, captures, genders){
-    eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=genders, requirements = requirements,id=-1,cover = cover, captures = captures)();
+async function create_game_for_real(name, des, mode, language, launch, score, category, requirements, cover, captures, genders, size){
+    eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=genders, requirements = requirements,id=-1,cover = cover, captures = captures, size=size)();
 }
