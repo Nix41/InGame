@@ -193,3 +193,8 @@ async function create_video_back(name, description, year, country, score, type, 
     }
     
 }
+
+async function download_games(){
+    alert('here');
+    await eel.download_games();
+}

@@ -183,6 +183,7 @@ def get_downloads():
 
 @eel.expose
 def download_games():
+    print('h')
     Down_Games();
 
 @eel.expose
