@@ -18,10 +18,11 @@ initial_load = 10
 def get_more(i = 1):
     global index
     global to_show
+    global initial_load
     l = len(to_show)
     if i == 1:
         if index == 0:
-            up = min(l, index + inital_load)
+            up = min(l, index + initial_load)
         else:
             up = min(l, index + load_amount)
         r = to_show[index: up]
