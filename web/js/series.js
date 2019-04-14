@@ -18,6 +18,33 @@ async function get_series(){
     app.series.push(list);
 }
 
+async function filter_series_all(typ ='s'){
+    app.series = []
+    let value = [];
+    if (typ == 's'){
+        value = await eel.filter_series(name=app.title , gender="", actor=app.filter_language, director=app.filter_mode, score=app.filter_score, year=app.year )();
+    }
+    else{
+        value = await eel.filter_movies(name=app.title , gender="", actor=app.filter_language, director=app.filter_mode, score=app.filter_score, year=app.year )();
+    }
+    let i = 1;
+    let list = [];
+    app.series_dic = {}
+    for (x in value) {
+        Vue.set(app.series_dic, x, value[x]);
+        if(i%5 == 0){
+            list.push(value[x]);
+            app.series.push(list);
+            list = [];
+        }else{
+            list.push(value[x]);
+        }
+        key = "id" + i;
+        i++;
+    }
+    app.series.push(list);
+}
+
 async function get_films(){
     let value = await eel.filter_movies()();
     let i = 1;
@@ -194,4 +221,14 @@ function list_red(){
 
 function list_gray(){
     app.list_select = 0;
+}
+
+async function del_serie(key){
+    await eel.CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=key, image="", topics=[], 1)();
+    document.location.reload(true);
+}
+
+async function del_movie(key){
+    await eel.CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=key, image="", topics=[], 1)();
+    document.location.reload(true);
 }

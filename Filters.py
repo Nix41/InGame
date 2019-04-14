@@ -95,13 +95,10 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
             games[c.id]['captures'] = c.captures_list
     return games
 
-def filter_series(name = "", gender="", actor="", director="", score=0, topics=[]):
+def filter_series(name = "", gender="", actor="", director="", score=0, year=0,topics=[]):
     series = {}
     for s in sess.query(Serie).filter(Serie.title.contains(name)):
         genders = []
-        print(s.title)
-        print(s.score)
-        print(s.id)
         gender_filter = False
         for g in s.genders:
             if gender in g.name:
@@ -131,7 +128,7 @@ def filter_series(name = "", gender="", actor="", director="", score=0, topics=[
             if director in d.name:
                 director_filter = True
             directors.append(d.name)
-        if gender_filter and actor_filter and director_filter and s.score >= score and topic_filter:
+        if gender_filter and actor_filter and director_filter and s.score >= score and topic_filter and s.year >= year:
             series[s.id] = {}
             series[s.id]['id'] = s.id
             series[s.id]['title'] = s.title
@@ -146,7 +143,7 @@ def filter_series(name = "", gender="", actor="", director="", score=0, topics=[
             series[s.id]['cover_path'] = s.cover_path
     return series
 
-def filter_movies(name = "", gender="", actor="", director="", score=0, topics=[]):
+def filter_movies(name = "", gender="", actor="", director="", score=0, year=0, topics=[]):
     movies = {}
     for c in sess.query(Movie).filter(Movie.title.contains(name)):
         genders = []
@@ -179,7 +176,7 @@ def filter_movies(name = "", gender="", actor="", director="", score=0, topics=[
             if director in d.name:
                 director_filter = True
             directors.append(d.name)
-        if gender_filter and actor_filter and director_filter and c.score >= score and topic_filter:
+        if gender_filter and actor_filter and director_filter and c.score >= score and topic_filter and c.year >= year:
             movies[c.id] = {}
             movies[c.id]['id'] = c.id
             movies[c.id]['title'] = c.title

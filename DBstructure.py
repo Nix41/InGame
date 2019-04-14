@@ -30,18 +30,18 @@ m_list = 'lists' + slash + 'movies.txt'
 s_list = 'lists' + slash + 'series.txt'
 
 direct = MAIN_DIRECTORY
-# try:
-#     os.mkdir( direct)
-# except: FileExistsError
-# try:
-#     os.mkdir( games_dir)
-# except: FileExistsError
-# try:
-#     os.mkdir( series_dir)
-# except: FileExistsError
-# try:
-#     os.mkdir( series_dir)
-# except: FileExistsError
+try:
+    os.mkdir( direct)
+except: FileExistsError
+try:
+    os.mkdir( games_dir)
+except: FileExistsError
+try:
+    os.mkdir( series_dir)
+except: FileExistsError
+try:
+    os.mkdir( series_dir)
+except: FileExistsError
 
 Base = declarative_base()
 
@@ -181,7 +181,6 @@ class Movie(TimestampMixin, Base):
     score = Column(Float)
     @hybrid_property
     def cover_path(self):
-        print(movies_dir[4:] + str(self.id) + 'image.jpeg')
         return (movies_dir[4:] + str(self.id) + 'image.jpeg')
     @hybrid_property
     def cover_direct(self):

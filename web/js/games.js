@@ -261,7 +261,6 @@ async function update_game(name, des, mode, language, launch, score, category, r
 }
 
 function del_game(x){
-    alert(app.games_dic[x].id)
     delete_game(app.games_dic[x].id)
     document.location.reload(true);
 }
