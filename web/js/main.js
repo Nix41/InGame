@@ -213,16 +213,17 @@ async function get_recent(){
 }
 
 var pos1 = 0;
+var len = 0;
 async function OnScroll(){
     var pos2 = $("#style-scroll").scrollTop();
     if(pos1 < pos2){
         // alert(app.games_low_key);
         // alert(app.games_higth_key);
         var next = await eel.get_more()();
-        var l = app.games_dic.length;
+        len = app.games_dic.length;
         for(x in next){
-            app.games_dic.push([l,next[x]]);
-            l++;
+            app.games_dic.push([len,next[x]]);
+            len++;
         }
     }else{
        

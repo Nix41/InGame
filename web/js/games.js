@@ -4,7 +4,7 @@ async function get_games(){
     let list = [];
     app.games_dic = [];
     for (x in value) {
-        app.games_dic.push([i, value[x]]);
+        app.games_dic.push([i-1, value[x]]);
         if(i%5 == 0){
             list.push(value[x]);
             app.games.push(list);
