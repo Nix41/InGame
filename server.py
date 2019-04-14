@@ -9,7 +9,7 @@ eel.init('web')
 current = None
 
 @eel.expose
-def filter_series(name="", gender="",actor="",director="", score=0, year=0):
+def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topic=""):
     if score == '':
         score = 0
     if year == '':
@@ -17,18 +17,18 @@ def filter_series(name="", gender="",actor="",director="", score=0, year=0):
     year = int(year)
     score = int(score)
     print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
-    series = Filters.filter_series(name, gender,actor,director, score, year)
+    series = Filters.filter_series(name, gender,actor,director, score, year, topic)
     return series
 
 @eel.expose
-def filter_movies(name="", gender="",actor="",director="", score=0, year = 0):
+def filter_movies(name="", gender="",actor="",director="", score=0, year = 0, topic=""):
     if score == '':
         score = 0
     if year == '':
         year = 0
     year = int(year)
     score = int(score)
-    movies = Filters.filter_movies(name, gender, actor, director, score, year)
+    movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
     return movies
 
 @eel.expose
@@ -162,8 +162,8 @@ def get_game_genders():
     return seed.game_categories
 
 @eel.expose
-def get_serie_genders():
-    return Filters.get_serie_genders()
+def get_video_genders():
+    return seed.video_category
 
 @eel.expose
 def get_serie_topics():

@@ -14,7 +14,24 @@
             <banner></banner>
                 <!--filters-->
                 <div class="fixed">
-                    <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:130px;">
+                    <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:125px;">
+                        <div class="d-flex justify-content-center" style="text-align:center;">
+                            <div v-for="gen in filter_gen">
+                                <div v-bind:id="'' + gen" class="p-2" :onclick="'filter_over(' + gen + ')'" :onmouseover="'filter_mouse(' + gen + ',' + '1' + ')'" :onmouseout="'filter_mouse(' + gen + ',' + '0' + ')'" v-bind:style="'width:100px; height:40px; color:white; background-color:rgb(77,77,77); margin:5px; border-radius: 15px;'">
+                                    <div v-if="on_mouse[gen] > 0">
+                                        <img src="img/filter_selected.png" class="card-img rounded-0 img-fluid" style="margin-top:-6px; width:100%;" alt="Responsive image">
+                                        <div style="margin-top:-55px;">
+                                            <p>{{ gen }}</p>
+                                        </div>
+                                    </div>
+                                    <div v-else>
+                                        <p>{{ gen }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:5px;">
                         <div class="d-flex justify-content-center">
                             <div class="p-2" style="height:40px; width:350px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                                 <form style="border-radius: 15px">
@@ -123,8 +140,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="p-2" style="font-size:20px; color:white; margin-left:200px; padding-top:10px;">
-                                                {{ serie.year }}
+                                            <div class="p-2" style="font-size:20px; color:white; margin-left:50px; padding-top:10px;">
+                                                    {{ serie.year }}
+                                                </div>
+                                            <div class="p-2" style="font-size:20px; color:white; margin-left:50px; padding-top:10px;">
+                                                    {{ serie.country }}
                                             </div>
                                         </div>  
                                     </div>
@@ -133,8 +153,27 @@
                             </div>
                             </div>
                             <div id="style-scroll" class="col-md-5 table-wrapper-scroll-y my-custom-scrollbar2" style="padding:0 !important; ">
-                                <div id="details" style="background-color: rgb(26,26,26); margin-right:20px; height: 645px;">
+                                <div id="details" style="background-color: rgb(26,26,26); margin-right:20px; height: 100%;">
                                 <div class="container-fluid" style="padding-top:30px; padding-left:20px; padding-right:20px;">
+                                        <div class="d-flex" >
+                                            <div class="p-2" style="">
+                                                <div class="" style="width:150px; height:230px;">
+                                                    <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:10vw; border-radius: 20px; object-fit: cover;" alt="Responsive image">
+                                                </div>
+                                            </div>
+                                            <div class="p-2">
+                                                <div style="color:white; margin-left:10px;">
+                                                    <h4>Directores:</h4>
+                                                </div>
+                                                <div class="d-flex flex-wrap" style="max-width:750px;">
+                                                    <div v-for="dic in directors" style="color:white; margin-right:10px;">
+                                                        <div>
+                                                            <p style="font-size:20px;">{{ dic }} </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     <div style="color:white; font-size:24px;">
                                         <div style="padding-bottom:50px;">
                                             Descripcion:
@@ -142,9 +181,20 @@
                                                 {{ sinopsis }}
                                             </div>
                                         </div>
-                                        <div style="height:20px;"></div>
                                     </div>
-                                </div>
+                                        <div style="color:white; margin-left:10px;">
+                                                <h4>Reparto:</h4>
+                                            </div>
+                                            <div class="d-flex flex-wrap" style="max-width:750px;">
+                                                <div v-for="act in actors" style="color:white; margin-right:10px; ">
+                                                    <div>
+                                                        <p style="font-size:20px;"> {{ act }} </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="height:20px;"></div>
                             </div>  
                         </div>
                     </section>
