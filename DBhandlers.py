@@ -31,12 +31,15 @@ def find_category(category):
 
 def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0 ,id=-1, image="", topics=[],delete=False):
     if id != -1: 
+        print('hser')
         serie = sess.query(Serie).filter(Serie.id == id).one()
         if not delete:
+            print('update')
             serie.title = title
             serie.year = year
             serie.pais = pais
             serie.sinopsis = sinopsis
+            serie.score = score
             if image != '':
                 change_cover(serie, image, series_dir)
         else:
@@ -47,6 +50,7 @@ def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             print('Done delete')
         sess.commit()
     else:
+        print('Creating serie')
         serie = Serie(title=title , year= int(year), country=pais , sinopsis=sinopsis, score=score)
         for g in generos:
             add_tv_gender2(serie, g, False)
@@ -55,10 +59,13 @@ def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
         for a in reparto:
             add_actor2(serie, a)
         for t in topics:
-            add_topic2(serie, t)
+            add_topic2(serie, t, False)
         sess.add_all([serie])
+        print('done creating')
         sess.commit()
         change_cover(serie, image, series_dir)
+        print(serie.title)
+        print('Out of here')
 
 def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0, id=-1, image="", topics=[], delete=False):
     if id != -1: 
@@ -68,6 +75,7 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             movie.year = year
             movie.pais = pais
             movie.sinopsis = sinopsis
+            movie.score = score
             if image != '':
                 change_cover(movie, image, movies_dir)
         else:
@@ -272,6 +280,7 @@ def add_actor2(tv, actor):
         sess.commit()
 
 def add_tv_gender2(tv, name, movie=True):
+    print(name)
     if not(tv is None) and tv != -1:
         if movie:
             try: 
@@ -283,8 +292,14 @@ def add_tv_gender2(tv, name, movie=True):
                 gender = sess.query(SerieGender).filter(SerieGender.name == name).one()
             except NoResultFound:
                 gender = SerieGender(name = name)
+        print(gender)
+        print(gender.name)
         tv.genders.append(gender)
+        sess.add_all([gender])
         sess.commit()
+        print('done add gendrer')
+        for g in tv.genders:
+            print(g.name)
 
 def del_tv_gender(tv, gender):
     if not(tv is None) and tv != -1:
@@ -306,6 +321,7 @@ def add_topic2(tv, name, movie=True):
             except NoResultFound:
                 topic = SerieTopic(name = name)
         tv.topics.append(topic)
+        sess.add_all([topic])
         sess.commit()
 
 def del_topic(tv, name): 

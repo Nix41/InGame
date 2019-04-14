@@ -3,17 +3,33 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/font-awesome.min.css"/>
+        <meta http-equiv="cache-control" content="max-age=0">
+        <meta http-equiv="cache-control" content="no-store">
+        <meta http-equiv="expires" content="-1">
+        <meta http-equiv="cache-control" content="Tue, 01 Jan 1980 11:00:00 GMT">
+        <meta http-equiv="pragma" content="no-cache">
     <head>
     <body class="back">
         <div id=root>
             <banner></banner>
                 <!--filters-->
                 <div class="fixed">
-                    <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:130px;">
+                    <div class="d-flex justify-content-center" style="background-color:rgb(51,51,51);width:100%; margin-top:125px;">
+                        <div class="p-2 d-flex flex-wrap justify-content-center" style="text-align:center; width:100%;">
+                            <div v-for="gen in filter_video_gen">
+                                <div v-bind:id="'catv' + gen[1]" class="p-2" :onclick="'filter_clk(' + gen[1] + ')'"   v-bind:style="'height:40px; color:white; background-color:rgb(77,77,77); margin:5px; border-radius: 15px;'">
+                                    <div >
+                                        <p>{{ gen[0] }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:5px;">
                         <div class="d-flex justify-content-center">
                             <div class="p-2" style="height:40px; width:350px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                                 <form style="border-radius: 15px">
-                                    <a href="#" onclick="filter_games_by_name()">
+                                    <a href="#" onclick="filter_series_all('s')">
                                         <div>
                                             <img src="img/search_icon.png" class="img-fluid" style="margin-top:-2; margin-left:5px;">
                                         </div>
@@ -39,6 +55,11 @@
                             <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                                 <form style="border-radius: 15px;">
                                     <input id='name_filter' type="text" v-model="filter_mode" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Director...">
+                                </form>
+                            </div>
+                            <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                                <form style="border-radius: 15px;">
+                                    <input id='name_filter' type="text" v-model="filter_topic" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Tema...">
                                 </form>
                             </div>
                             <div class="d-flex">
@@ -119,8 +140,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="p-2" style="font-size:20px; color:white; margin-left:200px; padding-top:10px;">
-                                                {{ serie.year }}
+                                            <div class="p-2" style="font-size:20px; color:white; margin-left:50px; padding-top:10px;">
+                                                    {{ serie.year }}
+                                                </div>
+                                            <div class="p-2" style="font-size:20px; color:white; margin-left:50px; padding-top:10px;">
+                                                    {{ serie.country }}
                                             </div>
                                         </div>  
                                     </div>
@@ -131,15 +155,46 @@
                             <div id="style-scroll" class="col-md-5 table-wrapper-scroll-y my-custom-scrollbar2" style="padding:0 !important; ">
                                 <div id="details" style="background-color: rgb(26,26,26); margin-right:20px; height: 645px;">
                                 <div class="container-fluid" style="padding-top:30px; padding-left:20px; padding-right:20px;">
-                                    <div style="color:white; font-size:24px;">
-                                        <div style="padding-bottom:50px;">
-                                            Descripcion:
-                                            <div style="font-size:18px;">
-                                                {{ sinopsis }}
+                                        <div class="d-flex" >
+                                                <div class="p-2" style="">
+                                                    <div class="" style="width:150px; height:230px;">
+                                                        <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:10vw; border-radius: 20px; object-fit: cover;" alt="Responsive image">
+                                                    </div>
+                                                </div>
+                                                <div class="p-2">
+                                                    <div style="color:white; margin-left:10px;">
+                                                        <h4>Directores:</h4>
+                                                    </div>
+                                                    <div class="d-flex flex-wrap" style="max-width:750px;">
+                                                        <div v-for="dic in directors" style="color:white;  margin-right:10px;">
+                                                            <div>
+                                                                <p style="font-size:20px;">{{ dic }} </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <div style="color:white; font-size:24px;">
+                                            <div style="padding-bottom:50px;">
+                                                Descripcion:
+                                                <div style="font-size:18px;">
+                                                    {{ sinopsis }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                            <div style="color:white; margin-left:10px;">
+                                                    <h4>Reparto:</h4>
+                                                </div>
+                                                <div class="d-flex flex-wrap" style="max-width:750px;">
+                                                    <div v-for="act in actors" style="color:white; margin-right:10px; ">
+                                                        <div>
+                                                            <p style="font-size:20px;"> {{ act }} </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                         <div style="height:20px;"></div>
-                                    </div>
                                 </div>
                             </div>  
                         </div>
@@ -249,7 +304,7 @@
                                     <div class="p-2" :onclick="'series_edit_cleardata('+key+')'" data-toggle="modal" data-target="#SerieEdit"  style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; margin-left:34px; margin-top:10px; color:white;">
                                         <p style="margin-top:-5px;">Editar</p>
                                     </div>
-                                    <div class="p-2" :onclick="'del_game('+key+')'" data-dismiss="modal" style="background-color:rgb(209,4,4); border-radius: 20px; height:30px; margin-left:10px; margin-top:10px; color:white;">
+                                    <div class="p-2" :onclick="'del_serie('+key+')'" data-dismiss="modal" style="background-color:rgb(209,4,4); border-radius: 20px; height:30px; margin-left:10px; margin-top:10px; color:white;">
                                         <p style="margin-top:-5px;">Eliminar</p>
                                     </div>
                                 </div>
@@ -322,20 +377,22 @@
                                             <p>Géneros:</p>
                                         </div>
                                         <div class="d-flex flex-wrap align-items-start" style="margin-left:5px; max-width:790px;">
-                                            <div v-for="gen in create_gen" v-if="gen != undefined">
-                                                <div v-bind:id="'' + gen[0]" class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:10px;">
-                                                    <div>
-                                                        <div class="d-flex" style="margin-top:-8px;">
-                                                            <div class="p-2">
-                                                                <p style="margin-left:20px;">{{ gen[1] }}</p>
-                                                            </div>
-                                                            <div class="p-2">
-                                                                <img src="img/delete_gen.png" :onclick="'delgenvideo(' + gen[0] + ')'" class="card-img img-fluid" style="width:25px;" alt="Responsive image">
+                                            <div v-for="gen in create_gen">
+                                                <div v-if="gen[0] >= 0">
+                                                    <div v-bind:id="'' + gen[0]" class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:10px;">
+                                                        <div>
+                                                            <div class="d-flex" style="margin-top:-8px;">
+                                                                <div class="p-2">
+                                                                    <p style="margin-left:20px;">{{ gen[1] }}</p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <img src="img/delete_gen.png" :onclick="'delgenvideo(' + gen[0] + ')'" class="card-img img-fluid" style="width:25px;" alt="Responsive image">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div style="height:5px;">
+                                                    <div style="height:5px;">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div v-if="pgen_check == 1">
@@ -364,20 +421,22 @@
                                             <p>Dirtectores:</p>
                                         </div>
                                         <div class="d-flex flex-wrap align-items-start" style="margin-left:5px; max-width:790px;">
-                                            <div v-for="dic in create_directors" v-if="dic != undefined">
-                                                <div v-bind:id="'D' + dic[0]" class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:10px;">
-                                                    <div>
-                                                        <div class="d-flex" style="margin-top:-8px;">
-                                                            <div class="p-2">
-                                                                <p style="margin-left:20px;">{{ dic[1] }}</p>
-                                                            </div>
-                                                            <div class="p-2">
-                                                                <img src="img/delete_gen.png" :onclick="'deldic(' + dic[0] + ')'" class="card-img img-fluid" style="width:25px;" alt="Responsive image">
+                                            <div v-for="dic in create_directors">
+                                                <div v-if="dic[0] >= 0">
+                                                    <div v-bind:id="'D' + dic[0]" class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:10px;">
+                                                        <div>
+                                                            <div class="d-flex" style="margin-top:-8px;">
+                                                                <div class="p-2">
+                                                                    <p style="margin-left:20px;">{{ dic[1] }}</p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <img src="img/delete_gen.png" :onclick="'deldic(' + dic[0] + ')'" class="card-img img-fluid" style="width:25px;" alt="Responsive image">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div style="height:5px;">
+                                                    <div style="height:5px;">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div v-if="dic_check == 1">
@@ -444,16 +503,18 @@
                                                 <div style="margin-top:6px;"></div>
                                                 <div style="font-size:18px;">
                                                     <ul v-for="act in create_actors">
-                                                        <li v-bind:id="'A' + act[0]" v-if="act != ''" >
-                                                            <div class="d-flex justify-content-center">
-                                                                <div class="p-2">
-                                                                    {{ act[1] }}
+                                                        <div v-if="act[0] >= 0">
+                                                            <li v-bind:id="'A' + act[0]" v-if="act != ''" >
+                                                                <div class="d-flex justify-content-center">
+                                                                    <div class="p-2">
+                                                                        {{ act[1] }}
+                                                                    </div>
+                                                                    <div class="p-2" :onclick="'delact('+ act[0] +')'" style="width:40px; margin-top:3px;">
+                                                                        <img src="img/delete_gen.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                                                    </div>
                                                                 </div>
-                                                                <div class="p-2" :onclick="'delact('+ act[0] +')'" style="width:40px; margin-top:3px;">
-                                                                    <img src="img/delete_gen.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
-                                                                </div>
-                                                            </div>
-                                                        </li>
+                                                            </li>
+                                                        </div>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -463,7 +524,7 @@
                                 
                                 <div class="d-flex">
                                     <div style="margin-left:34px;">
-                                        <div class="p-2" onclick="add_game()" data-dismiss="modal" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; width:40px; margin:5px; margin-top:10px; color:white;">
+                                        <div class="p-2" onclick="add_video('s')" data-dismiss="modal" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; width:40px; margin:5px; margin-top:10px; color:white;">
                                             <p style="margin-top:-5px;">Ok</p>
                                         </div>
                                     </div>

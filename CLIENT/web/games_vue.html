@@ -1,0 +1,387 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css"/>
+        <meta http-equiv="cache-control" content="max-age=0">
+        <meta http-equiv="cache-control" content="no-cache">
+        <meta http-equiv="expires" content="-1">
+        <meta http-equiv="cache-control" content="Tue, 01 Jan 1980 11:00:00 GMT">
+        <meta http-equiv="pragma" content="no-cache">
+    <head>
+    <body class="back">
+        <div id=root>
+            <banner></banner>
+            <!--filters-->
+            <div class="fixed">
+                <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:130px;">
+                    <div class="d-flex justify-content-center" style="text-align:center;">
+                        <div v-for="gen in filter_gen">
+                            <div v-bind:id="'' + gen" class="p-2" :onclick="'filter_over(' + gen + ')'" :onmouseover="'filter_mouse(' + gen + ',' + '1' + ')'" :onmouseout="'filter_mouse(' + gen + ',' + '0' + ')'" v-bind:style="'width:100px; height:40px; color:white; background-color:rgb(77,77,77); margin:5px; border-radius: 15px;'">
+                                <div v-if="on_mouse[gen] > 0">
+                                    <img src="img/filter_selected.png" class="card-img rounded-0 img-fluid" style="margin-top:-6px; width:100%;" alt="Responsive image">
+                                    <div style="margin-top:-55px;">
+                                        <p>{{ gen }}</p>
+                                    </div>
+                                </div>
+                                <div v-else>
+                                    <p>{{ gen }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div v-if="filter_key != 'Todos' && filter_key != ''">
+                    <div style="background-color:rgb(77,77,77);width:100%;height:60px; margin-top:5px;">
+                        <div class="d-flex justify-content-center" style="text-align:center;">
+                            <div v-for="subgen in filter_subgen">
+                                <div v-bind:id="'as' + subgen[0]" class="p-2" :onmouseover="'filter_subgen_mouse(' + subgen[0] + ',' + '1' + ')'" :onmouseout="'filter_subgen_mouse(' + subgen[0] + ',' + '0' + ')'" :onclick="'filter_subgen_clk(' + subgen[0] +')'"  v-bind:style="'height:40px; color:white; background-color:rgb(51,51,51); margin-top:15px; margin-left:10px; border-radius: 15px;'">
+                                    {{ subgen[1] }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:5px;">
+                    <div class="d-flex justify-content-center">
+                        <div class="p-2" style="height:40px; width:350px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                            <form style="border-radius: 15px">
+                                <a href="#" onclick="filter_games_by_name()">
+                                    <div>
+                                        <img src="img/search_icon.png" class="img-fluid" style="margin-top:-2; margin-left:5px;">
+                                    </div>
+                                </a>
+                                <input id='name' type="text" v-model="title" class="input" style="margin-top:-33px; width:280px; height:35px; margin-left: 45px; color:white;" placeholder="Título...">
+                            </form>
+                        </div>
+                        <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                            <form style="border-radius: 15px;">
+                                <input id='name_filter' v-on:keyup="check_year"min="0" v-model="year" type="number" name="quantity" min="1980" max="3000" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Lanzamiento...">
+                            </form>
+                        </div>
+                        <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                            <form style="border-radius: 15px;">
+                                <input id='name_filter' v-on:keyup="check_score"min="0" v-model="filter_score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
+                            </form>
+                        </div>
+                        <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                            <form style="border-radius: 15px;">
+                                <input id='name_filter' type="text" v-model="filter_language" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Idioma...">
+                            </form>
+                        </div>
+                        <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                            <form style="border-radius: 15px;">
+                                <input id='name_filter' type="text" v-model="filter_mode" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Modo de Juego...">
+                            </form>
+                        </div>
+                        <div class="d-flex">
+                            <div class="p-2">
+                                <div :onmouseover="'list_red()'" :onmouseout="'list_gray()'" :onclick="'List()'" style="margin-top:-3px; none; width:48px;">
+                                    <div v-if="list_select == 0">
+                                        <img src="img/list.png" class="img-fluid" style="height: 2vw; width:100%; object-fit: cover; margin-top:-1px;">
+                                    </div>
+                                    <div v-else>
+                                        <img src="img/list_red.png" class="img-fluid" style="height: 2vw; width:100%; object-fit: cover; margin-top:-1px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+            <!--endfilters-->
+            <!-- Page section -->
+            <section v-if="list == 0" style="padding-left:8%; padding-right:8%; margin-top:42px;">
+                <div v-for="games5 in games">
+                    <div class="d-flex  justify-content-center" style="padding-bottom:2%;">
+                        <div v-for="game in games5" class="p-2" style="text-align:center;">
+                            <div :onclick="'see(' + game.id + ')'" data-toggle="modal" data-target="#myModal" style="height: 337px; width:240px; margin-bottom:80px; margin-left:5px; margin-right:5px;">
+                                <div class="card">
+                                    <img :src="'' + game.cover_path" class="card-img img-fluid" style="height: 18vw; width:100%; margin:0 important; object-fit: cover;" alt="Responsive image">
+                                    <div v-if="game.score != 0" class="card-img-overlay score red">{{game.score}}</div>
+                                </div>
+                                <div class="review-text" style="margin-top:10px;">
+                                    <h5 style="text-align:center; margin-bottom:2%;">{{ game.name }}</h5>
+                                    <div class="rating" style="text-align:center; margin-bottom:2%;">
+                                        <i v-if="game.score/2 >= 1" class="fa fa-star"></i>
+                                        <i v-if="game.score/2 >= 2" class="fa fa-star"></i>
+                                        <i v-if="game.score/2 >= 3" class="fa fa-star"></i>
+                                        <i v-if="game.score/2 >= 4" class="fa fa-star"></i>
+                                        <i v-if="game.score/2 >= 5" class="fa fa-star is-fade"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!-- Page section end -->
+            <!-- Page section list -->
+                <!--Table-->
+                <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; height:850px; margin-bottom: 150px; margin-top:50px;">
+                        <div class="d-flex">
+                            <div class="table-wrapper-scroll-y my-custom-scrollbar col-md-7" style="padding:0 !important;" id="style-scroll">
+                            <div class="p-2 inverse-scroll" style="padding:0 !important; margin-left:30px;">
+                                <div v-for="game in games_dic">
+                                <div :onmouseover="'change(' + game.id + ')'" :onmouseout="'restore(' + game.id + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
+                                    <div v-bind:id="'L'+ game.id" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px;">
+                                        <div class="d-flex">
+                                            <div class="p-2">
+                                                <div class="score_list red">{{ game.score }}</div>
+                                            </div>
+                                            <div class="p-2" style=" padding-left:10px; font-size:20px; color:white; margin-top: -7px; padding-right:0 !important;">
+                                                <div style="width:480px;">{{ game.name }}</div>
+                                                <div>
+                                                    <div class="row">
+                                                        <div class="rating" style="padding-left:15px;">
+                                                            <i v-if="game.score/2 >= 1" class="fa fa-star"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                            <i v-if="game.score/2 >= 2" class="fa fa-star"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                            <i v-if="game.score/2 >= 3" class="fa fa-star"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                            <i v-if="game.score/2 >= 4" class="fa fa-star"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                            <i v-if="game.score/2 >= 5" class="fa fa-star is-fade"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                        </div>
+                                                        <div style="padding-left:15px;">
+                                                            {{ game.category }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="p-2" style="font-size:20px; color:white; margin-left:50px; padding-top:10px;">
+                                                {{ game.launch }}
+                                            </div>
+                                            <div class="p-2" style="font-size:20px; color:white; margin-left:25px; padding-top:10px;">
+                                                4 player
+                                            </div>
+                                            <div class="p-2" style="font-size:20px; color:white; margin-left:25px; padding-top:10px;">
+                                                <div v-if="game.size != null">
+                                                    {{ game.size }} Gb
+                                                </div>
+                                                <div v-else>
+                                                    ???
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                            <div id="style-scroll" class="col-md-5 table-wrapper-scroll-y my-custom-scrollbar2" style="padding:0 !important; ">
+                                <div style="margin-right:20px; height:645px;">
+                                <div id="details" class="container-fluid" style="background-color: rgb(26,26,26); padding-top:30px; padding-left:20px; padding-right:20px;">
+                                    <div style="color:white; font-size:24px;">
+                                        <div style="padding-bottom:50px;">
+                                            Descripcion:
+                                            <div style="font-size:18px;">
+                                                {{ description }}
+                                            </div>
+                                        </div>
+                                        <div style="padding-bottom:10px;">
+                                            Requisitos Minimos:
+                                            <div style="font-size:18px;">
+                                                <ul v-for="req in Min_req">
+                                                    <li>{{ req.type }} : {{ req.req }}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div style="padding-bottom:10px;">
+                                            Requisitos Recomendados:
+                                            <div style="font-size:18px;">
+                                                <ul v-for="req in Max_req">
+                                                    <li>{{ req.type }} : {{ req.req }}</li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        Capturas:
+                                        <div v-for="cat in datas">
+                                            <div class="d-flex" style="margin-bottom: 100px;">
+                                                <div class="p-2">
+                                                        <div style="height:50px; width:280px;">
+                                                            <img :src="'' + cat[0]" class="img-fluid" style="height: 8vw; width:100%; margin:0 important; object-fit: cover;">
+                                                        </div>
+                                                </div>
+                                                <div v-if="cat[1] != null" class="p-2">
+                                                        <div style="height:50px; width:280px;">
+                                                            <img :src="'' + cat[1]" class="img-fluid" style="height: 8vw; width:100%; margin:0 important; object-fit: cover;">
+                                                        </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="height:20px;"></div>
+                                    </div>
+                                </div>
+                            </div>  
+                        </div>
+                    </section>
+                    <!--Table-->
+            <!-- Page section list end -->
+            <!-- The Modal -->
+            <section>
+                <div class="modal fade" id="myModal">
+                    <div class="modal-dialog modal-xl modal-dialog-centered">
+                        <div class="modal-content shadow-lg rounded-1" style="background-color:rgb(50,50,50); border-radius: 20px;">
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="span-12" style="margin-right:8px;">
+                                <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                            </div>
+                            <div class="d-flex" style="margin-top:30px;">
+                                <div class="p-2" style="height:300px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:33px;">
+                                    <div class="" style="width:200px; height:280px; margin-top:2px; margin-left: 10px;">
+                                        <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:10vw; border-radius: 20px; object-fit: cover;" alt="Responsive image">
+                                    </div>
+                                </div>
+                                <div class="p-2" style="margin-left:20px;">
+                                    <div style="width:785px; height:100px;">
+                                        <img src="img/details_text.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                        <div style="color:white;">
+                                            <div style="margin-top:-28px; margin-left:20px;">
+                                                <p>Título:  {{ name }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex" style="margin-top:-50px;">
+                                        <div style="width:175px; height:100px;">
+                                            <img src="img/date.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            <div style="color:white;">
+                                                <div style="margin-top:-28px; margin-left:20px;">
+                                                    <p>fecha:  {{ launch }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="width:591px; height:100px; margin-left:20px;">
+                                            <img src="img/game_mode.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                            <div style="color:white;">
+                                                <div style="margin-top:-30px; margin-left:20px;">
+                                                    <p> modo de juego:  {{ gamemode }} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-wrap" style="margin-top:-50px;">
+                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                            <div style="color:white;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-if="score > 0" style="margin-top:-28px; margin-left:20px;">
+                                                    <p>puntuación:  {{ score }} puntos </p>
+                                                </div>
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-else style="margin-top:-28px; margin-left:20px;">
+                                                    <p>puntuación:  ??? puntos </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                            <div style="color:white;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;">
+                                                    <p>idioma:  {{ language }} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                            <div style="color:white;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-if="size > 0" style="margin-top:-28px; margin-left:20px;">
+                                                    <p>espacio en disco:  {{ size }} GB</p>
+                                                </div>
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-else style="margin-top:-28px; margin-left:20px;">
+                                                    <p>espacio en disco:  ??? GB</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-wrap" style="max-width:750px;">
+                                        <div style="color:white; height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:20px;">
+                                            <div>
+                                                <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ category }} </p>
+                                            </div>
+                                        </div>
+                                        <div v-for="cat in genders" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:20px; margin-bottom:10px;">
+                                            <div>
+                                                <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ cat }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="" style="width:560px; height:260px; margin-left:34px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                    <div style="text-align:center; margin-top:10px;">Descripción:</div>
+                                    <div>
+                                        <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:535px; margin:10px;" id="style-13">
+                                            <div class="container">
+                                                <p style="margin-top:2px;">{{ description }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="" style="width:470px; height:260px; margin-left:10px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                        <div style="text-align:center; margin-top:10px;">Requerimientos:</div>
+                                    <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:432px; margin:10px;" id="style-13">
+                                        <div class="container inverse-scroll">
+                                            <div style="margin-top:6px;"></div>
+                                            <h5>Requisitos Minimos:</h5>
+                                            <div style="font-size:18px;">
+                                                <ul v-for="req in requirements[0]">
+                                                    <li v-if="req.req != 'Desconocidos'" >{{ req.type }} : {{ req.req }}</li>
+                                                    <p v-else>Desconocidos<p>
+                                                </ul>
+                                            </div>
+                                            <h5>Requisitos Recomendados:</h5>
+                                            <div style="font-size:18px;">
+                                                <ul v-for="req in requirements[1]">
+                                                    <li v-if="req.req != 'Desconocidos'" >{{ req.type }} : {{ req.req }}</li>
+                                                    <p v-else>Desconocidos<p>
+                                                </ul>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="" style="width:1040px; height:270px; margin-left:34px; margin-top:10px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                    <div class="table-wrapper-scroll-x my-custom-scrollbar1" style="color:white; width:1010px; height:250px; margin:5px; margin-left:12px;" id="style-h">
+                                        <div class="d-flex">
+                                            <div v-for="x in captures">
+                                                <div class="p-2" style="width:340px; height:230px; margin-top:10px; border-radius: 20px; padding:0px important!;">
+                                                    <img :src="'' + x" class="img img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Modal end-->
+            <!-- Modal Edit -->
+            
+            <!--Modal Edit end-->
+            <!--Modal game requirements-->
+            
+            <footerv></footerv>
+        </div>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/vue.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/games.js"></script>
+        <script src="js/series.js"></script>
+        <script src="js/config.js"></script>
+        <script src="/eel.js"></script>
+        <script>
+                $(document).ready(function(){
+                    get_games();
+                });
+        </script>
+    </body>
+</html>

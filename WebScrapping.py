@@ -172,6 +172,7 @@ def find_games(sourcelist):
                         out_file.write(data)
                     print('    El juego ha sido descargado Exitosamente')
             except TimeoutException:
+                not_found += (g + '\n')
                 print('    La pagina se demoro demasiado')
             except NoSuchElementException:
                 not_found += (g + '\n')

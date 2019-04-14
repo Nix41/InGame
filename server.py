@@ -2,19 +2,34 @@ import eel
 import Filters
 import DBhandlers
 import seed
+from WebScrapping import Down_Games, Down_Movies, Down_Series
 
 eel.init('web')
 
 current = None
 
 @eel.expose
-def filter_series(name="", gender="",actor="",director="", score=0):
-    series = Filters.filter_series(name, gender,actor,director, score)
+def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topic=""):
+    if score == '':
+        score = 0
+    if year == '':
+        year = 0
+    year = int(year)
+    score = int(score)
+    print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
+    series = Filters.filter_series(name, gender,actor,director, score, year, topic)
     return series
 
 @eel.expose
-def filter_movies(name="", gender="",actor="",director="", score=0):
-    movies = Filters.filter_movies(name, gender, actor, director, score)
+def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, topic=""):
+    if score == '':
+        score = 0
+    if year == '':
+        year = 0
+    year = int(year)
+    score = int(score)
+    print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
+    movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
     return movies
 
 @eel.expose
@@ -36,6 +51,7 @@ def get_recent():
 
 @eel.expose
 def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=-1, image="", topics=[], delete=0):
+    print(image)
     if current is None or current == -1:
         if delete == 0:
             dele = False
@@ -83,10 +99,13 @@ def Set_Game(id):
     print('id', id )
     current = DBhandlers.find_game(id)
     print('current:' , current)
+
 @eel.expose
 def Set_Serie(id):
+    print('ID:',id)
     global current
     current = DBhandlers.find_serie(id)
+    print('çurrent: ', current)
 @eel.expose
 def Set_Movie(id):
     global current
@@ -115,8 +134,9 @@ def del_actor(name):
     DBhandlers.del_actor(current, name)
 
 @eel.expose
-def add_tv_gender(name):
-    DBhandlers.add_tv_gender2(current, name)
+def add_tv_gender(name, typ=True):
+    print('Serv: ', typ)
+    DBhandlers.add_tv_gender2(current, name, typ)
 
 @eel.expose
 def del_tv_gender(name):
@@ -143,8 +163,8 @@ def get_game_genders():
     return seed.game_categories
 
 @eel.expose
-def get_serie_genders():
-    return Filters.get_serie_genders()
+def get_video_genders():
+    return seed.video_category
 
 @eel.expose
 def get_serie_topics():
@@ -163,8 +183,16 @@ def get_downloads():
     return DBhandlers.get_downloads()
 
 @eel.expose
-def set_downloads(txt):
-    DBhandlers.set_downloads(txt)
+def download_games():
+    Down_Games();
+
+@eel.expose
+def download_series():
+    Down_Series();
+
+@eel.expose
+def download_movies():
+    Down_Movies();
 
 eel.start('index_vue.html')
 
