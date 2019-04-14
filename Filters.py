@@ -95,28 +95,31 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
             games[c.id]['captures'] = c.captures_list
     return games
 
-def filter_series(name = "", gender="", actor="", director="", score=0, year=0,topics=[]):
+def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,topic=''):
     series = {}
-    # for s in sess.query(Serie).filter(Serie.title.contains(name)):
-    for s in sess.query(Serie).all():
-        genders = []
+    for s in sess.query(Serie).filter(Serie.title.contains(name)):
+    # for s in sess.query(Serie).all():
+        stopics = []
         gender_filter = False
-        for g in s.genders:
-            if gender in g.name:
+        for t in s.topics:
+            if topic in t.name:
                 gender_filter = True
-            genders.append(g.name)
+            stopics.append(t.name)
+        if not(s.topics):
+            gender_filter = True
         topic_filter  = True
-        for topic in topics:
+        for gen in gender:
             this_topic = False
-            for t in s.topics:
-                if topic in t:
+            for g in s.genders:
+                if gen in g.name:
                     this_topic = True
             if not this_topic:
                 topic_filter = False
                 break
-        stopics = []
-        for t in s.topics:
-            stopics.append(t.name)
+            print(topic_filter)
+        genders = []
+        for t in s.genders:
+            genders.append(t.name)
         actor_filter  = False
         actors = []
         for a in s.actors:
@@ -144,27 +147,30 @@ def filter_series(name = "", gender="", actor="", director="", score=0, year=0,t
             series[s.id]['cover_path'] = s.cover_path
     return series
 
-def filter_movies(name = "", gender="", actor="", director="", score=0, year=0, topics=[]):
+def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, topic=""):
     movies = {}
     for c in sess.query(Movie).filter(Movie.title.contains(name)):
-        genders = []
+        stopics = []
         gender_filter = False
-        for g in c.genders:
-            if gender in g.name:
+        for t in c.topics:
+            if topic in t.name:
                 gender_filter = True
-            genders.append(g.name)
+            stopics.append(t.name)
+        if not(c.topics):
+            gender_filter = True
         topic_filter  = True
-        for topic in topics:
+        for gen in gender:
             this_topic = False
-            for t in c.topics:
-                if topic in t:
+            for g in c.genders:
+                if gen in g.name:
                     this_topic = True
             if not this_topic:
                 topic_filter = False
                 break
-        stopics = []
-        for t in c.topics:
-            stopics.append(t.name) 
+            print(topic_filter)
+        genders = []
+        for t in c.genders:
+            genders.append(t.name)
         actor_filter = False
         actors = []
         for a in c.actors:

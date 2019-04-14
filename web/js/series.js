@@ -16,16 +16,64 @@ async function get_series(){
         i++;
     }
     app.series.push(list);
+    let gens = await eel.get_video_genders()();
+    let k = 0;
+    for (x in gens){
+        app.filter_video_gen.push([gens[x], x, -1]);
+        Vue.set(app.on_mouse, x, 0);
+        k++;
+    }
+}
+
+function filter_clk(sgen){
+    if (app.filter_video_gen[sgen][2] == -1){
+        $("#catv" + sgen).css("background-color","rgb(209,4,4)");
+        app.filter_selected_gens.push(app.filter_video_gen[sgen][0]);
+        app.filter_video_gen[sgen][2] = 1;
+    }
+    else{
+        $("#catv" + sgen).css("background-color","rgb(77,77,77)");
+        app.filter_video_gen[sgen][2] = -1;
+        for (g in app.filter_selected_gens){
+            if (app.filter_selected_gens[g] == app.filter_video_gen[sgen][0]){
+                app.filter_selected_gens.splice(g, 1);
+            }
+        }
+    }
+    if(app.filter_video_gen[sgen][0] == 'Todos'){
+        for (x in app.filter_video_gen){
+            if (sgen != x){
+                $("#catv" + x).css("background-color","rgb(77,77,77)");
+                app.filter_video_gen[x][2] = -1
+            }
+        }
+        app.filter_selected_gens = [];
+    }
+    else{
+        $("#catv0").css("background-color","rgb(77,77,77)");
+        app.filter_vide_gen[x][2] = -1
+    }
+    
+}
+
+function filter_mouse_over(gen){
+    $("#catv" + gen).css("background-color","rgb(209,4,4)");
+}
+
+function filter_mouse_out(gen){
+    $("#catv" + gen).css("background-color","rgb(77,77,77)");
 }
 
 async function filter_series_all(typ ='s'){
     app.series = []
     let value = [];
+    alert(app.filter_selected_gens);
     if (typ == 's'){
-        value = await eel.filter_series(name=app.title , gender="", actor=app.filter_language, director=app.filter_mode, score=app.filter_score, year=app.year )();
+        value = await eel.filter_series(name=app.title , gender=app.filter_selected_gens, actor=app.filter_language, director=app.filter_mode, score=app.filter_score, year=app.year, topic=app.filter_topic )();
     }
     else{
-        value = await eel.filter_movies(name=app.title , gender="", actor=app.filter_language, director=app.filter_mode, score=app.filter_score, year=app.year )();
+        alert('h3');
+        value = await eel.filter_movies(name=app.title , gender=app.filter_selected_gens, actor=app.filter_language, director=app.filter_mode, score=app.filter_score, year=app.year, topic=app.filter_topic )();
     }
     let i = 1;
     let list = [];
@@ -62,6 +110,13 @@ async function get_films(){
         i++;
     }
     app.series.push(list);
+    let gens = await eel.get_video_genders()();
+    let k = 0;
+    for (x in gens){
+        app.filter_video_gen.push([gens[x], x, -1]);
+        Vue.set(app.on_mouse, x, 0);
+        k++;
+    }
 }
 
 function see_s(id){
@@ -242,6 +297,15 @@ function change_s(x){
     $("#L" + key).css("background-color","rgb(51,51,51)");
     $("#details").css("background-color","rgb(51,51,51)");
     app.sinopsis = app.series_dic[x].sinopsis;
+    app.cover_path = app.series_dic[x].cover_path;
+    app.directors = [];
+    for (d in app.series_dic[x].directors){
+        app.directors.push(app.series_dic[x].directors[d])
+    }
+    app.actors = [];
+    for (d in app.series_dic[x].actors){
+        app.actors.push(app.series_dic[x].actors[d])
+    }
 }
 
 function list_red(){

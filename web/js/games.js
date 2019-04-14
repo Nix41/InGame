@@ -252,15 +252,16 @@ function add_game(){
     app.games_dic[app.key].cover_path = app.cover_path;
     app.games_dic[app.key].captures = app.captures;
 
-    update_game(app.name, app.description, app.create_mode, app.language, app.launch, app.score, app.category, app.requirements, app.data, app.datas, app.size);
+    update_game(app.name, app.description, app.create_mode, app.language, app.launch, app.score, app.category, app.requirements, app.data, app.datas);
 }
 
-async function update_game(name, des, mode, language, launch, score, category, requirements, cover, captures, size){
+async function update_game(name, des, mode, language, launch, score, category, requirements, cover, captures){
     alert(score);
-    eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=[], requirements = requirements,id=-1,cover = cover, captures = captures, size)();
+    eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=[], requirements = requirements,id=-1,cover = cover, captures = captures)();
 }
 
 function del_game(x){
+    alert(app.games_dic[x].id)
     delete_game(app.games_dic[x].id)
     document.location.reload(true);
 }
