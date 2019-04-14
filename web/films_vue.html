@@ -14,7 +14,24 @@
             <banner></banner>
                 <!--filters-->
                 <div class="fixed">
-                    <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:130px;">
+                    <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:125px;">
+                        <div class="d-flex justify-content-center" style="text-align:center;">
+                            <div v-for="gen in filter_gen">
+                                <div v-bind:id="'' + gen" class="p-2" :onclick="'filter_over(' + gen + ')'" :onmouseover="'filter_mouse(' + gen + ',' + '1' + ')'" :onmouseout="'filter_mouse(' + gen + ',' + '0' + ')'" v-bind:style="'width:100px; height:40px; color:white; background-color:rgb(77,77,77); margin:5px; border-radius: 15px;'">
+                                    <div v-if="on_mouse[gen] > 0">
+                                        <img src="img/filter_selected.png" class="card-img rounded-0 img-fluid" style="margin-top:-6px; width:100%;" alt="Responsive image">
+                                        <div style="margin-top:-55px;">
+                                            <p>{{ gen }}</p>
+                                        </div>
+                                    </div>
+                                    <div v-else>
+                                        <p>{{ gen }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:5px;">
                         <div class="d-flex justify-content-center">
                             <div class="p-2" style="height:40px; width:350px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                                 <form style="border-radius: 15px">
@@ -149,7 +166,7 @@
                                                     <h4>Directores:</h4>
                                                 </div>
                                                 <div class="d-flex flex-wrap" style="max-width:750px;">
-                                                    <div v-for="dic in directors" style="color:white;  border-radius: 20px; margin-right:10px; margin-bottom:10px;">
+                                                    <div v-for="dic in directors" style="color:white; margin-right:10px;">
                                                         <div>
                                                             <p style="font-size:20px;">{{ dic }} </p>
                                                         </div>
@@ -169,7 +186,7 @@
                                                 <h4>Reparto:</h4>
                                             </div>
                                             <div class="d-flex flex-wrap" style="max-width:750px;">
-                                                <div v-for="act in actors" style="color:white; border-radius: 20px; margin-right:10px; margin-bottom:10px;">
+                                                <div v-for="act in actors" style="color:white; margin-right:10px; ">
                                                     <div>
                                                         <p style="font-size:20px;"> {{ act }} </p>
                                                     </div>
