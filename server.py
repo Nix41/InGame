@@ -11,7 +11,7 @@ eel.init('web')
 current = None
 to_show = []
 index = 0
-load_amount = 5
+load_amount = 9
 
 @eel.expose
 def get_more(i = 1):
@@ -40,9 +40,9 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
     score = int(score)
      #('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     series = Filters.filter_series(name, gender,actor,director, score, year, topic)
-    # to_show = series
-    # index = 0
-    return series
+    to_show = series
+    index = 0
+    return get_more()
 
 @eel.expose
 def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, topic=""):
@@ -56,9 +56,9 @@ def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, to
     score = int(score)
      #('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
-    # to_show = movies
-    # index = 0
-    return movies
+    to_show = movies
+    index = 0
+    return get_more()
 
 @eel.expose
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0):
@@ -70,9 +70,9 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
     if gender == 'Todos':
         gender = ''
     games = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score)
-    # to_show = games
-    # index = 0
-    return games
+    to_show = games
+    index = 0
+    return get_more()
 
 @eel.expose
 def get_recent():

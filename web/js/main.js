@@ -218,7 +218,7 @@ async function OnScroll(){
     if(pos1 < pos2){
         // alert(app.games_low_key);
         // alert(app.games_higth_key);
-        var next = eel.get_more()();
+        var next = await eel.get_more()();
         var l = app.games_dic.length;
         for(x in next){
             app.games_dic.push([l,next[x]]);
