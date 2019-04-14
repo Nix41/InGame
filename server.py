@@ -60,7 +60,7 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
         Done_update()
 
 @eel.expose
-def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[[],[]], id=-1, cover="", captures=[], delete=0):
+def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[[],[]], id=-1, cover="", captures=[],size=0, delete=0):
     if current is None or current == -1:
         print('h2')
         if delete == 0:
@@ -71,10 +71,10 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
         if len(requirements) == 0:
             print('had to')
             requirements = [[],[]]
-        DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image=cover, captures=captures, delete=dele)
+        DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image=cover, captures=captures, size = size, delete=dele)
     else:
         print('begin_update')
-        DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, current.id, image=cover, captures=captures, delete=False)
+        DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, current.id, image=cover, captures=captures,size=size, delete=False)
         print('done_update')
         Done_update()
 

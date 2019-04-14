@@ -96,7 +96,7 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
         sess.commit()
         change_cover(movie, image, movies_dir)
  
-def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[[],[]], id=-1, image="", captures=[], delete=False):
+def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[[],[]], id=-1, image="", captures=[], size=0,delete=False):
     print('Creating')
     print(id)
     if id != -1: 
@@ -109,12 +109,14 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
             game.game_mode = game_mode
             game.language = language
             game.puntuacion = float(puntuacion)
+            game.size = size
             print('name:', name)
             print('launch:',launch)
             print('desc:',description)
             print('gm:',game_mode)
             print('lang:',language)
             print('score:',puntuacion)
+            print('size:', size)
             # game.max_players = max_players
             # game.min_players = min_players
             if image != '':
@@ -141,7 +143,7 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
         print('lang:',language)
         print('score:',puntuacion)
         print('category:', category)
-        game = DBstructure.Game(name = name, description= description, game_mode =game_mode, language= language, launch= launch, puntuacion = puntuacion )
+        game = DBstructure.Game(name = name, description= description, game_mode =game_mode, language= language, launch= launch, puntuacion = puntuacion, size=size )
         for g in genders:
             add_game_gender(game, g)
         if len(requirements[0]) == 0:

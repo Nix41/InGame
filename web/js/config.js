@@ -142,7 +142,7 @@ function create_game(){
     for(x in app.create_selected){
         genders.push(app.create_selected[x][1])
     }
-    create_game_for_real(app.create_name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas, genders);
+    create_game_for_real(app.create_name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas, genders, app.create_size);
 }
 
 async function create_game_for_real(name, des, mode, language, launch, score, category, requirements, cover, captures, genders){
