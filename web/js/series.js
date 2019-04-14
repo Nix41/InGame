@@ -242,6 +242,15 @@ function change_s(x){
     $("#L" + key).css("background-color","rgb(51,51,51)");
     $("#details").css("background-color","rgb(51,51,51)");
     app.sinopsis = app.series_dic[x].sinopsis;
+    app.cover_path = app.series_dic[x].cover_path;
+    app.directors = [];
+    for (d in app.series_dic[x].directors){
+        app.directors.push(app.series_dic[x].directors[d])
+    }
+    app.actors = [];
+    for (d in app.series_dic[x].actors){
+        app.actors.push(app.series_dic[x].actors[d])
+    }
 }
 
 function list_red(){
