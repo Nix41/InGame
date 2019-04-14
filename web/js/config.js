@@ -106,14 +106,15 @@ function cleardata(){
 }
 
 function cleardata_s(){
-    app.create_country = app.country;
+    app.create_country = '';
     app.create_directors = [];
     app.create_actors = [];
-    app.create_name = app.name;
-    app.create_description = app.description;
+    app.create_name = '';
+    app.create_description = '';
     app.create_gen = [];
-    app.create_year = app.launch;
-    app.create_score = app.score; 
+    app.create_year = '';
+    app.create_score = ''; 
+    app.create_gen = [];
     app.data = '';
 }
 
@@ -144,6 +145,51 @@ function create_game(){
     create_game_for_real(app.create_name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas, genders, app.create_size);
 }
 
-async function create_game_for_real(name, des, mode, language, launch, score, category, requirements, cover, captures, genders, size){
-    eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=genders, requirements = requirements,id=-1,cover = cover, captures = captures, size=size)();
+async function create_game_for_real(name, des, mode, language, launch, score, category, requirements, cover, captures, genders){
+    eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=genders, requirements = requirements,id=-1,cover = cover, captures = captures)();
+}
+
+function create_video(type){
+    alert(type);
+    app.name = app.create_name;
+    app.description = app.create_description;
+    app.launch = app.create_year;
+    app.country = app.create_country;
+    app.score = app.create_score;
+    var gen = [];
+    for(x in app.create_gen){
+        if(app.create_gen[x][0] >= 0){
+            gen.push(app.create_gen[x][1]);
+        }
+    }
+    var dir = [];
+    for(x in app.create_directors){
+        if(app.create_directors[x][0] >= 0){
+            dir.push(app.create_directors[x][1]);
+        }
+    }
+    var act = [];
+    for(x in app.create_actors){
+        if(app.create_actors[x][0] >= 0){
+            act.push(app.create_actors[x][1]);
+        }
+    }
+    if(app.data != ''){
+        app.cover_path = app.data;
+    }
+
+
+    create_video_back(app.name, app.description, app.launch, app.country, app.score, type, gen, dir, act);
+}
+
+async function create_video_back(name, description, year, country, score, type, gen, dir, act){
+    if(type == 's'){
+        alert('Gonna create Serie');
+        await eel.CRUD_Serie(title=name, year=year, pais=country,sinopsis=description, genero=gen,directors=dir,reparto=act,score=score, id=-1,image=app.data)();
+        window.location.reload(true);
+    }else{
+        await eel.CRUD_Movie(title=name, year=year, pais=country,sinopsis=description, genero=gen,directors=dir,reparto=act,score=score, id=-1,image=app.data)();
+        window.location.reload(true);
+    }
+    
 }
