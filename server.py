@@ -36,6 +36,7 @@ def get_recent():
 
 @eel.expose
 def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=-1, image="", topics=[], delete=0):
+    print(image)
     if current is None or current == -1:
         if delete == 0:
             dele = False
@@ -83,10 +84,13 @@ def Set_Game(id):
     print('id', id )
     current = DBhandlers.find_game(id)
     print('current:' , current)
+
 @eel.expose
 def Set_Serie(id):
+    print('ID:',id)
     global current
     current = DBhandlers.find_serie(id)
+    print('çurrent: ', current)
 @eel.expose
 def Set_Movie(id):
     global current
@@ -115,8 +119,9 @@ def del_actor(name):
     DBhandlers.del_actor(current, name)
 
 @eel.expose
-def add_tv_gender(name):
-    DBhandlers.add_tv_gender2(current, name)
+def add_tv_gender(name, typ=True):
+    print('Serv: ', typ)
+    DBhandlers.add_tv_gender2(current, name, typ)
 
 @eel.expose
 def del_tv_gender(name):

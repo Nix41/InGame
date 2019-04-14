@@ -3,6 +3,11 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/font-awesome.min.css"/>
+        <meta http-equiv="cache-control" content="max-age=0">
+        <meta http-equiv="cache-control" content="no-cache">
+        <meta http-equiv="expires" content="-1">
+        <meta http-equiv="cache-control" content="Tue, 01 Jan 1980 11:00:00 GMT">
+        <meta http-equiv="pragma" content="no-cache">
     <head>
     <body class="back">
         <div id=root>
@@ -245,7 +250,7 @@
                                     </div>
                                 </div>
                                 <div class="d-flex">
-                                    <div class="p-2" :onclick="'series_edit_cleardata('+key+')'" data-toggle="modal" data-target="#SerieEdit"  style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; margin-left:34px; margin-top:10px; color:white;">
+                                    <div class="p-2" :onclick="'series_edit_cleardata('+key+',`f`)'" data-toggle="modal" data-target="#SerieEdit"  style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; margin-left:34px; margin-top:10px; color:white;">
                                         <p style="margin-top:-5px;">Editar</p>
                                     </div>
                                     <div class="p-2" :onclick="'del_game('+key+')'" data-dismiss="modal" style="background-color:rgb(209,4,4); border-radius: 20px; height:30px; margin-left:10px; margin-top:10px; color:white;">
@@ -321,20 +326,22 @@
                                             <p>Géneros:</p>
                                         </div>
                                         <div class="d-flex flex-wrap align-items-start" style="margin-left:5px; max-width:790px;">
-                                            <div v-for="gen in create_gen" v-if="gen != undefined">
-                                                <div v-bind:id="'' + gen[0]" class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:10px;">
-                                                    <div>
-                                                        <div class="d-flex" style="margin-top:-8px;">
-                                                            <div class="p-2">
-                                                                <p style="margin-left:20px;">{{ gen[1] }}</p>
-                                                            </div>
-                                                            <div class="p-2">
-                                                                <img src="img/delete_gen.png" :onclick="'delgenvideo(' + gen[0] + ')'" class="card-img img-fluid" style="width:25px;" alt="Responsive image">
+                                            <div v-for="gen in create_gen" >
+                                                <div v-if="gen[0] >= 0">
+                                                    <div v-bind:id="'' + gen[0]" class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:10px;">
+                                                        <div>
+                                                            <div class="d-flex" style="margin-top:-8px;">
+                                                                <div class="p-2">
+                                                                    <p style="margin-left:20px;">{{ gen[1] }}</p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <img src="img/delete_gen.png" :onclick="'delgenvideo(' + gen[0] + ')'" class="card-img img-fluid" style="width:25px;" alt="Responsive image">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div style="height:5px;">
+                                                    <div style="height:5px;">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div v-if="pgen_check == 1">
@@ -345,7 +352,7 @@
                                                                 <div class="p-2">
                                                                     <input id="year" type="text" v-model="create_video_gen" class="input" style="margin-top:-11px;; margin-right:15px; height:30px; color:white; background-color:rgb(77,77,77);" placeholder="Nuevo Genero...">                                                
                                                                 </div>
-                                                                <div class="p-2" onclick='agregate_gen_video()' style="width:40px; margin-top:-7px;">
+                                                                <div class="p-2" onclick="agregate_gen_video('f')" style="width:40px; margin-top:-7px;">
                                                                     <img src="img/agregate_gen.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
                                                                 </div>
                                                             </div>
@@ -363,20 +370,22 @@
                                             <p>Dirtectores:</p>
                                         </div>
                                         <div class="d-flex flex-wrap align-items-start" style="margin-left:5px; max-width:790px;">
-                                            <div v-for="dic in create_directors" v-if="dic != undefined">
-                                                <div v-bind:id="'D' + dic[0]" class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:10px;">
-                                                    <div>
-                                                        <div class="d-flex" style="margin-top:-8px;">
-                                                            <div class="p-2">
-                                                                <p style="margin-left:20px;">{{ dic[1] }}</p>
-                                                            </div>
-                                                            <div class="p-2">
-                                                                <img src="img/delete_gen.png" :onclick="'deldic(' + dic[0] + ')'" class="card-img img-fluid" style="width:25px;" alt="Responsive image">
+                                            <div v-for="dic in create_directors">
+                                                <div v-if="dic >= 0">    
+                                                    <div v-bind:id="'D' + dic[0]" class="p-2" style="color:white;  height:40px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:10px;">
+                                                        <div>
+                                                            <div class="d-flex" style="margin-top:-8px;">
+                                                                <div class="p-2">
+                                                                    <p style="margin-left:20px;">{{ dic[1] }}</p>
+                                                                </div>
+                                                                <div class="p-2">
+                                                                    <img src="img/delete_gen.png" :onclick="'deldic(' + dic[0] + ')'" class="card-img img-fluid" style="width:25px;" alt="Responsive image">
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div style="height:5px;">
+                                                    <div style="height:5px;">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div v-if="dic_check == 1">
@@ -443,16 +452,18 @@
                                                 <div style="margin-top:6px;"></div>
                                                 <div style="font-size:18px;">
                                                     <ul v-for="act in create_actors">
-                                                        <li v-bind:id="'A' + act[0]" v-if="act != ''" >
-                                                            <div class="d-flex justify-content-center">
-                                                                <div class="p-2">
-                                                                    {{ act[1] }}
+                                                        <div v-if="act[0] >= 0">
+                                                            <li v-bind:id="'A' + act[0]" v-if="act != ''" >
+                                                                <div class="d-flex justify-content-center">
+                                                                    <div class="p-2">
+                                                                        {{ act[1] }}
+                                                                    </div>
+                                                                    <div class="p-2" :onclick="'delact('+ act[0] +')'" style="width:40px; margin-top:3px;">
+                                                                        <img src="img/delete_gen.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                                                    </div>
                                                                 </div>
-                                                                <div class="p-2" :onclick="'delact('+ act[0] +')'" style="width:40px; margin-top:3px;">
-                                                                    <img src="img/delete_gen.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
-                                                                </div>
-                                                            </div>
-                                                        </li>
+                                                            </li>
+                                                        </div>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -462,7 +473,7 @@
                                 
                                 <div class="d-flex">
                                     <div style="margin-left:34px;">
-                                        <div class="p-2" onclick="add_game()" data-dismiss="modal" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; width:40px; margin:5px; margin-top:10px; color:white;">
+                                        <div class="p-2" onclick="add_video('f')" data-dismiss="modal" style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; width:40px; margin:5px; margin-top:10px; color:white;">
                                             <p style="margin-top:-5px;">Ok</p>
                                         </div>
                                     </div>

@@ -97,11 +97,9 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
 
 def filter_series(name = "", gender="", actor="", director="", score=0, topics=[]):
     series = {}
-    for s in sess.query(Serie).filter(Serie.title.contains(name)):
+    # for s in sess.query(Serie).filter(Serie.title.contains(name)):
+    for s in sess.query(Serie).all():
         genders = []
-        print(s.title)
-        print(s.score)
-        print(s.id)
         gender_filter = False
         for g in s.genders:
             if gender in g.name:
