@@ -21,13 +21,14 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
     return series
 
 @eel.expose
-def filter_movies(name="", gender="",actor="",director="", score=0, year = 0, topic=""):
+def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, topic=""):
     if score == '':
         score = 0
     if year == '':
         year = 0
     year = int(year)
     score = int(score)
+    print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
     return movies
 

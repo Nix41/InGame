@@ -4,6 +4,11 @@ Vue.component('banner',{
         <img src='img/banner_new.jpg' class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
         <ul class='card-img-overlay d-block navbar-nav d-flex flex-row-reverse'>
             <li class='p-2 nav-item'>
+                <a href='config_vue.html'>
+                    <img src='img/config_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                </a>
+            </li>
+            <li class='p-2 nav-item'>
                 <a href='films_vue.html'>
                     <img src='img/films_item.png' class='img nav-menu-item' alt='Responsive image'>
                 </a>
@@ -93,13 +98,16 @@ var app = new Vue({
 
         //filter_vew
         filter_gen:{},
+        filter_video_gen:[],
         filter_subgen:[[0,"Acción táctica"],[1,"Acción y aventura,Battle royale"],[2,"Beat'em up,Hack and Slash"],[3,"Lucha"],[4,"Plataformas"],[5,"Primera persona (FPS)"],[6,"Runner"],[7,"Shoot'Em Up"],[8,"Shooter"],[9,"Supervivencia"],[10,"Survival horror"]],
         on_mouse: {},
         categories:{},
         filter_key: '',
         filter_subgen_key:'',
         filter_selected_gen:'',
+        filter_selected_gens:[],
         filter_selected_subgen:'',
+        filter_topic:'',
         
         //filters
         number:'',
