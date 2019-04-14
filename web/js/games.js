@@ -2,8 +2,9 @@ async function get_games(){
     let value = await eel.filter_games()();
     let i = 1;
     let list = [];
+    app.games_dic = [];
     for (x in value) {
-        Vue.set(app.games_dic, x, value[x]);
+        app.games_dic.push([i, value[x]]);
         if(i%5 == 0){
             list.push(value[x]);
             app.games.push(list);
@@ -301,15 +302,15 @@ function change(x){
     let key = x;
     $("#L" + key).css("background-color","rgb(51,51,51)");
     $("#details").css("background-color","rgb(51,51,51)");
-    app.description = app.games_dic[x].description;
-    app.Max_req = app.games_dic[x].requirements[1];
-    app.Min_req = app.games_dic[x].requirements[0];
+    app.description = app.games_dic[x][1].description;
+    app.Max_req = app.games_dic[x][1].requirements[1];
+    app.Min_req = app.games_dic[x][1].requirements[0];
     app.datas = [];
-    for(y=0;y < app.games_dic[x].captures.length; y++){
+    for(y=0;y < app.games_dic[x][1].captures.length; y++){
         var list = [];
-        list.push(app.games_dic[x].captures[y]);
-        if(y+1 <= app.games_dic[x].captures.length - 1){
-            list.push(app.games_dic[x].captures[y+1]);
+        list.push(app.games_dic[x][1].captures[y]);
+        if(y+1 <= app.games_dic[x][1].captures.length - 1){
+            list.push(app.games_dic[x][1].captures[y+1]);
             y++;
         }
         app.datas.push(list)
