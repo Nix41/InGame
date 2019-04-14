@@ -101,13 +101,16 @@ var app = new Vue({
 
         //filter_vew
         filter_gen:{},
+        filter_video_gen:[],
         filter_subgen:[[0,"Acción táctica"],[1,"Acción y aventura,Battle royale"],[2,"Beat'em up,Hack and Slash"],[3,"Lucha"],[4,"Plataformas"],[5,"Primera persona (FPS)"],[6,"Runner"],[7,"Shoot'Em Up"],[8,"Shooter"],[9,"Supervivencia"],[10,"Survival horror"]],
         on_mouse: {},
         categories:{},
         filter_key: '',
         filter_subgen_key:'',
         filter_selected_gen:'',
+        filter_selected_gens:[],
         filter_selected_subgen:'',
+        filter_topic:'',
         
         //filters
         number:'',
