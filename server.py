@@ -7,9 +7,29 @@ from WebScrapping import Down_Games, Down_Movies, Down_Series
 eel.init('web')
 
 current = None
+to_show = []
+index = 0
+load_amount = 5
+
+@eel.expose
+def get_more(i = 1):
+    global index
+    global to_show
+    l = len(to_show)
+    if i == 1:
+        up = min(l, index + load_amount)
+        r = to_show[index: up]
+        index = up
+    else:
+        low = max(0, index - load_amount)
+        r = to_show[low : index]
+        index = low
+    return r
 
 @eel.expose
 def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topic=""):
+    global to_show
+    global index
     if score == '':
         score = 0
     if year == '':
@@ -18,10 +38,14 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
     score = int(score)
     print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     series = Filters.filter_series(name, gender,actor,director, score, year, topic)
-    return series
+    to_show = series
+    index = 0
+    return get_more()
 
 @eel.expose
 def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, topic=""):
+    global to_show
+    global index
     if score == '':
         score = 0
     if year == '':
@@ -30,19 +54,23 @@ def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, to
     score = int(score)
     print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
-    return movies
+    to_show = movies
+    index = 0
+    return get_more()
 
 @eel.expose
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0):
-    print('n',name, 'g', gender, 'l',launch, 'p',players,'gm' ,game_mode, 'cat',category,'len',lenguage, 's', score)
+    global to_show
+    global index
     if category == 'Todos':
         category = ''
         gender=''
     if gender == 'Todos':
         gender = ''
     games = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score)
-    print(len(games))
-    return games
+    to_show = games
+    index = 0
+    return get_more()
 
 @eel.expose
 def get_recent():
@@ -144,7 +172,7 @@ def del_tv_gender(name):
 
 @eel.expose
 def add_topic(name):
-    DBhandlers.add_topic(current, name)
+    DBhandlers.add_topic2(current, name)
 
 @eel.expose
 def del_topic(name):
@@ -194,6 +222,8 @@ def download_series():
 @eel.expose
 def download_movies():
     Down_Movies();
+
+
 
 eel.start('index_vue.html')
 

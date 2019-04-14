@@ -37,7 +37,7 @@ def get_movie_topics():
     return genders
 
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0 ):
-    games = {}
+    games = []
     if launch == "":
         launch = 0
     if score == "":
@@ -61,7 +61,6 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
         if not (c.category is None):
             cat = category in c.category.name
         else:
-            print('NO CATEGORY ')
             cat = True
         if gender_filter and cat :
             requirements = []
@@ -75,28 +74,29 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
                     requirements[0].append(req)
                 else:
                     requirements[1].append(req)
-            games[c.id] = {}
-            games[c.id]['id'] = c.id
-            games[c.id]['name'] = c.name
-            games[c.id]['description'] = c.description
-            games[c.id]['genders'] = genders
-            games[c.id]['requirements'] = requirements
-            games[c.id]['size'] = c.size
+            game = {}
+            game['id'] = c.id
+            game['name'] = c.name
+            game['description'] = c.description
+            game['genders'] = genders
+            game['requirements'] = requirements
+            game['size'] = c.size
             if not (c.category is None):
                 cate = c.category.name
             else:
                 cate = ''
-            games[c.id]['category'] = cate
-            games[c.id]['launch'] = c.launch
-            games[c.id]['game_mode'] = c.game_mode
-            games[c.id]['language'] = c.language
-            games[c.id]['score'] = c.puntuacion
-            games[c.id]['cover_path'] = c.cover_path
-            games[c.id]['captures'] = c.captures_list
+            game['category'] = cate
+            game['launch'] = c.launch
+            game['game_mode'] = c.game_mode
+            game['language'] = c.language
+            game['score'] = c.puntuacion
+            game['cover_path'] = c.cover_path
+            game['captures'] = c.captures_list
+            games.append(game)
     return games
 
 def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,topic=''):
-    series = {}
+    series = []
     for s in sess.query(Serie).filter(Serie.title.contains(name)):
     # for s in sess.query(Serie).all():
         stopics = []
@@ -133,22 +133,23 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
                 director_filter = True
             directors.append(d.name)
         if gender_filter and actor_filter and director_filter and s.score >= score and topic_filter and s.year >= year:
-            series[s.id] = {}
-            series[s.id]['id'] = s.id
-            series[s.id]['title'] = s.title
-            series[s.id]['year'] = s.year 
-            series[s.id]['topics'] = stopics
-            series[s.id]['sinopsis'] = s.sinopsis
-            series[s.id]['country'] = s.country
-            series[s.id]['genders'] = genders
-            series[s.id]['actors'] = actors
-            series[s.id]['directors'] = directors
-            series[s.id]['score'] = s.score
-            series[s.id]['cover_path'] = s.cover_path
+            serie = {}
+            serie['id'] = s.id
+            serie['title'] = s.title
+            serie['year'] = s.year 
+            serie['topics'] = stopics
+            serie['sinopsis'] = s.sinopsis
+            serie['country'] = s.country
+            serie['genders'] = genders
+            serie['actors'] = actors
+            serie['directors'] = directors
+            serie['score'] = s.score
+            serie['cover_path'] = s.cover_path
+            series.append(serie)
     return series
 
 def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, topic=""):
-    movies = {}
+    movies = []
     for c in sess.query(Movie).filter(Movie.title.contains(name)):
         stopics = []
         gender_filter = False
@@ -184,18 +185,19 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
                 director_filter = True
             directors.append(d.name)
         if gender_filter and actor_filter and director_filter and c.score >= score and topic_filter and c.year >= year:
-            movies[c.id] = {}
-            movies[c.id]['id'] = c.id
-            movies[c.id]['title'] = c.title
-            movies[c.id]['year'] = c.year 
-            movies[c.id]['topics'] = stopics
-            movies[c.id]['sinopsis'] = c.sinopsis
-            movies[c.id]['country'] = c.country
-            movies[c.id]['genders'] = genders
-            movies[c.id]['actors'] = actors
-            movies[c.id]['directors'] = directors
-            movies[c.id]['score'] = c.score
-            movies[c.id]['cover_path'] = c.cover_path
+            movie = {}
+            movie['id'] = c.id
+            movie['title'] = c.title
+            movie['year'] = c.year 
+            movie['topics'] = stopics
+            movie['sinopsis'] = c.sinopsis
+            movie['country'] = c.country
+            movie['genders'] = genders
+            movie['actors'] = actors
+            movie['directors'] = directors
+            movie['score'] = c.score
+            movie['cover_path'] = c.cover_path
+            movies.append(movie)
     return movies
 
 ### RECUERDA AGREGAR CREATED_AT ANTES DE TESTEAR##
