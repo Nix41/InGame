@@ -11,7 +11,7 @@ eel.init('web')
 current = None
 to_show = []
 index = 0
-load_amount = 9
+load_amount = 10
 
 @eel.expose
 def get_more(i = 1):
