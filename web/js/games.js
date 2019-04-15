@@ -6,11 +6,11 @@ async function get_games(){
     for (x in value) {
         app.games_dic.push([i-1, value[x]]);
         if(i%5 == 0){
-            list.push(value[x]);
+            list.push([i,value[x]]);
             app.games.push(list);
             list = [];
         }else{
-            list.push(value[x]);
+            list.push([i-1,value[x]]);
         }
         key = "id" + i;
         i++;
@@ -53,19 +53,19 @@ async function filter_games_by_gender(){
 }
 
 function see(id){
-    app.name = app.games_dic[id].name;
-    app.description = app.games_dic[id].description;
-    app.requirements = app.games_dic[id].requirements;
-    app.genders = app.games_dic[id].genders;
+    app.name = app.games_dic[id][1].name;
+    app.description = app.games_dic[id][1].description;
+    app.requirements = app.games_dic[id][1].requirements;
+    app.genders = app.games_dic[id][1].genders;
     app.key = id;
-    app.launch = app.games_dic[id].launch;
-    app.score = app.games_dic[id].score;
-    app.size = app.games_dic[id].size;
-    app.language = app.games_dic[id].language;
-    app.gamemode = app.games_dic[id].game_mode;
-    app.category = app.games_dic[id].category;
-    app.cover_path = app.games_dic[id].cover_path;
-    app.captures = app.games_dic[id].captures;
+    app.launch = app.games_dic[id][1].launch;
+    app.score = app.games_dic[id][1].score;
+    app.size = app.games_dic[id][1].size;
+    app.language = app.games_dic[id][1].language;
+    app.gamemode = app.games_dic[id][1].game_mode;
+    app.category = app.games_dic[id][1].category;
+    app.cover_path = app.games_dic[id][1].cover_path;
+    app.captures = app.games_dic[id][1].captures;
 }
 
 function filter_over(gen){
@@ -134,7 +134,7 @@ function filter_subgen_mouse(id,x){
 }
 
 function edit_cleardata(key){
-    set_game(app.games_dic[key].id);
+    set_game(app.games_dic[key][1].id);
     app.Max_req=[];
     app.edit_Max_req=[];
     if( app.games_dic[key].requirements[1][0].req == "Desconocidos" ){
@@ -147,16 +147,16 @@ function edit_cleardata(key){
         app.edit_Max_req.push({'type':'Sonido:', 'req':app.Sound });
         app.edit_Max_req.push({'type':'Notas:', 'req':app.Notes });
     }else{
-        for(x in app.games_dic[key].requirements[1]){
-            app.Max_req.push(app.games_dic[key].requirements[1][x]);
-            app.edit_Max_req.push(app.games_dic[key].requirements[1][x])
+        for(x in app.games_dic[key][1].requirements[1]){
+            app.Max_req.push(app.games_dic[key][1].requirements[1][x]);
+            app.edit_Max_req.push(app.games_dic[key][1].requirements[1][x])
         }
     }
     app.Memori='';
     app.Micro='';
     app.Min_req=[];
     app.edit_Min_req=[];
-    if(app.games_dic[key].requirements[0][0].req == "Desconocidos"){
+    if(app.games_dic[key][1].requirements[0][0].req == "Desconocidos"){
         app.edit_Min_req.push({'type':'Sistema Operativo:', 'req':app.sO });
         app.edit_Min_req.push({'type':'Memoria:', 'req':app.Memori });
         app.edit_Min_req.push({'type':'Procesador:', 'req':app.Micro });
@@ -166,9 +166,9 @@ function edit_cleardata(key){
         app.edit_Min_req.push({'type':'Sonido:', 'req':app.Sound });
         app.edit_Min_req.push({'type':'Notas:', 'req':app.Notes });
     }else{
-        for(x in app.games_dic[key].requirements[0]){
-            app.Min_req.push(app.games_dic[key].requirements[0][x]);
-            app.edit_Min_req.push(app.games_dic[key].requirements[0][x])
+        for(x in app.games_dic[key][1].requirements[0]){
+            app.Min_req.push(app.games_dic[key][1].requirements[0][x]);
+            app.edit_Min_req.push(app.games_dic[key][1].requirements[0][x])
         }
     }
     app.Notes='';
@@ -178,20 +178,20 @@ function edit_cleardata(key){
     app.file='';
     app.create_prin='';
     app.pgen_check='3';
-    app.create_prin = app.games_dic[key].category;
+    app.create_prin = app.games_dic[key][1].category;
     app.create_selected=[];
-    for(x in app.games_dic[key].genders){
-        app.create_selected.push([app.create_selected.length,app.games_dic[key].genders[x]]);
+    for(x in app.games_dic[key][1].genders){
+        app.create_selected.push([app.create_selected.length,app.games_dic[key][1].genders[x]]);
     }
     app.req_type='';
-    app.create_name=app.games_dic[key].name;
-    app.create_mode=app.games_dic[key].game_mode;
-    app.create_year=app.games_dic[key].launch;
-    app.create_score=app.games_dic[key].score;
-    app.create_language=app.games_dic[key].language;
-    app.create_size=app.games_dic[key].size;
-    app.datas=app.games_dic[key].captures;
-    app.create_description=app.games_dic[key].description;
+    app.create_name=app.games_dic[key][1].name;
+    app.create_mode=app.games_dic[key][1].game_mode;
+    app.create_year=app.games_dic[key][1].launch;
+    app.create_score=app.games_dic[key][1].score;
+    app.create_language=app.games_dic[key][1].language;
+    app.create_size=app.games_dic[key][1].size;
+    app.datas=app.games_dic[key][1].captures;
+    app.create_description=app.games_dic[key][1].description;
 }
 
 function add_req(n){
@@ -240,18 +240,18 @@ function add_game(){
     }
     app.captures = app.datas;
 
-    app.games_dic[app.key].name = app.name;
-    app.games_dic[app.key].description = app.description;
-    app.games_dic[app.key].requirements = app.requirements;
-    app.games_dic[app.key].genders = app.genders;
-    app.games_dic[app.key].launch = app.launch;
-    app.games_dic[app.key].score = app.score;
-    app.games_dic[app.key].size = app.size;
-    app.games_dic[app.key].language = app.language;
-    app.games_dic[app.key].game_mode = app.create_mode;
-    app.games_dic[app.key].category = app.category;
-    app.games_dic[app.key].cover_path = app.cover_path;
-    app.games_dic[app.key].captures = app.captures;
+    app.games_dic[app.key][1].name = app.name;
+    app.games_dic[app.key][1].description = app.description;
+    app.games_dic[app.key][1].requirements = app.requirements;
+    app.games_dic[app.key][1].genders = app.genders;
+    app.games_dic[app.key][1].launch = app.launch;
+    app.games_dic[app.key][1].score = app.score;
+    app.games_dic[app.key][1].size = app.size;
+    app.games_dic[app.key][1].language = app.language;
+    app.games_dic[app.key][1].game_mode = app.create_mode;
+    app.games_dic[app.key][1].category = app.category;
+    app.games_dic[app.key][1].cover_path = app.cover_path;
+    app.games_dic[app.key][1].captures = app.captures;
 
     update_game(app.name, app.description, app.create_mode, app.language, app.launch, app.score, app.category, app.requirements, app.data, app.datas);
 }
@@ -261,7 +261,7 @@ async function update_game(name, des, mode, language, launch, score, category, r
 }
 
 function del_game(x){
-    delete_game(app.games_dic[x].id)
+    delete_game(app.games_dic[x][1].id)
     document.location.reload(true);
 }
 

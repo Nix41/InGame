@@ -66,7 +66,7 @@ var app = new Vue({
         list_select:'0',
 
         //series
-        series_dic:{},
+        series_dic:[],
         series : [],
         country:'',
         actors:[],

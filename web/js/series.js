@@ -3,14 +3,16 @@ async function get_series(){
     let value = await eel.filter_series()();
     let i = 1;
     let list = [];
+    app.series_dic = [];
+    app.series = [];
     for (x in value) {
-        Vue.set(app.series_dic, x, value[x]);
+        app.series_dic.push([i-1, value[x]]);
         if(i%5 == 0){
-            list.push(value[x]);
+            list.push([i-1,value[x]]);
             app.series.push(list);
             list = [];
         }else{
-            list.push(value[x]);
+            list.push([i-1,value[x]]);
         }
         key = "id" + i;
         i++;
@@ -96,13 +98,13 @@ async function get_films(){
     let i = 1;
     let list = [];
     for (x in value) {
-        Vue.set(app.series_dic, x, value[x]);
+        app.series_dic.push([i-1, value[x]]);
         if(i%5 == 0){
-            list.push(value[x]);
+            list.push([i-1,value[x]]);
             app.series.push(list);
             list = [];
         }else{
-            list.push(value[x]);
+            list.push([i-1,value[x]]);
         }
         key = "id" + i;
         i++;
@@ -118,22 +120,22 @@ async function get_films(){
 }
 
 function see_s(id){
-    app.name = app.series_dic[id].title;
-    app.description = app.series_dic[id].sinopsis;
-    app.genders = app.series_dic[id].genders;
+    app.name = app.series_dic[id][1].title;
+    app.description = app.series_dic[id][1].sinopsis;
+    app.genders = app.series_dic[id][1].genders;
     app.key = id;
-    app.launch = app.series_dic[id].year;
-    app.score = app.series_dic[id].score;
-    app.country = app.series_dic[id].country;
+    app.launch = app.series_dic[id][1].year;
+    app.score = app.series_dic[id][1].score;
+    app.country = app.series_dic[id][1].country;
     app.actors = [];
-    for(x in app.series_dic[id].actors){
-        app.actors.push([x,app.series_dic[id].actors[x]]);
+    for(x in app.series_dic[id][1].actors){
+        app.actors.push([x,app.series_dic[id][1].actors[x]]);
     }
     app.directors = [];
-    for(x in app.series_dic[id].directors){
-        app.directors.push([x,app.series_dic[id].directors[x]]);
+    for(x in app.series_dic[id][1].directors){
+        app.directors.push([x,app.series_dic[id][1].directors[x]]);
     }
-    app.cover_path = app.series_dic[id].cover_path;
+    app.cover_path = app.series_dic[id][1].cover_path;
 }
 
 function series_edit_cleardata(id, type = 's'){
@@ -253,8 +255,6 @@ function add_video(type){
     if(app.data != ''){
         app.cover_path = app.data;
     }
-
-
     add_video_back(app.name, app.description, app.launch, app.country, app.score, type);
 }
 async function add_video_back(name, description, year, country, score, type){
@@ -292,15 +292,15 @@ function change_s(x){
     let key = x;
     $("#L" + key).css("background-color","rgb(51,51,51)");
     $("#details").css("background-color","rgb(51,51,51)");
-    app.sinopsis = app.series_dic[x].sinopsis;
-    app.cover_path = app.series_dic[x].cover_path;
+    app.sinopsis = app.series_dic[x][1].sinopsis;
+    app.cover_path = app.series_dic[x][1].cover_path;
     app.directors = [];
-    for (d in app.series_dic[x].directors){
-        app.directors.push(app.series_dic[x].directors[d])
+    for (d in app.series_dic[x][1].directors){
+        app.directors.push([app.directors.lenght,app.series_dic[x][1].directors[d]])
     }
     app.actors = [];
-    for (d in app.series_dic[x].actors){
-        app.actors.push(app.series_dic[x].actors[d])
+    for (d in app.series_dic[x][1].actors){
+        app.actors.push([app.actors.lenght,app.series_dic[x][1].actors[d]])
     }
 }
 

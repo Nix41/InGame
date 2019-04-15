@@ -78,13 +78,13 @@
                     <div v-for="series5 in series">
                         <div class="d-flex  justify-content-center" style="padding-bottom:2%;">
                             <div v-for="serie in series5" class="p-2" style="text-align:center;">
-                                <div :onclick="'see_s(' + serie.id + ')'" data-toggle="modal" data-target="#SerieModal" style="height: 337px; width:240px; margin-bottom:80px; margin-left:20px; margin-right:20px;">
+                                <div :onclick="'see_s(' + serie[0] + ')'" data-toggle="modal" data-target="#SerieModal" style="height: 337px; width:240px; margin-bottom:80px; margin-left:20px; margin-right:20px;">
                                     <div class="card">
-                                        <img :src="'' + serie.cover_path" class="card-img img-fluid" style="height: 18vw; width:100%; margin:0 important; object-fit: cover;" alt="Responsive image">
-                                        <div v-if="serie.score != 0" class="card-img-overlay score red">{{serie.score}}</div>
+                                        <img :src="'' + serie[1].cover_path" class="card-img img-fluid" style="height: 18vw; width:100%; margin:0 important; object-fit: cover;" alt="Responsive image">
+                                        <div v-if="serie.score != 0" class="card-img-overlay score red">{{serie[1].score}}</div>
                                     </div>
                                     <div class="review-text" style="margin-top:10px;">
-                                        <h5 style="text-align:center; margin-bottom:2%;">{{ serie.title }}</h5>
+                                        <h5 style="text-align:center; margin-bottom:2%;">{{ serie[1].title }}</h5>
                                         <div class="rating" style="text-align:center; margin-bottom:2%;">
                                             <i v-if="serie.score/2 >= 1" class="fa fa-star"></i>
                                             <i v-if="serie.score/2 >= 2" class="fa fa-star"></i>
@@ -106,30 +106,30 @@
                             <div class="table-wrapper-scroll-y my-custom-scrollbar col-md-7" style="padding:0 !important;" id="style-scroll">
                             <div class="p-2 inverse-scroll" style="padding:0 !important; margin-left:30px;">
                                 <div v-for="serie in series_dic">
-                                <div :onmouseover="'change_s(' + serie.id + ')'" :onmouseout="'restore_s(' + serie.id + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
-                                    <div v-bind:id="'L'+ serie.id" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px;">
+                                <div :onmouseover="'change_s(' + serie[0] + ')'" :onmouseout="'restore_s(' + serie[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
+                                    <div v-bind:id="'L'+ serie[0]" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px;">
                                         <div class="d-flex">
                                             <div class="p-2">
-                                                <div class="score_list red">{{ serie.score }}</div>
+                                                <div class="score_list red">{{ serie[1].score }}</div>
                                             </div>
                                             <div class="p-2" style=" padding-left:10px; font-size:20px; color:white; margin-top: -7px; padding-right:0 !important;">
-                                                <div style="width:480px;">{{ serie.title }}</div>
+                                                <div style="width:480px;">{{ serie[1].title }}</div>
                                                 <div>
                                                     <div class="row">
                                                         <div class="rating" style="padding-left:15px;">
-                                                            <i v-if="serie.score/2 >= 1" class="fa fa-star"></i>
+                                                            <i v-if="serie[1].score/2 >= 1" class="fa fa-star"></i>
                                                             <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
-                                                            <i v-if="serie.score/2 >= 2" class="fa fa-star"></i>
+                                                            <i v-if="serie[1].score/2 >= 2" class="fa fa-star"></i>
                                                             <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
-                                                            <i v-if="serie.score/2 >= 3" class="fa fa-star"></i>
+                                                            <i v-if="serie[1].score/2 >= 3" class="fa fa-star"></i>
                                                             <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
-                                                            <i v-if="serie.score/2 >= 4" class="fa fa-star"></i>
+                                                            <i v-if="serie[1].score/2 >= 4" class="fa fa-star"></i>
                                                             <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
-                                                            <i v-if="serie.score/2 >= 5" class="fa fa-star is-fade"></i>
+                                                            <i v-if="serie[1].score/2 >= 5" class="fa fa-star is-fade"></i>
                                                             <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
                                                         </div>
                                                         <div style="padding-left:15px;">
-                                                            {{ serie.genders[0] }} - {{ serie.genders[1] }}
+                                                            {{ serie[1].genders[0] }} - {{ serie[1].genders[1] }}
                                                         </div>
                                                     </div>
                                                 </div>
@@ -147,12 +147,14 @@
                             </div>
                             </div>
                             <div id="style-scroll" class="col-md-5 table-wrapper-scroll-y my-custom-scrollbar2" style="padding:0 !important; ">
-                                <div id="details" style="background-color: rgb(26,26,26); margin-right:20px; height: 100%;">
+                                <div id="details" style="background-color: rgb(26,26,26); margin-right:20px; min-height:645px;">
                                 <div class="container-fluid" style="padding-top:30px; padding-left:20px; padding-right:20px;">
                                         <div class="d-flex" >
-                                            <div class="p-2" style="">
+                                            <div class="p-2">
                                                 <div class="" style="width:150px; height:230px;">
-                                                    <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:10vw; border-radius: 20px; object-fit: cover;" alt="Responsive image">
+                                                    <div v-if="cover_path != ''">
+                                                        <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:10vw; border-radius: 20px; object-fit: cover;" alt="Responsive image">
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="p-2">
@@ -162,7 +164,7 @@
                                                 <div class="d-flex flex-wrap" style="max-width:750px;">
                                                     <div v-for="dic in directors" style="color:white; margin-right:10px;">
                                                         <div>
-                                                            <p style="font-size:20px;">{{ dic }} </p>
+                                                            <p style="font-size:20px;">{{ dic[1] }} </p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -182,7 +184,7 @@
                                             <div class="d-flex flex-wrap" style="max-width:750px;">
                                                 <div v-for="act in actors" style="color:white; margin-right:10px; ">
                                                     <div>
-                                                        <p style="font-size:20px;"> {{ act }} </p>
+                                                        <p style="font-size:20px;"> {{ act[1] }} </p>
                                                     </div>
                                                 </div>
                                             </div>
