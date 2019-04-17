@@ -2,22 +2,11 @@
 async function get_series(){
     let value = await eel.filter_series()();
     let i = 1;
-    let list = [];
     app.series_dic = [];
-    app.series = [];
     for (x in value) {
         app.series_dic.push([i-1, value[x]]);
-        if(i%5 == 0){
-            list.push([i-1,value[x]]);
-            app.series.push(list);
-            list = [];
-        }else{
-            list.push([i-1,value[x]]);
-        }
-        key = "id" + i;
         i++;
     }
-    app.series.push(list);
     let gens = await eel.get_video_genders()();
     let k = 0;
     for (x in gens){
@@ -27,7 +16,7 @@ async function get_series(){
     }
 }
 
-function filter_clk(sgen){
+function filter_clk(sgen, typ = 's'){
     if (app.filter_video_gen[sgen][2] == -1){
         $("#catv" + sgen).css("background-color","rgb(209,4,4)");
         app.filter_selected_gens.push(app.filter_video_gen[sgen][0]);
@@ -51,11 +40,8 @@ function filter_clk(sgen){
         }
         app.filter_selected_gens = [];
     }
-    else{
-        $("#catv0").css("background-color","rgb(77,77,77)");
-        app.filter_vide_gen[x][2] = -1
-    }
-    
+
+    filter_series_all(typ);
 }
 
 function filter_mouse_over(gen){
@@ -77,26 +63,7 @@ async function filter_series_all(typ ='s'){
     }
     let i = 1;
     let list = [];
-    app.series_dic = {}
-    for (x in value) {
-        Vue.set(app.series_dic, x, value[x]);
-        if(i%5 == 0){
-            list.push(value[x]);
-            app.series.push(list);
-            list = [];
-        }else{
-            list.push(value[x]);
-        }
-        key = "id" + i;
-        i++;
-    }
-    app.series.push(list);
-}
-
-async function get_films(){
-    let value = await eel.filter_movies()();
-    let i = 1;
-    let list = [];
+    app.series_dic = []
     for (x in value) {
         app.series_dic.push([i-1, value[x]]);
         if(i%5 == 0){
@@ -110,6 +77,16 @@ async function get_films(){
         i++;
     }
     app.series.push(list);
+}
+
+async function get_films(){
+    let value = await eel.filter_movies()();
+    let i = 1;
+    app.series_dic = [];
+    for (x in value) {
+        app.series_dic.push([i-1, value[x]]);
+        i++;
+    }
     let gens = await eel.get_video_genders()();
     let k = 0;
     for (x in gens){
@@ -162,9 +139,9 @@ function series_edit_cleardata(id, type = 's'){
 
 async function set_video(id,type){
     if(type == 's'){
-        eel.Set_Serie(id)();
+        eel.Set_Serie(app.series_dic[id][1].id)();
     }else{
-        eel.Set_Movie(id)();
+        eel.Set_Movie(app.series_dic[id][1].id)();
     }
 }
 
@@ -313,11 +290,11 @@ function list_gray(){
 }
 
 async function del_serie(key){
-    await eel.CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=key, image="", topics=[], 1)();
+    await eel.CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=app.series_dic[key][1].id, image="", topics=[], 1)();
     document.location.reload(true);
 }
 
 async function del_movie(key){
-    await eel.CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=key, image="", topics=[], 1)();
+    await eel.CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=app.series_dic[key][1].id, image="", topics=[], 1)();
     document.location.reload(true);
 }

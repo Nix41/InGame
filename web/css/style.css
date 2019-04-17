@@ -140,6 +140,14 @@ input[type=file] {
 	overflow: auto;
 	direction:rtl;
 }
+
+.my-custom-scrollbar4 {
+	position: relative;
+	height: 800px;
+	overflow: auto;
+	direction:ltr;
+}
+
 .table-wrapper-scroll-y {
 	display: block;
 }
@@ -176,6 +184,13 @@ input[type=file] {
 .my-custom-scrollbar2 {
     position: relative;
 	height: 645px;
+    overflow: auto;
+}
+
+
+.my-custom-scrollbar3 {
+    position: relative;
+	height: 700px;
     overflow: auto;
 }
 
@@ -245,4 +260,39 @@ input[type=file] {
 	font-size: 70px ; 
 	width: 350px;
 	color: rgb(209, 4, 4);
+}
+
+/* Cursor */
+.click:hover {
+	cursor: pointer;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none; 
+     -khtml-user-select: none; 
+       -moz-user-select: none; 
+        -ms-user-select: none; 
+            user-select: none;
+}
+
+/*----------------------- Preloader -----------------------*/
+body.preloader-site {
+    overflow: hidden;
+}
+
+.preloader-wrapper {
+    height: 100%;
+    width: 100%;
+    background: black;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999999;
+}
+
+.preloader-wrapper .preloader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    width: 120px;
 }

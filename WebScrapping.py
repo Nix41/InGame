@@ -104,7 +104,7 @@ def find_games(sourcelist):
     options.experimental_options["prefs"] = chrome_prefs
     chrome_prefs["profile.default_content_settings"] = {"images": 2}
     chrome_prefs["profile.managed_default_content_settings"] = {"images": 2}
-    driver = webdriver.Chrome("driver/", options=options)
+    driver = webdriver.Chrome("driver/chromedriver.exe", options=options)
     driver.set_page_load_timeout(60)
     for g in games:
         s = re.sub( ' +', ' ', g ).strip()
@@ -180,7 +180,7 @@ def find_games(sourcelist):
         else:
             print('    Ya has hecho esta busqueda: ' + g)
     driver.quit()
-    with open(g_list , 'w+') as std:
+    with open('lists/not_found_games' , 'w+') as std:
         std.write(not_found)          
 
 def extract_info(url, build_method):
@@ -336,10 +336,9 @@ def search(listdir , stype='' ):
         else:
             print('    Ya has hecho esta busqueda ' + m)
     if(stype == ''):
-        direct = m_list
+        direct = 'lists/not_found_movies'
     if(stype == 'TV_SE'):
-        direct = s_list
-     #(direct + '**')
+        direct = 'lists/not_found_series'
     with open(direct , 'w+')as std:
                     std.write(not_found)
      

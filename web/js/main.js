@@ -65,6 +65,7 @@ var app = new Vue({
         list:'0',
         list_select:'0',
 
+        counters:[],
         //series
         series_dic:[],
         series : [],
@@ -153,6 +154,12 @@ var app = new Vue({
     },
 
     methods:{
+        prevent: function(e)
+        {
+           if(e) e.preventDefault();
+           console.log("Filter in progress ...");
+        },
+
         check_num(){
             if(this.number != '' && this.number > 50 || this.number < 0){
                 alert("El numero debe ser mayor que 1 y menor que 51");
@@ -168,7 +175,7 @@ var app = new Vue({
         },
 
         check_score(){
-            if(this.score != '' && (this.score > 10 || this.score < 0)){
+            if(this.filter_score != '' && (this.filter_score > 10 || this.filter_score < 0)){
                 alert("El numero debe ser mayor que 1 y menor que 10");
                 this.score = '';
             }
@@ -231,3 +238,19 @@ async function OnScroll(){
     pos1 = pos2;
 }
 
+var pos1_s = 0;
+var len_s = 0;
+async function OnScroll_series(id){
+    var pos2 = $("#"+id).scrollTop();
+    if(pos1_s < pos2){
+        // alert(app.games_low_key);
+        // alert(app.games_higth_key);
+        var next = await eel.get_more()();
+        len_s = app.series_dic.length;
+        for(x in next){
+            app.series_dic.push([len_s,next[x]]);
+            len_s++;
+        }
+    }
+    pos1 = pos2;
+}

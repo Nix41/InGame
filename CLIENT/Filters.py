@@ -9,7 +9,7 @@ def get_game_genders():
         cats[cat.name] = []
         for g in cat.subgenders:
             cats[cat.name].append(g.name)
-    #print('genders: ',len(genders))
+    ##'genders: ',len(genders))
     return cats
 
 def get_serie_genders():
@@ -47,8 +47,8 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
     for c in sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch >= launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score):
     # for c in sess.query(Game).all():
         genders = []
-        # print('**')
-        # print(c.category.name)
+        # #'**')
+        # #c.category.name)
         gender_filter = False
         for g in c.genders:
             if gender in g.name:

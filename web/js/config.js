@@ -6,6 +6,11 @@ function false_input2(){
     $("#open_file2").click();
 }
 
+async function get_counters(){
+    vals = await eel.get_counters()();
+    app.counters = vals;
+}
+
 function agregate_gen(){
     if(app.pgen_check != 1 && app.pgen_check != 2){
         if(app.pgen_check == '0'){
@@ -144,8 +149,8 @@ function create_game(){
     create_game_for_real(app.create_name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas, genders, app.create_size);
 }
 
-async function create_game_for_real(name, des, mode, language, launch, score, category, requirements, cover, captures, genders){
-    eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=genders, requirements = requirements,id=-1,cover = cover, captures = captures)();
+async function create_game_for_real(name, des, mode, language, launch, score, category, requirements, cover, captures, genders, size){
+    eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=genders, requirements = requirements,id=-1,cover = cover, captures = captures, size=size)();
 }
 
 function create_video(type){
@@ -222,5 +227,5 @@ async function download_movies(){
 }
 
 async function gen_pdf(){
-    
+    await eel.gen_pdf();
 }

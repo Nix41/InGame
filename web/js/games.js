@@ -5,14 +5,6 @@ async function get_games(){
     app.games_dic = [];
     for (x in value) {
         app.games_dic.push([i-1, value[x]]);
-        if(i%5 == 0){
-            list.push([i,value[x]]);
-            app.games.push(list);
-            list = [];
-        }else{
-            list.push([i-1,value[x]]);
-        }
-        key = "id" + i;
         i++;
     }
     let gens = await eel.get_game_genders()();
@@ -30,25 +22,10 @@ async function filter_games_by_name(){
     let filter = document.getElementById("name_filter");
     let value = await eel.filter_games(name = app.title, gender = app.filter_selected_subgen, launch=app.year, players=0,game_mode=app.filter_mode, category=app.filter_selected_gen, lenguage=app.filter_language, score=app.filter_score )();
     let i = 1;
-    let list = [];
+    app.games_dic = [];
     for (x in value) {
-        if(i%5 == 0){
-            list.push(value[x]);
-            app.games.push(list);
-            list = [];
-        }else{
-            list.push(value[x]);
-        }
+        app.games_dic.push([i-1, value[x]]);
         i++;
-    }
-    app.games.push(list);
-}
-async function filter_games_by_gender(){
-    app.games = []
-    let filter = document.getElementById("gender_filter");
-    let value = await eel.filter_games(gender=filter.value)();
-    for (x in value) {
-        app.games.push(value[x]);
     }
 }
 
@@ -95,6 +72,7 @@ function filter_over(gen){
         app.on_mouse[gen.id] = 1;
         app.filter_key = gen.id;
     }
+    filter_games_by_name();
 }
 
 function filter_mouse(id,x){
@@ -123,6 +101,7 @@ function filter_subgen_clk(sgen){
         }
         i++;
     }
+    filter_games_by_name();
 }
 
 function filter_subgen_mouse(id,x){
@@ -137,7 +116,7 @@ function edit_cleardata(key){
     set_game(app.games_dic[key][1].id);
     app.Max_req=[];
     app.edit_Max_req=[];
-    if( app.games_dic[key].requirements[1][0].req == "Desconocidos" ){
+    if( app.games_dic[key][1].requirements[1][0].req == "Desconocidos" ){
         app.edit_Max_req.push({'type':'Sistema Operativo:', 'req':app.sO });
         app.edit_Max_req.push({'type':'Memoria:', 'req':app.Memori });
         app.edit_Max_req.push({'type':'Procesador:', 'req':app.Micro });
@@ -253,11 +232,11 @@ function add_game(){
     app.games_dic[app.key][1].cover_path = app.cover_path;
     app.games_dic[app.key][1].captures = app.captures;
 
-    update_game(app.name, app.description, app.create_mode, app.language, app.launch, app.score, app.category, app.requirements, app.data, app.datas);
+    update_game(app.name, app.description, app.create_mode, app.language, app.launch, app.score, app.category, app.requirements, app.data, app.datas), size;
 }
 
-async function update_game(name, des, mode, language, launch, score, category, requirements, cover, captures){
-    eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=[], requirements = requirements,id=-1,cover = cover, captures = captures)();
+async function update_game(name, des, mode, language, launch, score, category, requirements, cover, captures, size){
+    eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=[], requirements = requirements,id=-1,cover = cover, captures = captures, size=size)();
 }
 
 function del_game(x){
@@ -266,7 +245,7 @@ function del_game(x){
 }
 
 async function delete_game(id){
-    eel.CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=id, cover="", captures=[], 1)();
+    eel.CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[], id=id, cover="", captures=[], 0,1)();
 }
 
 //list

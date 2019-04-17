@@ -42,8 +42,8 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
     if year == '':
         year = 0
     year = int(year)
-    score = int(score)
-     #('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
+    score = float(score)
+    print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     series = Filters.filter_series(name, gender,actor,director, score, year, topic)
     to_show = series
     index = 0
@@ -58,8 +58,8 @@ def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, to
     if year == '':
         year = 0
     year = int(year)
-    score = int(score)
-     #('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
+    score = float(score)
+    print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
     to_show = movies
     index = 0
@@ -121,9 +121,12 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
         if len(requirements) == 0:
              #('had to')
             requirements = [[],[]]
+        #'DEl:', dele)
         DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image=cover, captures=captures, size = size, delete=dele)
     else:
          #('begin_update')
+        #'WTF???????')
+        #current)
         DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, current.id, image=cover, captures=captures,size=size, delete=False)
          #('done_update')
         Done_update()
@@ -150,7 +153,7 @@ def Set_Movie(id):
 def Done_update():
     global current
     current = None
-    print('Done update')
+    #'Done update')
 
 @eel.expose
 def add_director(name):
@@ -229,13 +232,13 @@ def try_connection():
 def download_games():
     r = try_connection()
     if r == 2:
-        Down_Games();
+        Down_Games()
     return r
 
 @eel.expose
 def download_series():
     try:
-        Down_Series();
+        Down_Series()
         return 2
     except URLError:
         print('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
@@ -244,7 +247,7 @@ def download_series():
 @eel.expose
 def download_movies():
     try:
-        Down_Movies();
+        Down_Movies()
         return 2
     except URLError:
         print('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
@@ -253,6 +256,11 @@ def download_movies():
 @eel.expose
 def gen_pdf():
     pass
+
+@eel.expose
+def get_counters():
+    a = DBhandlers.get_counters()
+    return a
 
 eel.start('index_vue.html')
 

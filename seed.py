@@ -115,6 +115,6 @@ game_categories['Otros'] = [
 'Recopilación'
 ]
 
-video_category = ['Todos', 'Acción', 'Animación', 'Aventuras', 'Belico', 'Ciencia Ficcion', 'Cine Negro', 'Comedia',
-'Desconocido', 'Documental', 'Drama', 'Fantastico', 'Infantil', 'Intriga', 'Musical', 'Romance', 'Terror', 'Thriller', 'Western']
+video_category = ['Todos', 'Acción', 'Animación', 'Aventuras', 'Bélico', 'Ciencia Ficción', 'Cine Negro', 'Comedia',
+'Desconocido', 'Documental', 'Drama', 'Fantástico', 'Infantil', 'Intriga', 'Musical', 'Romance', 'Terror', 'Thriller', 'Western']
 

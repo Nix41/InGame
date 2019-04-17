@@ -6,12 +6,12 @@ import base64
 import shutil
 
 def add_category_to_game(game , category):
-    print('QQQQQQQQ')
-    print(category)
+    #'QQQQQQQQ')
+    #category)
     cat = find_category(category)
     game.category = cat
     sess.commit()
-    print(game.category.name)
+    #game.category.name)
 
 def add_gender_to_game(game, gender, category = None):
     try: 
@@ -31,10 +31,10 @@ def find_category(category):
 
 def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0 ,id=-1, image="", topics=[],delete=False):
     if id != -1: 
-        print('hser')
+        #'hser')
         serie = sess.query(Serie).filter(Serie.id == id).one()
         if not delete:
-            print('update')
+            #'update')
             serie.title = title
             serie.year = year
             serie.pais = pais
@@ -43,14 +43,14 @@ def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             if image != '':
                 change_cover(serie, image, series_dir)
         else:
-            print('HERE!!')
+            #'HERE!!')
             remove_images(serie.id, series_dir)
-            print('HERE222222!!')
+            #'HERE222222!!')
             sess.delete(serie)
-            print('Done delete')
+            #'Done delete')
         sess.commit()
     else:
-        print('Creating serie')
+        #'Creating serie')
         serie = Serie(title=title , year= int(year), country=pais , sinopsis=sinopsis, score=score)
         for g in generos:
             add_tv_gender2(serie, g, False)
@@ -61,11 +61,11 @@ def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
         for t in topics:
             add_topic2(serie, t, False)
         sess.add_all([serie])
-        print('done creating')
+        #'done creating')
         sess.commit()
         change_cover(serie, image, series_dir)
-        print(serie.title)
-        print('Out of here')
+        #serie.title)
+        #'Out of here')
 
 def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0, id=-1, image="", topics=[], delete=False):
     if id != -1: 
@@ -83,7 +83,7 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             sess.delete(movie)
         sess.commit()
     else:
-        Movie = DBstructure.Movie(title=title , year= int(year), country=pais , sinopsis=sinopsis, score=score)
+        movie = DBstructure.Movie(title=title , year= int(year), country=pais , sinopsis=sinopsis, score=score)
         for g in generos:
             add_tv_gender2(movie, g)
         for d in directors:
@@ -97,12 +97,10 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
         change_cover(movie, image, movies_dir)
  
 def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[[],[]], id=-1, image="", captures=[], size=0,delete=False):
-    print('Creating')
-    print(id)
+    #id)
     if id != -1: 
         game = sess.query(DBstructure.Game).filter(DBstructure.Game.id == id).one()
         if not delete:
-            print('here')
             game.name = name
             game.launch = launch
             game.description = description
@@ -110,39 +108,29 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
             game.language = language
             game.puntuacion = float(puntuacion)
             game.size = size
-            print('name:', name)
-            print('launch:',launch)
-            print('desc:',description)
-            print('gm:',game_mode)
-            print('lang:',language)
-            print('score:',puntuacion)
-            print('size:', size)
+
             # game.max_players = max_players
             # game.min_players = min_players
             if image != '':
-                print('here!!!!!!!!!!!!!!!!!!')
                 change_cover(game, image, games_dir)
             if len(captures) != 0:
                 change_captures(game, captures)
-            print('EEEEEEEEEEE', category)
             add_category_to_game(game, category)
-            print('out again')
             change_req(game, requirements)
             
         else:
-            print('ÉRASEEEEEEE')
             remove_images(game.id, games_dir ,True)
             del_game(game)
         sess.commit()
     else:
-        print("heresasssss")
-        print('name:', name)
-        print('launch:',launch)
-        print('desc:',description)
-        print('gm:',game_mode)
-        print('lang:',language)
-        print('score:',puntuacion)
-        print('category:', category)
+        #"heresasssss")
+        #'name:', name)
+        #'launch:',launch)
+        #'desc:',description)
+        #'gm:',game_mode)
+        #'lang:',language)
+        #'score:',puntuacion)
+        #'category:', category)
         game = DBstructure.Game(name = name, description= description, game_mode =game_mode, language= language, launch= launch, puntuacion = puntuacion, size=size )
         for g in genders:
             add_game_gender(game, g)
@@ -171,14 +159,14 @@ def add_game_gender(game, gender):
         sess.commit()
 
 def del_game_gender(game, gender):
-    print(gender)
+    #gender)
     if not(game is None) and game != -1:
         for g in game.genders:
             if g.name == gender:
                 game.genders.remove(g)
                 sess.commit()
                 break
-    print(game.genders)
+    #game.genders)
 
 def add_requirement(game, type, req, minor):
     reqd = Requirement(req_type = type , req = req)
@@ -206,8 +194,8 @@ def load_captures(id, images):
 
 def change_captures(game, images):
     old = game.captures_list
-    print(old)
-    print()
+    #old)
+    #)
     c = len(old)
     for o in old:
         if not(o in images):
@@ -219,19 +207,19 @@ def change_captures(game, images):
                 data = base64.b64decode(to_write)
                 out_file.write(data)
             c +=1 
-    print('OUT OF HERE')
+    #'OUT OF HERE')
 
 def remove_images(id, path, game=False):
-    print('removing images')
-    print(path + str(id) + 'image.jpeg')
+    #'removing images')
+    #path + str(id) + 'image.jpeg')
     try:
         os.remove(path + str(id) + 'image.jpeg')
         if game:
-            print('got here')
+            #'got here')
             shutil.rmtree(path + str(id))
     except Exception:
-        print(e)
-        print('Not found')
+        #e)
+        #'Not found')
         pass
     
 def add_director(tv, director, movie=True):
@@ -280,7 +268,7 @@ def add_actor2(tv, actor):
         sess.commit()
 
 def add_tv_gender2(tv, name, movie=True):
-    print(name)
+    #name)
     if not(tv is None) and tv != -1:
         if movie:
             try: 
@@ -292,14 +280,14 @@ def add_tv_gender2(tv, name, movie=True):
                 gender = sess.query(SerieGender).filter(SerieGender.name == name).one()
             except NoResultFound:
                 gender = SerieGender(name = name)
-        print(gender)
-        print(gender.name)
+        #gender)
+        #gender.name)
         tv.genders.append(gender)
         sess.add_all([gender])
         sess.commit()
-        print('done add gendrer')
-        for g in tv.genders:
-            print(g.name)
+        #'done add gendrer')
+        # for g in tv.genders:
+            #g.name)
 
 def del_tv_gender(tv, gender):
     if not(tv is None) and tv != -1:
@@ -351,12 +339,12 @@ def find_game(ids):
         return -1
 
 def del_game(game):
-    print('Game leaving')
+    #'Game leaving')
     for r in game.requirements:
         sess.delete(r)
     sess.delete(game)
     sess.commit()
-    print('Game Gone')
+    #'Game Gone')
 
 def get_downloads():
     d = {}
@@ -378,7 +366,7 @@ def set_downloads(games, series, movies):
 
 def change_req(game,reqs):
     if len(reqs) == 0:
-        print('had to here')
+        #'had to here')
         reqs = [[],[]]
     for r in game.requirements:
         if r.minormax:
@@ -390,3 +378,13 @@ def change_req(game,reqs):
                 if rq['type'] == r.req.req_type:
                     r.req.req = rq['req']
     sess.commit()
+
+def get_counters():
+    counters = []
+    gc = len(sess.query(Game).all())
+    sc = len(sess.query(Serie).all())
+    mc = len(sess.query(Movie).all())
+    counters.append(gc)
+    counters.append(sc)
+    counters.append(mc)
+    return counters

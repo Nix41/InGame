@@ -10,6 +10,13 @@
         <meta http-equiv="pragma" content="no-cache">
     <head>
     <body class="back">
+        <div class="preloader-wrapper">
+            <div class="preloader">
+                <div style="width: 700px; margin-left:-300px;">
+                    <img src="img/ingame-05.png" class="img-fluid" style="width:100%;" alt="NILA">
+                </div>
+            </div>
+        </div>
         <div id="root">
             <banner></banner>
             <!--filters-->
@@ -17,7 +24,7 @@
                 <div class="d-flex justify-content-center" style="background-color:rgb(51,51,51);width:100%; margin-top:125px;">
                     <div class="p-2 d-flex flex-wrap justify-content-center" style="text-align:center; width:100%;">
                         <div v-for="gen in filter_video_gen">
-                            <div v-bind:id="'catv' + gen[1]" class="p-2" :onclick="'filter_clk(' + gen[1] + ')'"   v-bind:style="'height:40px; color:white; background-color:rgb(77,77,77); margin:5px; border-radius: 15px;'">
+                            <div v-bind:id="'catv' + gen[1]" class="p-2 click" :onclick="'filter_clk(' + gen[1] + ')'"   v-bind:style="'height:40px; color:white; background-color:rgb(77,77,77); margin:5px; border-radius: 15px;'">
                                 <div >
                                     <p>{{ gen[0] }}</p>
                                 </div>
@@ -34,36 +41,36 @@
                                         <img src="img/search_icon.png" class="img-fluid" style="margin-top:-2; margin-left:5px;">
                                     </div>
                                 </a>
-                                <input id='name' type="text" v-model="title" class="input" style="margin-top:-33px; width:280px; height:35px; margin-left: 45px; color:white;" placeholder="Título...">
+                                <input id='name' type="text" v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-model="title" class="input" style="margin-top:-33px; width:280px; height:35px; margin-left: 45px; color:white;" placeholder="Título...">
                             </form>
                         </div>
                         <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                             <form style="border-radius: 15px;">
-                                <input id='name_filter' v-on:keyup="check_year"min="0" v-model="year" type="number" name="quantity" min="1980" max="3000" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Lanzamiento...">
+                                <input id='name_filter' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-on:keyup="check_year" min="0" v-model="year" type="number" name="quantity" min="1980" max="3000" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Lanzamiento...">
                             </form>
                         </div>
                         <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                             <form style="border-radius: 15px;">
-                                <input id='name_filter' v-on:keyup="check_score"min="0" v-model="filter_score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
+                                <input id='name_filter' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-on:keyup="check_score" min="0" v-model="filter_score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
                             </form>
                         </div>
                         <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                             <form style="border-radius: 15px;">
-                                <input id='name_filter' type="text" v-model="filter_language" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Actor...">
+                                <input id='name_filter' type="text" v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-model="filter_language" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Actor...">
                             </form>
                         </div>
                         <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                             <form style="border-radius: 15px;">
-                                <input id='name_filter' type="text" v-model="filter_mode" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Director...">
+                                <input id='name_filter' type="text" v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-model="filter_mode" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Director...">
                             </form>
                         </div>
                         <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                             <form style="border-radius: 15px;">
-                                <input id='name_filter' type="text" v-model="filter_topic" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Tema...">
+                                <input id='name_filter' type="text" v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-model="filter_topic" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Tema...">
                             </form>
                         </div>
                         <div class="d-flex">
-                            <div class="p-2">
+                            <div class="p-2 click">
                                 <div :onmouseover="'list_red()'" :onmouseout="'list_gray()'" :onclick="'List_s()'" style="margin-top:-3px; background-color: none; width:48px;">
                                     <div v-if="list_select == 0">
                                         <img src="img/list.png" class="img-fluid" style="height: 2vw; width:100%; object-fit: cover; margin-top:-1px;">
@@ -79,10 +86,11 @@
             </div>
             <!--endfilters-->
             <!-- Page section -->
-            <section v-if="list == 0" style="padding-left:8%; padding-right:8%; margin-top:70px;">
-                <div v-for="series5 in series">
-                    <div class="d-flex  justify-content-center" style="padding-bottom:2%;">
-                        <div v-for="serie in series5" class="p-2" style="text-align:center;">
+            <section v-if="list == 0" style="padding-left:10%; padding-right:10%; margin-bottom: 100px;">
+                <div id="style-scroll" onscroll="OnScroll_series('style-scroll')" class="table-wrapper-scroll-y my-custom-scrollbar4" style="margin-top:20px; padding-top:20px;">
+                <div class="d-flex flex-wrap justify-content-center" style="padding-bottom:2%;">
+                    <div v-for="serie in series_dic">
+                        <div class="p-2 click" style="text-align:center;">
                             <div :onclick="'see_s(' + serie[0] + ')'" data-toggle="modal" data-target="#SerieModal" style="height: 337px; width:240px; margin-bottom:80px; margin-left:5px; margin-right:5px;">
                                 <div class="card">
                                     <img :src="'' + serie[1].cover_path" class="card-img img-fluid" style="height: 18vw; width:100%; margin:0 important; object-fit: cover;" alt="Responsive image">
@@ -91,16 +99,17 @@
                                 <div class="review-text" style="margin-top:10px;">
                                     <h5 style="text-align:center; margin-bottom:2%;">{{ serie[1].title }}</h5>
                                     <div class="rating" style="text-align:center; margin-bottom:2%;">
-                                        <i v-if="serie.score/2 >= 1" class="fa fa-star"></i>
-                                        <i v-if="serie.score/2 >= 2" class="fa fa-star"></i>
-                                        <i v-if="serie.score/2 >= 3" class="fa fa-star"></i>
-                                        <i v-if="serie.score/2 >= 4" class="fa fa-star"></i>
-                                        <i v-if="serie.score/2 >= 5" class="fa fa-star is-fade"></i>
+                                        <i v-if="serie[1].score/2 >= 1" class="fa fa-star"></i>
+                                        <i v-if="serie[1].score/2 >= 2" class="fa fa-star"></i>
+                                        <i v-if="serie[1].score/2 >= 3" class="fa fa-star"></i>
+                                        <i v-if="serie[1].score/2 >= 4" class="fa fa-star"></i>
+                                        <i v-if="serie[1].score/2 >= 5" class="fa fa-star is-fade"></i>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </section>
             <!-- Page section end -->
@@ -108,7 +117,7 @@
                 <!--Table-->
                 <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; height:850px; margin-bottom: 150px; margin-top:50px;">
                     <div class="d-flex">
-                        <div class="table-wrapper-scroll-y my-custom-scrollbar col-md-7" style="padding:0 !important;" id="style-scroll">
+                        <div onscroll="OnScroll_series('style-scroll')" class="table-wrapper-scroll-y my-custom-scrollbar col-md-7" style="padding:0 !important;" id="style-scroll">
                         <div class="p-2 inverse-scroll" style="padding:0 !important; margin-left:30px;">
                             <div v-for="serie in series_dic">
                             <div :onmouseover="'change_s(' + serie[0] + ')'" :onmouseout="'restore_s(' + serie[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
@@ -167,12 +176,10 @@
                                             <div style="color:white; margin-left:10px;">
                                                 <h4>Directores:</h4>
                                             </div>
-                                            <div class="d-flex flex-wrap" style="max-width:750px;">
-                                                <div v-if="directors.length > 0">
-                                                    <div v-for="dic in directors" style="color:white;  margin-right:10px;">
-                                                        <div>
-                                                            <p style="font-size:20px;">{{ dic[1] }} </p>
-                                                        </div>
+                                            <div v-if="directors.length > 0">
+                                                <div class="d-flex flex-wrap" style="width:400px; color: white;">
+                                                    <div v-for="dic in directors" class="p-2" style="margin-bottom:0 !important; padding:0 !important;">
+                                                        <p style="font-size:20px; margin-bottom:0 !important; padding: 0 !important; margin-right: 10px;">| {{ dic[1] }}  </p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -340,7 +347,7 @@
                                                 </div>
                                             </div>
                                             <div v-else style="width:210px;" onclick="false_input()">
-                                                <img :src="data" class="img-fluid" style="height: 16vw; width:100%; object-fit: cover; border-radius: 20px;" alt="Responsive image">
+                                                <img :src="data" class="img-fluid" style="margin-left:15px; margin-top:15px; height: 16vw; width:100%; object-fit: cover; border-radius: 20px;" alt="Responsive image">
                                             </div>
                                         </div>
                                         <input type="file" @change="cat_image" accept="image/*" id="open_file" style="display:none;"/>
@@ -542,6 +549,7 @@
             <footerv></footerv>
         </div>
         <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/preloader.js"></script>
         <script src="js/popper.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/vue.js"></script>
