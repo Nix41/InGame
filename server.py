@@ -11,8 +11,10 @@ eel.init('web')
 current = None
 to_show = []
 index = 0
-load_amount = 1
-initial_load = 10
+start = 0
+end = 0 
+load_amount = 10
+find_match = []
 
 @eel.expose
 def current():
@@ -21,22 +23,51 @@ def current():
 
 @eel.expose
 def get_more(i = 1):
-    global index
     global to_show
-    global initial_load
+    global load_amount
+    global start
+    global end
+    print('Start --> ', start, '   End --> ', end )
+    print('got here with ', i)
     l = len(to_show)
+    r = []
     if int(i) == 1:
-        if index == 0:
-            up = min(l, index + initial_load)
+        if end == l or end == 0:
+            print('h1')
+            down = 0
+            up = min(l, down + load_amount)
+            print('* ', l, '*', down, '*', load_amount)
         else:
-            up = min(l, index + load_amount)
-        r = to_show[index: up]
-        index = up
+            print('h2')
+            up = min(l, end + load_amount)
+            down = end
+        r = to_show[down: up]
+        print('Low:', down , '    high:', up)
+        start = down
+        end = up
     else:
-        low = max(0, index - load_amount)
-        r = to_show[low : index]
-        index = low
+        if start == 0:
+            low = l - l%load_amount
+            high = l
+        else:
+            low = max(0, start - load_amount)
+            high = start
+        r = to_show[low : high]
+        print('Low:', low, '    high:', high)
+        start = low
+        end = high
+    print('returning:', len(r), '   Start: ', start, '   End: ', end)
+    print()
+    print()
     return r
+@eel.expose
+def next_obj(id, direction = 1):
+    print('*', id, '*', direction)
+    cui =find_match[id]
+    if int(direction) == 1 and cui < len(to_show) - 1:
+        return to_show[cui + 1]
+    elif int(direction) != 1 and cui > 0:
+        return to_show[cui - 1]
 
 @eel.expose
 def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topic=""):
@@ -51,7 +82,10 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
     print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     series = Filters.filter_series(name, gender,actor,director, score, year, topic)
     to_show = series
-    index = 0
+    for i in to_show:
+        find_match.append(i['id'])
+    start = 0
+    end = 0
     return get_more()
 
 @eel.expose
@@ -67,7 +101,10 @@ def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, to
     print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
     to_show = movies
-    index = 0
+    for i in to_show:
+        find_match.append(i['id'])
+    start = 0
+    end = 0
     return get_more()
 
 @eel.expose
@@ -81,7 +118,10 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
         gender = ''
     games = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score)
     to_show = games
-    index = 0
+    for i in to_show:
+        find_match.append(i['id'])
+    start = 0
+    end = 0
     return get_more()
 
 @eel.expose

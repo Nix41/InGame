@@ -255,20 +255,52 @@ async function get_recent(){
 
 
 async function OnNext(i=1,t='g'){
-    var next = [];
-    for(x = 0; x < 10; x++){
-        var element = await eel.get_more(i)();
-        if(element != ''){
-            next.push(element)
-        }
-    }
+    var element = await eel.get_more(i)();
     app.games_dic = [];
     app.series_dic = [];
-    for(x in next){
+    for (x in element){
         if(t == 'g'){
-            app.games_dic.push([x,next[x][0]]);
+            app.games_dic.push([x,element[x]]);
         }else{
-            app.series_dic.push([x,next[x][0]]);
+            app.series_dic.push([x,element[x]]);
         }
     }
+}
+
+async function SingleNext(dir = 1, key, id , typ='g'){
+    alert(id);
+    app.key = key + 1;
+    var element = await eel.next_obj(id, dir)();
+    if (typ == 'g'){
+        app.name = element.name;
+        app.description = element.description;
+        app.requirements = element.requirements;
+        app.genders = element.genders;
+        app.category = element.category;
+        app.score = element.score;
+        app.size = element.size;
+        app.launch = element.launch;
+        app.language = element.language;
+        app.gamemode = element.game_mode;
+        app.cover_path = element.cover_path;
+        app.captures = element.captures;
+    }
+    else{
+        app.name = element.title;
+        app.description = element.sinopsis;
+        app.genders = element.genders;
+        app.launch = element.year;
+        app.score = element.score;
+        app.country = element.country;
+        app.actors = [];
+        for(x in element.actors){
+            app.actors.push([x,element.actors[x]]);
+        }
+        app.directors = [];
+        for(x in element.directors){
+            app.directors.push([x,element.directors[x]]);
+        }
+        app.cover_path = element.cover_path
+    }
+   
 }
