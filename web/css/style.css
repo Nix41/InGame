@@ -293,9 +293,6 @@ input[type=file] {
 }
 
 /*----------------------- Preloader -----------------------*/
-body.preloader-site {
-    overflow: hidden;
-}
 
 .preloader-wrapper {
     height: 100%;

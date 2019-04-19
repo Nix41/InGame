@@ -4,6 +4,6 @@ $(document).ready(function($) {
 });
 
 $(window).on('load', function() {
-    $('.preloader-wrapper').fadeOut();
+    $('.preloader-wrapper').fadeOut("slow");
     $('body').removeClass('preloader-site');
 });

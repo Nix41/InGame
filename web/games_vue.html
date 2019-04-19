@@ -129,9 +129,9 @@
             <!-- Page section end -->
             <!-- Page section list -->
                 <!--Table-->
-                <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; height:750px; margin-top:150px;">
-                        <div class="d-flex">
-                            <div class="p-2 inverse-scroll" style="padding:0 !important; margin-left:30px;">
+                <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; margin-top:180px;">
+                        <div class="d-flex justify-content-center">
+                            <div class="p-2" style="padding:0 !important; margin-left:30px;">
                                 <div id="inf" v-for="game in games_dic">
                                 <div :onclick="'see(' + game[0] + ')'" data-toggle="modal" data-target="#myModal" :onmouseover="'change(' + game[0] + ')'" :onmouseout="'restore(' + game[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
                                     <div v-bind:id="'L'+ game[0]" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px;">
@@ -140,7 +140,23 @@
                                                 <div class="score_list red">{{ game[1].score }}</div>
                                             </div>
                                             <div class="p-2" style=" padding-left:10px; font-size:20px; color:white; margin-top: -7px; padding-right:0 !important;">
-                                                <div style="width:480px;">{{ game[1].name }}</div>
+                                                <div class="d-flex">
+                                                    <div class="p-2" style="width:480px; padding: 0 !important;">{{ game[1].name }}</div>
+                                                    <div class="p-2" style="padding: 0 !important; font-size:20px; color:white; margin-left:700px; padding-top:10px;">
+                                                        {{ game[1].launch }}
+                                                    </div>
+                                                    <div class="p-2" style="padding: 0 !important; font-size:20px; color:white; margin-left:25px; padding-top:10px;">
+                                                        4 player
+                                                    </div>
+                                                    <div class="p-2" style="padding: 0 !important; font-size:20px; color:white; margin-left:25px; padding-top:10px;">
+                                                        <div v-if="game[1].size != null" style="margin-right:15px;">
+                                                            {{ game[1].size }} Gb
+                                                        </div>
+                                                        <div v-else style="margin-right:15px;">
+                                                            ???
+                                                        </div>
+                                                    </div>
+                                                </div>
                                                 <div>
                                                     <div class="row">
                                                         <div class="rating" style="padding-left:15px;">
@@ -156,75 +172,23 @@
                                                             <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
                                                         </div>
                                                         <div style="padding-left:15px;">
-                                                            {{ game[1].category }}
+                                                            <div class="d-flex">
+                                                                <div class="p-2" style="padding:0 !important;">
+                                                                     {{ game[1].category }} |
+                                                                </div>
+                                                                <div v-for="gen in game[1].genders">
+                                                                    <div class="p-2" style="padding:0 !important;">| {{ gen }} |</div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <div class="p-2" style="font-size:20px; color:white; margin-left:50px; padding-top:10px;">
-                                                {{ game[1].launch }}
-                                            </div>
-                                            <div class="p-2" style="font-size:20px; color:white; margin-left:25px; padding-top:10px;">
-                                                4 player
-                                            </div>
-                                            <div class="p-2" style="font-size:20px; color:white; margin-left:25px; padding-top:10px;">
-                                                <div v-if="game[1].size != null">
-                                                    {{ game[1].size }} Gb
-                                                </div>
-                                                <div v-else>
-                                                    ???
                                                 </div>
                                             </div>
                                         </div>  
                                     </div>
                                 </div>
                                 </div>
-                            </div>
-                            <div id="style-scroll" class="col-md-5 table-wrapper-scroll-y my-custom-scrollbar2" style="padding:0 !important; ">
-                                <div style="margin-right:20px; height:645px;">
-                                <div id="details" class="container-fluid" style="background-color: rgb(26,26,26); padding-top:30px; padding-left:20px; padding-right:20px;">
-                                    <div style="color:white; font-size:24px;">
-                                        <div style="padding-bottom:50px;">
-                                            Descripcion:
-                                            <div style="font-size:18px;">
-                                                {{ description }}
-                                            </div>
-                                        </div>
-                                        <div style="padding-bottom:10px;">
-                                            Requisitos Minimos:
-                                            <div style="font-size:18px;">
-                                                <ul v-for="req in Min_req">
-                                                    <li>{{ req.type }} : {{ req.req }}</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        <div style="padding-bottom:10px;">
-                                            Requisitos Recomendados:
-                                            <div style="font-size:18px;">
-                                                <ul v-for="req in Max_req">
-                                                    <li>{{ req.type }} : {{ req.req }}</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                        Capturas:
-                                        <div v-for="cat in datas">
-                                            <div class="d-flex" style="margin-bottom: 100px;">
-                                                <div class="p-2">
-                                                        <div style="height:50px; width:280px;">
-                                                            <img :src="'' + cat[0]" class="img-fluid" style="height: 8vw; width:100%; margin:0 important; object-fit: cover;">
-                                                        </div>
-                                                </div>
-                                                <div v-if="cat[1] != null" class="p-2">
-                                                        <div style="height:50px; width:280px;">
-                                                            <img :src="'' + cat[1]" class="img-fluid" style="height: 8vw; width:100%; margin:0 important; object-fit: cover;">
-                                                        </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div style="height:20px;"></div>
-                                    </div>
-                                </div>
-                            </div>  
+                            </div> 
                         </div>
                     </section>
                     <div class="d-flex justify-content-center" style="margin-bottom: 20px;">
@@ -276,37 +240,37 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="p-2" style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom: 15px;">
+                                        <div class="p-2" style="margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom: 15px;">
                                             <div style="color:white;">
                                                 <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" style="margin-left:20px;">
-                                                    <p >modo de juego:  {{ gamemode }} </p>
+                                                    <p style="margin:0 !important;">modo de juego:  {{ gamemode }} </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                        <div class="p-2" style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
                                             <div style="color:white;">
-                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-if="score > 0" style="margin-top:-28px; margin-left:20px;">
-                                                    <p>puntuación:  {{ score }} puntos </p>
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" v-if="score > 0">
+                                                    <p style="margin:0 !important;">puntuación:  {{ score }} puntos </p>
                                                 </div>
-                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-else style="margin-top:-28px; margin-left:20px;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" v-else>
                                                     <p>puntuación:  ??? puntos </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                        <div class="p-2" style="margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
                                             <div style="color:white;">
-                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;">
-                                                    <p>idioma:  {{ language }} </p>
+                                                <div style="margin-left:15px; margin-right:15px;">
+                                                    <p style="margin:0 !important;">idioma:  {{ language }} </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px;">
+                                        <div class="p-2" style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px;">
                                             <div style="color:white;">
-                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-if="size > 0" style="margin-top:-28px; margin-left:20px;">
-                                                    <p>espacio en disco:  {{ size }} GB</p>
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" v-if="size > 0">
+                                                    <p style="margin:0 !important;">espacio en disco:  {{ size }} GB</p>
                                                 </div>
-                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-else style="margin-top:-28px; margin-left:20px;">
-                                                    <p>espacio en disco:  ??? GB</p>
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" v-else>
+                                                    <p style="margin:0 !important;">espacio en disco:  ??? GB</p>
                                                 </div>
                                             </div>
                                         </div>
