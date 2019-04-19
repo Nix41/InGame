@@ -114,7 +114,7 @@
                         <div class="d-flex">
                             <div class="p-2 inverse-scroll" style="padding:0 !important; margin-left:30px;">
                                 <div v-for="serie in series_dic">
-                                <div :onmouseover="'change_s(' + serie[0] + ')'" :onmouseout="'restore_s(' + serie[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
+                                <div :onclick="'see_s(' + serie[0] + ')'" data-toggle="modal" data-target="#SerieModal" :onmouseover="'change_s(' + serie[0] + ')'" :onmouseout="'restore_s(' + serie[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
                                     <div v-bind:id="'L'+ serie[0]" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px;">
                                         <div class="d-flex">
                                             <div class="p-2">

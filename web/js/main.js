@@ -7,8 +7,8 @@ Vue.component('banner',{
     template: `
     <nav class='justify-content-center'>
         <img src='img/banner_new.png' class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
-        <div style="width:350px; margin-top:-120px; margin-left:50px;">
-            <img src='img/ingame-05.png' style="width:100%;" class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
+        <div style="width:430px; margin-top:-150px; margin-left:10px;">
+            <img src='img/ingame-05.png' style="height: 8vw; width:100%; margin:0 important; object-fit: cover;" class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
         </div>
         <ul class='card-img-overlay d-block navbar-nav d-flex flex-row-reverse'>
             <li class='p-2 nav-item'>

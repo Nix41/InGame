@@ -50,6 +50,7 @@ function filter_over(gen){
     app.filter_selected_gen = gen.id;
     let g = 0;
     app.filter_subgen = [];
+    app.filter_selected_subgen = '';
     for (x in app.categories[gen.id]){
         let l = [];
         l.push(g);
