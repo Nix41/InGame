@@ -185,7 +185,7 @@ def find_games(sourcelist):
     with open('lists/not_found_games.txt' , 'w+') as std:
         std.write(not_found)          
 
-def extract_info(url, build_method):
+def extract_info(url, build_method, dname):
     url = 'https://www.filmaffinity.com' + url
     mov = urllib.request.urlopen(url)
     movsoup = BeautifulSoup(mov)
@@ -237,7 +237,7 @@ def extract_info(url, build_method):
         score = 0
     print('    Score:', score)
     if not (image is None):
-        build_method(name, anno, pais, sinopsis, generos, directors, reparto, image['src'], score, topics)
+        build_method(dname, anno, pais, sinopsis, generos, directors, reparto, image['src'], score, topics)
 
 def build_serie(name, year, pais, sinopsis, generos, directors, reparto, image, score, topics):
     name = name[:-11]
@@ -321,13 +321,13 @@ def search(listdir , stype='' ):
                 a = anchor.a
                 print('url:',a['href'])
                 if(stype == ''):
-                    extract_info(a['href'], build_movie)
+                    extract_info(a['href'], build_movie, m[:-1])
                     direct = movies_dir + 'notfoundmovies.txt'
                     one = OnExistance(name = m, tipo = 'Movie')
                     sess.add_all([one])
                     sess.commit()
                 if(stype == 'TV_SE'):
-                    extract_info(a['href'], build_serie)
+                    extract_info(a['href'], build_serie), m[:-1]
                     direct = series_dir + 'notfoundseries.txt'
                     one = OnExistance(name = m, tipo = 'Serie' )
                     sess.add_all([one])
