@@ -13,21 +13,22 @@
                 <div class="carousel-inner" >
                     <div class="carousel-item active">
                         <img class="card-img img-fluid d-block w-100" src="img/carousel-back.png" alt="First slide">
-                        <div class="card-img-overlay d-flex justify-content-center" >
-                            <div class="p-2">
+                        <div class="card-img-overlay d-flex justify-content-center" style="padding:0 !important;">
+                            <div class="p-2" style="padding:0 !important;">
                                 <img class="d-block " src="img/slider-1.jpg" alt="Second slide">
-                                <div class="carousel-caption d-none d-md-block">
-                                    <h1 class="text-sm-left yasmany"> IN-GAME </h1>
-                                    <p class="text-sm-left" style='font-size: 50px ; width: 500px' > Series, Juegos y Peliculas  </p>
+                                <div class="carousel-caption d-none d-md-block" style="width: 800px; height: 400px;">
+                                    <img src="img/ingame-05.png" class="card-img img-fluid" style="height: 10.8vw; width:100%; margin:0 important; object-fit: cover;" alt="Responsive image">
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="carousel-item" v-for="rec in recent">
                         <img class="card-img img-fluid d-block w-100" src="img/carousel-back.png" alt="First slide">
-                        <div class="card-img-overlay d-flex justify-content-center" style="margin-top:60px;">
+                        <div class="card-img-overlay d-flex justify-content-center" style="padding:0 !important;">
                             <div class="p-2">
-                                <img class="d-block H-100" :src="rec.src" alt="Second slide">
+                                <div style="width:600px; height: 1000px;">
+                                    <img :src="rec.src" class="card-img img-fluid" style="height: 46.8vw; width:100%; margin:0 important; object-fit: cover;" alt="Responsive image">
+                                </div>
                                 <div class="carousel-caption d-none d-md-block">
                                     <h2 class="text-sm-left" style='width: 350px'> {{ rec.name}} </h5>
                                     <p class="text-sm-left" style='font-size: 20px ; width: 350px' > {{rec.description}} </p>
