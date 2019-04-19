@@ -73,6 +73,8 @@ def next_obj(id, direction = 1):
 def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topic=""):
     global to_show
     global index
+    global start
+    global end
     if score == '':
         score = 0
     if year == '':
@@ -92,6 +94,8 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
 def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, topic=""):
     global to_show
     global index
+    global start
+    global end
     if score == '':
         score = 0
     if year == '':
@@ -111,6 +115,8 @@ def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, to
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0):
     global to_show
     global index
+    global start
+    global end
     if category == 'Todos':
         category = ''
         gender=''
