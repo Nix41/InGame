@@ -98,7 +98,11 @@ def find_games(sourcelist):
     games = []
     not_found = ''  
     with open(sourcelist , "r") as std:
-        games = std.readlines()
+        try:
+            line = std.readline()
+            games.append(line)
+        except:
+            pass
     options = Options()
     options.headless = True
     options.add_argument('--ignore-certificate-errors')
@@ -298,7 +302,11 @@ def search(listdir , stype='' ):
     urlend = '&fromyear=&toyear='
     movies = []
     with open(listdir , "r") as std:
-        movies = std.readlines()
+        try:
+            line = std.readline()
+            movies.append(line)
+        except:
+            pass
     not_found = ''
     direct = ''
     for m in movies:
