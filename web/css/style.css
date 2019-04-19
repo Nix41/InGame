@@ -175,6 +175,25 @@ input[type=file] {
   
 }
 
+#style-modal::-webkit-scrollbar-track
+{
+    border-radius: 10px;
+    background-color: rgb(51,51,51);;
+}
+
+#style-modal::-webkit-scrollbar
+{
+    width: 12px;
+    background-color: rgb(51,51,51);
+}
+
+#style-modal::-webkit-scrollbar-thumb
+{
+    border-radius: 10px;
+    background-color: rgb(128,128,128);
+  
+}
+
 .my-custom-scrollbar1 {
     position: relative;
     height: 200px;
@@ -296,3 +315,14 @@ body.preloader-site {
     transform: translate(-50%, -50%);
     width: 120px;
 }
+
+/* sticky */
+.after{
+	position: absolute;
+}
+
+.sticky {
+	position: fixed;
+	top: 0;
+	width: 100%;
+  }

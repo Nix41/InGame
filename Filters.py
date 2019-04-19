@@ -1,5 +1,6 @@
  
 from DBstructure import *
+import unicodedata
 
 categories = ['']
 
@@ -111,8 +112,13 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
         topic_filter  = True
         for gen in gender:
             this_topic = False
+            c_gen = unicodedata.normalize('NFD', gen).encode('ascii', 'ignore')
             for g in s.genders:
-                if gen in g.name:
+                c_g = unicodedata.normalize('NFD', g.name).encode('ascii', 'ignore')
+                print('Fil: ', c_gen, '    Old: ', c_g)
+                if c_gen.lower() in c_g.lower():
+                    print("True")
+                    print(s.title)
                     this_topic = True
             if not this_topic:
                 topic_filter = False
@@ -215,14 +221,17 @@ def get_recent():
         game['id'] = games[i].id
         game['name'] = games[i].name
         game['description'] = games[i].description
+        game['src'] = games[i].cover_path
         serie = {}
         serie['id'] = series[i].id
         serie['name'] = series[i].title
         serie['description'] = series[i].sinopsis
+        serie['src'] = series[i].cover_path
         movie = {}
         movie['id'] = movies[i].id
         movie['name'] = movies[i].title
         movie['description'] = movies[i].sinopsis
+        movie['src'] = movies[i].cover_path
         recent.append(game)
         recent.append(serie)
         recent.append(movie)

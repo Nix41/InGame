@@ -22,10 +22,11 @@ def get_captures(game, ids):
     except: FileExistsError
         
     for im in game.findAll('img', class_='wi100'):
-        with urllib.request.urlopen(im['data-src']) as response, open(dirt + slash + 'image' + str(i) + '.jpeg', 'wb') as out_file:
-            data = response.read()
-            out_file.write(data)
-        i = i + 1
+        if not('video' in im['data-src']):
+            with urllib.request.urlopen(im['data-src']) as response, open(dirt + slash + 'image' + str(i) + '.jpeg', 'wb') as out_file:
+                data = response.read()
+                out_file.write(data)
+                i = i + 1
 
 def gen_requisitos(gameurl):
     i = 0
@@ -50,9 +51,10 @@ def extract_req(req, game, boo):
         if key in sep[0]:
             size = 0
             p = re.compile(r'\d+')
-            st = p.findall(sep[1])
-            if len(st) > 0:
-                size = st[0]
+            if len(sep) > 1:
+                st = p.findall(sep[1])
+                if len(st) > 0:
+                    size = st[0]
             game.size = size
             break
     game.requirements.append(gr)
@@ -180,7 +182,7 @@ def find_games(sourcelist):
         else:
             print('    Ya has hecho esta busqueda: ' + g)
     driver.quit()
-    with open('lists/not_found_games' , 'w+') as std:
+    with open('lists/not_found_games.txt' , 'w+') as std:
         std.write(not_found)          
 
 def extract_info(url, build_method):
@@ -336,9 +338,9 @@ def search(listdir , stype='' ):
         else:
             print('    Ya has hecho esta busqueda ' + m)
     if(stype == ''):
-        direct = 'lists/not_found_movies'
+        direct = 'lists/not_found_movies.txt'
     if(stype == 'TV_SE'):
-        direct = 'lists/not_found_series'
+        direct = 'lists/not_found_series.txt'
     with open(direct , 'w+')as std:
                     std.write(not_found)
      

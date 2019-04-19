@@ -20,8 +20,8 @@
         <div id="root">
             <banner></banner>
             <!--filters-->
-            <div class="fixed">
-                <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:125px;">
+            <div class="after" id="navbar" style="width: 100%; background-color: black; z-index: 100;">
+                <div style="background-color:rgb(51,51,51); width:100%; height:50px;">
                     <div class="d-flex justify-content-center" style="text-align:center;">
                         <div v-for="gen in filter_gen">
                             <div v-bind:id="'' + gen" class="p-2 click" :onclick="'filter_over(' + gen + ')'" :onmouseover="'filter_mouse(' + gen + ',' + '1' + ')'" :onmouseout="'filter_mouse(' + gen + ',' + '0' + ')'" v-bind:style="'width:100px; height:40px; color:white; background-color:rgb(77,77,77); margin:5px; border-radius: 15px;'">
@@ -98,9 +98,10 @@
                 </div>
             </div>
             <!--endfilters-->
+
             <!-- Page section -->
-            <section v-if="list == 0" style="padding-left:10%; padding-right:10%; margin-bottom: 100px;">
-                <div id="style-scroll" onscroll="OnScroll('style-scroll')" class="table-wrapper-scroll-y my-custom-scrollbar4" style="margin-top:20px; padding-top:20px;">
+            <section v-if="list == 0" style="padding-left:10%; padding-right:10%; margin-bottom: 40px; margin-top: 180px;">
+                <div style="margin-top:20px; padding-top:20px;">
                 <div class="d-flex flex-wrap justify-content-center" style="padding-bottom:2%;">
                     <div v-for="game in games_dic">
                         <div class="p-2 click" style="text-align:center;">
@@ -128,12 +129,11 @@
             <!-- Page section end -->
             <!-- Page section list -->
                 <!--Table-->
-                <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; height:850px; margin-bottom: 150px; margin-top:50px;">
+                <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; height:750px; margin-top:150px;">
                         <div class="d-flex">
-                            <div onscroll="OnScroll()" class="table-wrapper-scroll-y my-custom-scrollbar col-md-7" style="padding:0 !important;" id="style-scroll">
                             <div class="p-2 inverse-scroll" style="padding:0 !important; margin-left:30px;">
                                 <div id="inf" v-for="game in games_dic">
-                                <div :onmouseover="'change(' + game[0] + ')'" :onmouseout="'restore(' + game[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
+                                <div :onclick="'see(' + game[0] + ')'" data-toggle="modal" data-target="#myModal" :onmouseover="'change(' + game[0] + ')'" :onmouseout="'restore(' + game[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
                                     <div v-bind:id="'L'+ game[0]" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px;">
                                         <div class="d-flex">
                                             <div class="p-2">
@@ -179,7 +179,6 @@
                                     </div>
                                 </div>
                                 </div>
-                            </div>
                             </div>
                             <div id="style-scroll" class="col-md-5 table-wrapper-scroll-y my-custom-scrollbar2" style="padding:0 !important; ">
                                 <div style="margin-right:20px; height:645px;">
@@ -228,6 +227,14 @@
                             </div>  
                         </div>
                     </section>
+                    <div class="d-flex justify-content-center" style="margin-bottom: 20px;">
+                        <div class="p-2" onclick="OnNext('0')">
+                            <img src="img/arrow_l.png" class="card-img img-fluid" style="width:100%; margin:0 important;" alt="Responsive image">
+                        </div> 
+                        <div class="p-2" onclick="OnNext('1')">
+                            <img src="img/arrow_r.png" class="card-img img-fluid" style="width:100%; margin:0 important;" alt="Responsive image">
+                        </div>    
+                    </div>
                     <!--Table-->
             <!-- Page section list end -->
             <!-- The Modal -->
@@ -240,41 +247,43 @@
                             <div class="span-12" style="margin-right:8px;">
                                 <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
                             </div>
+                            <div class="p-2 click" onclick="SingleNext('0')" style="width:100px; position: fixed; margin-top: 400px; margin-left:-250px;">
+                                <img src="img/arrow_l.png" class="card-img img-fluid" style="width:100%; margin:0 important;" alt="Responsive image">
+                            </div>
+                            <div class="p-2 click" onclick="SingleNext('1')"  style="width:100px; position: fixed; margin-top: 400px; margin-left:1250px;">
+                                <img src="img/arrow_r.png" class="card-img img-fluid" style="width:100%; margin:0 important;" alt="Responsive image">
+                            </div>  
                             <div class="d-flex" style="margin-top:30px;">
-                                <div class="p-2" style="height:300px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:33px;">
-                                    <div class="" style="width:200px; height:280px; margin-top:2px; margin-left: 10px;">
-                                        <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:10vw; border-radius: 20px; object-fit: cover;" alt="Responsive image">
+                                <div class="p-2" style="height:600px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:33px;">
+                                    <div class="" style="width:400px; height:580px; margin-top:2px; margin-left: 10px;">
+                                        <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:20.3vw; border-radius: 20px; object-fit: cover;" alt="Responsive image">
                                     </div>
                                 </div>
                                 <div class="p-2" style="margin-left:20px;">
-                                    <div style="width:785px; height:100px;">
-                                        <img src="img/details_text.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
-                                        <div style="color:white;">
-                                            <div style="margin-top:-28px; margin-left:20px;">
-                                                <p>Título:  {{ name }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex" style="margin-top:-50px;">
-                                        <div style="width:175px; height:100px;">
-                                            <img src="img/date.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                    <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="width:608px; height:590px;" id="style-modal">
+                                    <div class="d-flex flex-wrap" style="margin-bottom: 5px;">
+                                        <div class="p-2" style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom: 15px;">
                                             <div style="color:white;">
-                                                <div style="margin-top:-28px; margin-left:20px;">
-                                                    <p>fecha:  {{ launch }}</p>
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" style="margin-left:20px;">
+                                                    <p >Título:  {{ name }}</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="width:591px; height:100px; margin-left:20px;">
-                                            <img src="img/game_mode.png" class="card-img rounded-0 img-fluid" alt="Responsive image">
+                                        <div class="p-2" style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom: 15px;">
                                             <div style="color:white;">
-                                                <div style="margin-top:-30px; margin-left:20px;">
-                                                    <p> modo de juego:  {{ gamemode }} </p>
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" style="margin-left:20px;">
+                                                    <p >fecha:  {{ launch }}</p>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="d-flex flex-wrap" style="margin-top:-50px;">
-                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                        <div class="p-2" style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom: 15px;">
+                                            <div style="color:white;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" style="margin-left:20px;">
+                                                    <p >modo de juego:  {{ gamemode }} </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
                                             <div style="color:white;">
                                                 <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-if="score > 0" style="margin-top:-28px; margin-left:20px;">
                                                     <p>puntuación:  {{ score }} puntos </p>
@@ -284,14 +293,14 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                        <div style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
                                             <div style="color:white;">
                                                 <div style="margin-left:15px; margin-right:15px; margin-top:5px;">
                                                     <p>idioma:  {{ language }} </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                        <div style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px;">
                                             <div style="color:white;">
                                                 <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-if="size > 0" style="margin-top:-28px; margin-left:20px;">
                                                     <p>espacio en disco:  {{ size }} GB</p>
@@ -301,6 +310,9 @@
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div style="color:white;">
+                                        <p>Generos:</p>
                                     </div>
                                     <div class="d-flex flex-wrap" style="max-width:750px;">
                                         <div style="color:white; height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:20px;">
@@ -314,41 +326,45 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="d-flex flex-wrap" style="max-width:750px;">
+                                        <div class="" style="width:580px; height:260px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                            <div style="text-align:center; margin-top:10px;">Descripción:</div>
+                                            <div>
+                                                <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:560px; margin:10px;" id="style-13">
+                                                    <div class="container">
+                                                        <p style="margin-top:2px;">{{ description }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="" style="width:580px; height:260px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                            <div style="text-align:center; margin-top:10px;">Requerimientos:</div>
+                                            <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:560px; margin:10px;" id="style-13">
+                                                <div class="container inverse-scroll">
+                                                    <div style="margin-top:6px;"></div>
+                                                    <h5>Requisitos Minimos:</h5>
+                                                    <div style="font-size:18px;">
+                                                        <ul v-for="req in requirements[0]">
+                                                            <li v-if="req.req != 'Desconocidos'" >{{ req.type }} : {{ req.req }}</li>
+                                                            <p v-else>Desconocidos<p>
+                                                        </ul>
+                                                    </div>
+                                                    <h5>Requisitos Recomendados:</h5>
+                                                    <div style="font-size:18px;">
+                                                        <ul v-for="req in requirements[1]">
+                                                            <li v-if="req.req != 'Desconocidos'" >{{ req.type }} : {{ req.req }}</li>
+                                                            <p v-else>Desconocidos<p>
+                                                        </ul>
+                                                    </div>  
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
                             <div class="d-flex">
-                                <div class="" style="width:560px; height:260px; margin-left:34px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
-                                    <div style="text-align:center; margin-top:10px;">Descripción:</div>
-                                    <div>
-                                        <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:535px; margin:10px;" id="style-13">
-                                            <div class="container">
-                                                <p style="margin-top:2px;">{{ description }}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="" style="width:470px; height:260px; margin-left:10px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
-                                        <div style="text-align:center; margin-top:10px;">Requerimientos:</div>
-                                    <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:432px; margin:10px;" id="style-13">
-                                        <div class="container inverse-scroll">
-                                            <div style="margin-top:6px;"></div>
-                                            <h5>Requisitos Minimos:</h5>
-                                            <div style="font-size:18px;">
-                                                <ul v-for="req in requirements[0]">
-                                                    <li v-if="req.req != 'Desconocidos'" >{{ req.type }} : {{ req.req }}</li>
-                                                    <p v-else>Desconocidos<p>
-                                                </ul>
-                                            </div>
-                                            <h5>Requisitos Recomendados:</h5>
-                                            <div style="font-size:18px;">
-                                                <ul v-for="req in requirements[1]">
-                                                    <li v-if="req.req != 'Desconocidos'" >{{ req.type }} : {{ req.req }}</li>
-                                                    <p v-else>Desconocidos<p>
-                                                </ul>
-                                            </div>  
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                             <div class="d-flex">
                                 <div class="" style="width:1040px; height:270px; margin-left:34px; margin-top:10px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
@@ -646,11 +662,13 @@
         <script src="js/games.js"></script>
         <script src="js/series.js"></script>
         <script src="js/config.js"></script>
+        <script src="js/float.js"></script>
         <script src="/eel.js"></script>
         <script>
-                $(document).ready(function(){
-                    get_games();
-                });
+            $(document).ready(function(){
+                get_games();
+                app.url = 'game';
+            });
         </script>
     </body>
 </html>

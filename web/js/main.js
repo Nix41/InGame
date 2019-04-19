@@ -1,31 +1,64 @@
 Vue.component('banner',{
+    data: function(){
+        return{
+            url : '',
+        }
+    },
     template: `
-    <nav class='fixed-top justify-content-center'>
-        <img src='img/banner_new.jpg' class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
+    <nav class='justify-content-center'>
+        <img src='img/banner_new.png' class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
+        <div style="width:350px; margin-top:-120px; margin-left:50px;">
+            <img src='img/ingame-05.png' style="width:100%;" class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
+        </div>
         <ul class='card-img-overlay d-block navbar-nav d-flex flex-row-reverse'>
             <li class='p-2 nav-item'>
                 <a href='config_vue.html'>
-                    <img src='img/config_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                    <div v-if="url == '4'">
+                        <img src='img/admin_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                    </div>
+                    <div v-else>
+                        <img src='img/config_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                    </div>
                 </a>
             </li>
             <li class='p-2 nav-item'>
                 <a href='films_vue.html'>
-                    <img src='img/films_item.png' class='img nav-menu-item' alt='Responsive image'>
+                <div v-if="url == '3'">
+                    <img src='img/films_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                </div>
+                <div v-else>
+                    <img src='img/films_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                </div>
                 </a>
             </li>
             <li class='p-2 nav-item'>
                 <a href='series_vue.html'>
+                <div v-if="url == '2'">
+                    <img src='img/series_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                </div>
+                <div v-else>
                     <img src='img/series_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                </div>
                 </a>
             </li>
             <li class='p-2 nav-item'>
                 <a href='games_vue.html'>
-                    <img src='img/games_item.png' class='img nav-menu-item' alt='Responsive image'>
+                    <div v-if='url == "game"'>
+                        <img src='img/games_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                    </div>
+                    <div v-else>
+                        <img src='img/games_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                    </div>
                 </a>
             </li>
             <li class='p-2 nav-item'>
                 <a href='index_vue.html'>
-                    <img src='img/home_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                    <div v-if="url == '0'">
+                        <img src='img/home_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                    </div>
+                    <div v-else>
+                        <img src='img/home_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                    </div>
                 </a>
             </li>
         </ul>
@@ -37,8 +70,8 @@ Vue.component('footerv', {
     template:`
     <!-- Footer top section -->
     <section class="footer-top-section" style="height: 400px;">
-        <div class="footer-logo text-white" style="text-align: center;">
-            <img src="img/sitio_ingame_logo.png" class="img-fluid" alt="">
+        <div class="footer-logo text-white" style="text-align: center; margin-top:-50px;">
+            <img src="img/logo_banner.png" style="width:350px;" class="img-fluid" alt="">
             <p>Yasmany IN-GAME PC-SERIES-FIMLS</p>
             <p class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This application is made by <a href="#" target="_blank">Aylin && Andres</a>
@@ -60,6 +93,7 @@ var app = new Vue({
         games: [],
         games_dic: [],
         Temp: [0,1,2,3,4,5,6,7,8],
+        url:'',
 
         //list Mode
         list:'0',
@@ -219,38 +253,22 @@ async function get_recent(){
     }
 }
 
-var pos1 = 0;
-var len = 0;
-async function OnScroll(){
-    var pos2 = $("#style-scroll").scrollTop();
-    if(pos1 < pos2){
-        // alert(app.games_low_key);
-        // alert(app.games_higth_key);
-        var next = await eel.get_more()();
-        len = app.games_dic.length;
-        for(x in next){
-            app.games_dic.push([len,next[x]]);
-            len++;
-        }
-    }else{
-       
-    }
-    pos1 = pos2;
-}
 
-var pos1_s = 0;
-var len_s = 0;
-async function OnScroll_series(id){
-    var pos2 = $("#"+id).scrollTop();
-    if(pos1_s < pos2){
-        // alert(app.games_low_key);
-        // alert(app.games_higth_key);
-        var next = await eel.get_more()();
-        len_s = app.series_dic.length;
-        for(x in next){
-            app.series_dic.push([len_s,next[x]]);
-            len_s++;
+async function OnNext(i=1,t='g'){
+    var next = [];
+    for(x = 0; x < 10; x++){
+        var element = await eel.get_more(i)();
+        if(element != ''){
+            next.push(element)
         }
     }
-    pos1 = pos2;
+    app.games_dic = [];
+    app.series_dic = [];
+    for(x in next){
+        if(t == 'g'){
+            app.games_dic.push([x,next[x][0]]);
+        }else{
+            app.series_dic.push([x,next[x][0]]);
+        }
+    }
 }

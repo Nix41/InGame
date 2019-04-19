@@ -15,12 +15,17 @@ load_amount = 1
 initial_load = 10
 
 @eel.expose
+def current():
+    global index
+    return index
+
+@eel.expose
 def get_more(i = 1):
     global index
     global to_show
     global initial_load
     l = len(to_show)
-    if i == 1:
+    if int(i) == 1:
         if index == 0:
             up = min(l, index + initial_load)
         else:
