@@ -16,10 +16,7 @@ end = 0
 load_amount = 10
 find_match = []
 
-@eel.expose
-def current():
-    global index
-    return index
+
 
 @eel.expose
 def get_more(i = 1):
@@ -27,22 +24,16 @@ def get_more(i = 1):
     global load_amount
     global start
     global end
-    print('Start --> ', start, '   End --> ', end )
-    print('got here with ', i)
     l = len(to_show)
     r = []
     if int(i) == 1:
         if end == l or end == 0:
-            print('h1')
             down = 0
             up = min(l, down + load_amount)
-            print('* ', l, '*', down, '*', load_amount)
         else:
-            print('h2')
             up = min(l, end + load_amount)
             down = end
         r = to_show[down: up]
-        print('Low:', down , '    high:', up)
         start = down
         end = up
     else:
@@ -53,16 +44,11 @@ def get_more(i = 1):
             low = max(0, start - load_amount)
             high = start
         r = to_show[low : high]
-        print('Low:', low, '    high:', high)
         start = low
         end = high
-    print('returning:', len(r), '   Start: ', start, '   End: ', end)
-    print()
-    print()
     return r
 @eel.expose
 def next_obj(id, direction = 1):
-    print('Single *', id, '*', direction)
     cui =find_match.index(id)
     if int(direction) == 1 and cui < len(to_show) - 1:
         return to_show[cui + 1]
@@ -75,15 +61,16 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
     global index
     global start
     global end
+    global find_match
     if score == '':
         score = 0
     if year == '':
         year = 0
     year = int(year)
     score = float(score)
-    print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     series = Filters.filter_series(name, gender,actor,director, score, year, topic)
     to_show = series
+    find_match = []
     for i in to_show:
         find_match.append(i['id'])
     start = 0
@@ -96,15 +83,16 @@ def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, to
     global index
     global start
     global end
+    global find_match
     if score == '':
         score = 0
     if year == '':
         year = 0
     year = int(year)
     score = float(score)
-    print('*', name, '*' ,gender, '*' ,actor, '*' ,director, '*' ,score, '*' ,year)
     movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
     to_show = movies
+    find_match = []
     for i in to_show:
         find_match.append(i['id'])
     start = 0
@@ -117,6 +105,7 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
     global index
     global start
     global end
+    global find_match
     if category == 'Todos':
         category = ''
         gender=''
@@ -124,6 +113,7 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
         gender = ''
     games = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score)
     to_show = games
+    find_match = []
     for i in to_show:
         find_match.append(i['id'])
     start = 0
@@ -162,8 +152,11 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
 
 @eel.expose
 def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[[],[]], id=-1, cover="", captures=[],size=0, delete=0):
+    print('here')
+    global current
     if current is None or current == -1:
-         #('h2')
+        print('here222')
+        print('h2')
         if delete == 0:
             dele = False
         else:
@@ -172,9 +165,10 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
         if len(requirements) == 0:
              #('had to')
             requirements = [[],[]]
-        #'DEl:', dele)
+        print('DEl:', dele)
         DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image=cover, captures=captures, size = size, delete=dele)
     else:
+        print('current: ', current)
          #('begin_update')
         #'WTF???????')
         #current)
@@ -187,18 +181,20 @@ def Set_Game(id):
     global current
      #('id', id )
     current = DBhandlers.find_game(id)
-     #('current:' , current)
+    print('current Gme:' , current)
 
 @eel.expose
 def Set_Serie(id):
      #('ID:',id)
     global current
     current = DBhandlers.find_serie(id)
-     #('çurrent: ', current)
+    print('çurrentS: ', current)
 @eel.expose
 def Set_Movie(id):
     global current
     current = DBhandlers.find_movie(id)
+    print('çurrentM: ', current)
+
 
 @eel.expose
 def Done_update():

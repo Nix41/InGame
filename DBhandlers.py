@@ -123,14 +123,14 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
             del_game(game)
         sess.commit()
     else:
-        #"heresasssss")
-        #'name:', name)
-        #'launch:',launch)
-        #'desc:',description)
-        #'gm:',game_mode)
-        #'lang:',language)
-        #'score:',puntuacion)
-        #'category:', category)
+        print("heresasssss")
+        print('name:', name)
+        print('launch:',launch)
+        print('desc:',description)
+        print('gm:',game_mode)
+        print('lang:',language)
+        print('score:',puntuacion)
+        print('category:', category)
         game = DBstructure.Game(name = name, description= description, game_mode =game_mode, language= language, launch= launch, puntuacion = puntuacion, size=size )
         for g in genders:
             add_game_gender(game, g)
@@ -187,9 +187,12 @@ def load_captures(id, images):
     count = 0
     for i in images:
         to_write = i[23:]
-        with open(dirt +  slash +'image' + str(count) +'.jpeg', 'wb') as out_file: 
-            data = base64.b64decode(to_write)
-            out_file.write(data)
+        try:
+            with open(dirt +  slash +'image' + str(count) +'.jpeg', 'wb') as out_file: 
+                data = base64.b64decode(to_write)
+                out_file.write(data)
+        except:
+            print('The image is corrupted')
         count +=1 
 
 def change_captures(game, images):
