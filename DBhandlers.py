@@ -175,9 +175,12 @@ def add_requirement(game, type, req, minor):
 
 def change_cover(obj, image, dir_path):
     to_write = image[23:]
-    with open(dir_path + str(obj.id) + 'image.jpeg', 'wb') as out_file: 
-        data = base64.b64decode(to_write)
-        out_file.write(data)
+    try:
+        with open(dir_path + str(obj.id) + 'image.jpeg', 'wb') as out_file: 
+            data = base64.b64decode(to_write)
+            out_file.write(data)
+    except:
+        print('La imagen tiene problemas, Modifique el juego y cambie la imagen')
 
 def load_captures(id, images):
     dirt = games_dir + str(id)
