@@ -106,21 +106,12 @@
                         </div>
                     </div>
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <div class="p-2" onclick="OnNext('0','v')">
-                            <img src="img/arrow_l.png" class="card-img img-fluid" style="width:100%; margin:0 important;" alt="Responsive image">
-                        </div> 
-                        <div class="p-2" onclick="OnNext('1','v')">
-                            <img src="img/arrow_r.png" class="card-img img-fluid" style="width:100%; margin:0 important;" alt="Responsive image">
-                        </div>    
-                    </div>
                 </section>
                 <!-- Page section end -->
                 <!-- Page section list -->
                     <!--Table-->
-                    <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; height:850px; margin-bottom: 150px; margin-top:50px;">
+                    <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; margin-bottom: 50px; margin-top:170px;">
                         <div class="d-flex">
-                            <div class="table-wrapper-scroll-y my-custom-scrollbar col-md-7" style="padding:0 !important;" id="style-scroll">
                             <div class="p-2 inverse-scroll" style="padding:0 !important; margin-left:30px;">
                                 <div v-for="serie in series_dic">
                                 <div :onmouseover="'change_s(' + serie[0] + ')'" :onmouseout="'restore_s(' + serie[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
@@ -129,8 +120,16 @@
                                             <div class="p-2">
                                                 <div class="score_list red">{{ serie[1].score }}</div>
                                             </div>
-                                            <div class="p-2" style=" padding-left:10px; font-size:20px; color:white; margin-top: -7px; padding-right:0 !important;">
-                                                <div style="width:480px;">{{ serie[1].title }}</div>
+                                            <div class="p-2" style="padding:0 !important; padding-left:10px; font-size:20px; color:white; margin-top: -7px; padding-right:0 !important;">
+                                                <div class="d-flex">
+                                                    <div class="p-2" style="width:480px;">{{ serie[1].title }}</div>
+                                                    <div class="p-2" style="font-size:20px; color:white; margin-left:700px; padding-top:10px;">
+                                                            {{ serie[1].year }}
+                                                    </div>
+                                                    <div class="p-2" style="font-size:20px; color:white; margin-left:50px; margin-right:10px; padding-top:10px;">
+                                                            {{ serie[1].country }}
+                                                    </div>
+                                                </div>
                                                 <div>
                                                     <div class="row">
                                                         <div class="rating" style="padding-left:15px;">
@@ -146,71 +145,30 @@
                                                             <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
                                                         </div>
                                                         <div style="padding-left:15px;">
-                                                            {{ serie[1].genders[0] }} - {{ serie[1].genders[1] }}
+                                                            <div class="d-flex">
+                                                                <div v-for="gen in serie[1].genders">
+                                                                    <div class="p-2" style="padding:0 !important;">| {{ gen }} |</div>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div class="p-2" style="font-size:20px; color:white; margin-left:50px; padding-top:10px;">
-                                                    {{ serie.year }}
-                                                </div>
-                                            <div class="p-2" style="font-size:20px; color:white; margin-left:50px; padding-top:10px;">
-                                                    {{ serie.country }}
                                             </div>
                                         </div>  
                                     </div>
                                 </div>
                                 </div>
                             </div>
-                            </div>
-                            <div id="style-scroll" class="col-md-5 table-wrapper-scroll-y my-custom-scrollbar2" style="padding:0 !important; ">
-                                <div id="details" style="background-color: rgb(26,26,26); margin-right:20px; min-height:645px;">
-                                <div class="container-fluid" style="padding-top:30px; padding-left:20px; padding-right:20px;">
-                                        <div class="d-flex" >
-                                            <div class="p-2">
-                                                <div class="" style="width:150px; height:230px;">
-                                                    <div v-if="cover_path != ''">
-                                                        <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:10vw; border-radius: 20px; object-fit: cover;" alt="Responsive image">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="p-2">
-                                                <div style="color:white; margin-left:10px;">
-                                                    <h4>Directores:</h4>
-                                                </div>
-                                                <div class="d-flex flex-wrap" style="max-width:750px;">
-                                                    <div v-for="dic in directors" style="color:white; margin-right:10px;">
-                                                        <div>
-                                                            <p style="font-size:20px;">{{ dic[1] }} </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <div style="color:white; font-size:24px;">
-                                        <div style="padding-bottom:50px;">
-                                            Descripcion:
-                                            <div style="font-size:18px;">
-                                                {{ sinopsis }}
-                                            </div>
-                                        </div>
-                                    </div>
-                                        <div style="color:white; margin-left:10px;">
-                                                <h4>Reparto:</h4>
-                                            </div>
-                                            <div class="d-flex flex-wrap" style="max-width:750px;">
-                                                <div v-for="act in actors" style="color:white; margin-right:10px; ">
-                                                    <div>
-                                                        <p style="font-size:20px;"> {{ act[1] }} </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div style="height:20px;"></div>
-                            </div>  
                         </div>
                     </section>
+                    <div class="d-flex justify-content-center" style="margin-bottom: 20px; margin-top: -50px; z-index: 101; position: relative;">
+                        <div class="p-2" onclick="OnNext('0','s')">
+                            <img src="img/arrow_l.png" class="card-img img-fluid" style="width:100%; margin:0 important;" alt="Responsive image">
+                        </div> 
+                        <div class="p-2" onclick="OnNext('1','s')">
+                            <img src="img/arrow_r.png" class="card-img img-fluid" style="width:100%; margin:0 important;" alt="Responsive image">
+                        </div>    
+                    </div>
                     <!--Table-->
                 <!-- Page section list end -->
                 <!-- The Modal -->
