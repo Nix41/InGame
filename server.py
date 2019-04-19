@@ -63,7 +63,7 @@ def get_more(i = 1):
 @eel.expose
 def next_obj(id, direction = 1):
     print('*', id, '*', direction)
-    cui =find_match[id]
+    cui =find_match.index(id)
     if int(direction) == 1 and cui < len(to_show) - 1:
         return to_show[cui + 1]
     elif int(direction) != 1 and cui > 0:
