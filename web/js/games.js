@@ -43,6 +43,7 @@ function see(id){
     app.category = app.games_dic[id][1].category;
     app.cover_path = app.games_dic[id][1].cover_path;
     app.captures = app.games_dic[id][1].captures;
+    app.current_detail = app.games_dic[id][1].id;
 }
 
 function filter_over(gen){

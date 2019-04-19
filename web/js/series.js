@@ -105,6 +105,7 @@ function see_s(id){
     app.score = app.series_dic[id][1].score;
     app.country = app.series_dic[id][1].country;
     app.actors = [];
+    app.current_detail = app.series_dic[id][1].id;
     for(x in app.series_dic[id][1].actors){
         app.actors.push([x,app.series_dic[id][1].actors[x]]);
     }
