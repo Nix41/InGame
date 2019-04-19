@@ -94,6 +94,7 @@ var app = new Vue({
         games_dic: [],
         Temp: [0,1,2,3,4,5,6,7,8],
         url:'',
+        current_detail:'',
 
         //list Mode
         list:'0',
@@ -267,9 +268,8 @@ async function OnNext(i=1,t='g'){
     }
 }
 
-async function SingleNext(dir = 1, key, id , typ='g'){
-    alert(id);
-    app.key = key + 1;
+async function SingleNext(dir = 1, typ='g'){
+    var id = app.current_detail;
     var element = await eel.next_obj(id, dir)();
     if (typ == 'g'){
         app.name = element.name;
@@ -284,6 +284,7 @@ async function SingleNext(dir = 1, key, id , typ='g'){
         app.gamemode = element.game_mode;
         app.cover_path = element.cover_path;
         app.captures = element.captures;
+        app.current_detail = element.id;
     }
     else{
         app.name = element.title;
@@ -293,6 +294,7 @@ async function SingleNext(dir = 1, key, id , typ='g'){
         app.score = element.score;
         app.country = element.country;
         app.actors = [];
+        app.current_detail = element.id;
         for(x in element.actors){
             app.actors.push([x,element.actors[x]]);
         }
