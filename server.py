@@ -13,7 +13,7 @@ to_show = []
 index = 0
 start = 0
 end = 0 
-load_amount = 10
+load_amount = 25
 find_match = []
 
 
@@ -38,7 +38,10 @@ def get_more(i = 1):
         end = up
     else:
         if start == 0:
-            low = l - l%load_amount
+            if l%load_amount == 0:
+                low = l - load_amount
+            else:
+                low = l - l%load_amount
             high = l
         else:
             low = max(0, start - load_amount)
@@ -152,11 +155,11 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
 
 @eel.expose
 def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[[],[]], id=-1, cover="", captures=[],size=0, delete=0):
-    print('here')
+    #'here')
     global current
     if current is None or current == -1:
-        print('here222')
-        print('h2')
+        #'here222')
+        #'h2')
         if delete == 0:
             dele = False
         else:
@@ -165,10 +168,10 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
         if len(requirements) == 0:
              #('had to')
             requirements = [[],[]]
-        print('DEl:', dele)
+        #'DEl:', dele)
         DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image=cover, captures=captures, size = size, delete=dele)
     else:
-        print('current: ', current)
+        #'current: ', current)
          #('begin_update')
         #'WTF???????')
         #current)
@@ -181,19 +184,19 @@ def Set_Game(id):
     global current
      #('id', id )
     current = DBhandlers.find_game(id)
-    print('current Gme:' , current)
+    #'current Gme:' , current)
 
 @eel.expose
 def Set_Serie(id):
      #('ID:',id)
     global current
     current = DBhandlers.find_serie(id)
-    print('çurrentS: ', current)
+    #'çurrentS: ', current)
 @eel.expose
 def Set_Movie(id):
     global current
     current = DBhandlers.find_movie(id)
-    print('çurrentM: ', current)
+    #'çurrentM: ', current)
 
 
 @eel.expose

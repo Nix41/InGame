@@ -10,6 +10,7 @@ from selenium.webdriver.common.by import By
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException
+import unicodedata
 
 digits = ['1','2','3','4', '5','6','7','8','9','0']
 
@@ -97,12 +98,16 @@ def find_games(sourcelist):
     urlend = '&zona=resultados-buscador&id_foro=0&subzona=juegos&id_plat=1'
     games = []
     not_found = ''  
+    line = None
     with open(sourcelist , "r") as std:
-        try:
-            line = std.readline()
-            games.append(line)
-        except:
-            pass
+        while (line is None) or line != '':
+            try:
+                line = std.readline()
+                games.append(line)
+            except:
+                pass
+    print(games)
+    print('Seraching ', len(games), ' Games')
     options = Options()
     options.headless = True
     options.add_argument('--ignore-certificate-errors')
@@ -113,12 +118,13 @@ def find_games(sourcelist):
     driver = webdriver.Chrome("driver/chromedriver.exe", options=options)
     driver.set_page_load_timeout(60)
     for g in games:
+        print(g, '   ->  ', type(g))
         s = re.sub( ' +', ' ', g ).strip()
+        print('Buscando Juego: ', g[:-1])
         already = sess.query(OnExistance).filter(OnExistance.name == g, OnExistance.tipo == 'Game')
         if already.count() == 0:
             s = s.replace(' ' , '+')
             url = urlstart + s + urlend
-            print('Buscando Juego: ', g[:-1])
             print('url:',url)
             try: 
                 driver.get(url)
@@ -167,15 +173,15 @@ def find_games(sourcelist):
                     r = soup_game.find('a' , text='Requisitos')
                     req = r['href']
                     requisitos(req, this_game)
-                    one = OnExistance(name = g, tipo = 'Game')  
-                    sess.add_all([this_game, one])
-                    sess.commit()
                     get_captures(soup_game , this_game.id)
                     image = soup_game.find(rel='image_src')
                     im = image['href']
                     with urllib.request.urlopen(im) as response, open(games_dir + str(this_game.id) + 'image.jpeg', 'wb') as out_file: 
                         data = response.read()
                         out_file.write(data)
+                    one = OnExistance(name = g, tipo = 'Game')  
+                    sess.add_all([this_game, one])
+                    sess.commit()
                     print('    El juego ha sido descargado Exitosamente')
             except TimeoutException:
                 not_found += (g + '\n')
@@ -185,6 +191,7 @@ def find_games(sourcelist):
                 print('    No se ha podido encontrar el juego', g ,' en la Pagina') 
         else:
             print('    Ya has hecho esta busqueda: ' + g)
+    print('Done Download')
     driver.quit()
     with open('lists/not_found_games.txt' , 'w+') as std:
         std.write(not_found)          
@@ -302,11 +309,12 @@ def search(listdir , stype='' ):
     urlend = '&fromyear=&toyear='
     movies = []
     with open(listdir , "r") as std:
-        try:
-            line = std.readline()
-            movies.append(line)
-        except:
-            pass
+        while (line is None) or line != '':
+            try:
+                line = std.readline()
+                movies.append(line)
+            except:
+                pass
     not_found = ''
     direct = ''
     for m in movies:

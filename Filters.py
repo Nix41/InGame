@@ -116,7 +116,7 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
             for g in s.genders:
                 c_g = unicodedata.normalize('NFD', g.name).encode('ascii', 'ignore')
                 if c_gen.lower() in c_g.lower():
-                    print(s.title)
+                    #s.title)
                     this_topic = True
             if not this_topic:
                 topic_filter = False
