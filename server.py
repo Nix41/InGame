@@ -5,6 +5,8 @@ import seed
 from WebScrapping import Down_Games, Down_Movies, Down_Series
 from urllib.error import URLError
 import urllib
+from multiprocessing import Process
+
 
 eel.init('web')
 
@@ -15,7 +17,7 @@ start = 0
 end = 0 
 load_amount = 25
 find_match = []
-
+current_process = None
 
 
 @eel.expose
@@ -280,10 +282,16 @@ def try_connection():
 
 @eel.expose
 def download_games():
-    r = try_connection()
-    if r == 2:
-        Down_Games()
-    return r
+    global current_process
+    if current_process is None:
+        r = try_connection()
+        yield r
+        if r == 2:
+            current_process = Process(target= Down_Games)
+            current_process .start()
+    else:
+        print('Espera a que terminen Los demas procesos y vuelvalo a intentar')
+        return 0
 
 @eel.expose
 def download_series():
@@ -311,6 +319,12 @@ def gen_pdf():
 def get_counters():
     a = DBhandlers.get_counters()
     return a
+
+@eel.expose
+def kill_download():
+    if not (current_process is None):
+        current_process.terminate()
+        current_process = Nones
 
 eel.start('index_vue.html')
 

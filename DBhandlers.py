@@ -174,9 +174,10 @@ def add_requirement(game, type, req, minor):
     game.requirements.append(gr)
 
 def change_cover(obj, image, dir_path):
-    to_write = image[23:]
+    bind, iformat = image_data(image)
+    to_write = image[bind:]
     try:
-        with open(dir_path + str(obj.id) + 'image.jpeg', 'wb') as out_file: 
+        with open(dir_path + str(obj.id) + 'image.' + iformat, 'wb') as out_file: 
             data = base64.b64decode(to_write)
             out_file.write(data)
     except:
@@ -189,9 +190,10 @@ def load_captures(id, images):
     except: FileExistsError
     count = 0
     for i in images:
-        to_write = i[23:]
+        bind, iformat = image_data(i)
+        to_write = i[bind:]
         try:
-            with open(dirt +  slash +'image' + str(count) +'.jpeg', 'wb') as out_file: 
+            with open(dirt +  slash +'image' + str(count) +'.' + iformat, 'wb') as out_file: 
                 data = base64.b64decode(to_write)
                 out_file.write(data)
         except:
@@ -208,8 +210,9 @@ def change_captures(game, images):
             os.remove(o)
     for i in images:
         if not(i in old):
-            to_write = i[23:]
-            with open(games_dir +  slash + str(game.id) + slash +'image' + str(c) +'.jpeg', 'wb') as out_file: 
+            bind, iformat = image_data(i)
+            to_write = i[bind:]
+            with open(games_dir +  slash + str(game.id) + slash +'image' + str(c) +'.' + iformat, 'wb') as out_file: 
                 data = base64.b64decode(to_write)
                 out_file.write(data)
             c +=1 
@@ -395,4 +398,19 @@ def get_counters():
     counters.append(mc)
     return counters
 
-
+def image_data(data):
+    iformat = ''
+    bind = 0
+    slash = False
+    for s in data:
+        if s == ';':
+            slash = False
+        if slash:
+            iformat += s
+        if s == '/':
+            slash = True
+        if s == ',':
+            bind += 1
+            break
+        bind += 1
+    return bind , iformat

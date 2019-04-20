@@ -1,7 +1,7 @@
 
 from DBstructure import *
 from DBhandlers import *
-from utils import clean
+from utils import clean, make_lists
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException
 from bs4 import BeautifulSoup
@@ -107,7 +107,7 @@ def find_games(sourcelist):
             except:
                 pass
     print(games)
-    print('Seraching ', len(games), ' Games')
+    print('Searching ', len(games), ' Games')
     options = Options()
     options.headless = True
     options.add_argument('--ignore-certificate-errors')
@@ -115,8 +115,9 @@ def find_games(sourcelist):
     options.experimental_options["prefs"] = chrome_prefs
     chrome_prefs["profile.default_content_settings"] = {"images": 2}
     chrome_prefs["profile.managed_default_content_settings"] = {"images": 2}
-    driver = webdriver.Chrome("driver/chromedriver.exe", options=options)
+    driver = webdriver.Chrome("/usr/lib/chromium-browser/chromedriver", options=options)
     driver.set_page_load_timeout(60)
+    found = []
     for g in games:
         print(g, '   ->  ', type(g))
         s = re.sub( ' +', ' ', g ).strip()
@@ -169,7 +170,7 @@ def find_games(sourcelist):
                         language = prop 
                         print('    Language:', language)                 
                 if here.count() == 0:
-                    this_game = Game(name = jname, description= description, game_mode =game_type, language= language, launch= launch, puntuacion = puntuacion )  
+                    this_game = Game(name = g[:-1], description= description, game_mode =game_type, language= language, launch= launch, puntuacion = puntuacion )  
                     r = soup_game.find('a' , text='Requisitos')
                     req = r['href']
                     requisitos(req, this_game)
@@ -183,9 +184,10 @@ def find_games(sourcelist):
                     sess.add_all([this_game, one])
                     sess.commit()
                     print('    El juego ha sido descargado Exitosamente')
+                    found.append(g)
             except TimeoutException:
-                not_found += (g + '\n')
-                print('    La pagina se demoro demasiado')
+                not_found += (g + '\n') 
+                print('    La pagina se demoro demasiado on ', g)
             except NoSuchElementException:
                 not_found += (g + '\n')
                 print('    No se ha podido encontrar el juego', g ,' en la Pagina') 
@@ -193,8 +195,8 @@ def find_games(sourcelist):
             print('    Ya has hecho esta busqueda: ' + g)
     print('Done Download')
     driver.quit()
-    with open('lists/not_found_games.txt' , 'w+') as std:
-        std.write(not_found)          
+    print(found)
+    make_lists(g_list, found , 'lists/not_found_games.txt', not_found)
 
 def extract_info(url, build_method, dname):
     url = 'https://www.filmaffinity.com' + url

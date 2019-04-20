@@ -1,6 +1,7 @@
  
 from DBstructure import *
 import unicodedata
+import time
 
 categories = ['']
 
