@@ -362,6 +362,7 @@ def search(listdir , stype='' ):
                 i = i + 1
             else: 
                 not_found += ( m + '\n' )
+                make_lists(g_list, found , 'lists/not_found_games.txt', not_found)
         else:
             ('    Ya has hecho esta busqueda ' + m)
     if(stype == ''):
