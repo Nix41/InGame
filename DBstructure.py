@@ -266,7 +266,6 @@ class Serie(TimestampMixin, Base):
 
     @hybrid_property
     def cover_path(self):
-        print('Serie :', self.title)
         cover = ''
         try:
             os.mkdir( series_dir + str(self.id) + slash)
@@ -294,7 +293,6 @@ class Serie(TimestampMixin, Base):
                 except Exception:
                     print('Could not read the image')
                     pass
-        print(cover)
         return cover
 
     @hybrid_property

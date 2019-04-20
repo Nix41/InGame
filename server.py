@@ -18,6 +18,7 @@ end = 0
 load_amount = 25
 find_match = []
 current_process = None
+current_query = None
 
 @eel.expose
 def get_more(i = 1):
@@ -25,37 +26,44 @@ def get_more(i = 1):
     global load_amount
     global start
     global end
+    global current_query
+    global  find_match
     l = len(to_show)
-    r = []
     if int(i) == 1:
-        if end == l or end == 0:
-            down = 0
-            up = min(l, down + load_amount)
-        else:
-            up = min(l, end + load_amount)
-            down = end
-        r = to_show[down: up]
-        start = down
-        end = up
+        if l < end + load_amount:
+            for i in range(load_amount - (l - end)):
+                try:
+                    g = current_query.__next__()
+                    to_show.append(g)
+                    find_match.append(g['id'])
+                except StopIteration:
+                    break
+        l = len(to_show)
+        if end != l:
+            start = end
+            end = min(start + load_amount, l)
     else:
-        if start == 0:
-            if l%load_amount == 0:
-                low = l - load_amount
-            else:
-                low = l - l%load_amount
-            high = l
-        else:
-            low = max(0, start - load_amount)
-            high = start
-        r = to_show[low : high]
-        start = low
-        end = high
-    return r
+        if start != 0:
+            end = start
+            start = max(0, start - load_amount)
+    return to_show[start:end]
+
 @eel.expose
 def next_obj(id, direction = 1):
+    global to_show
+    global find_match
     cui =find_match.index(id)
-    if int(direction) == 1 and cui < len(to_show) - 1:
-        return to_show[cui + 1]
+    if int(direction) == 1 :
+        if cui == len(to_show) - 1:
+            try:
+                o = current_query.__next__()
+                to_show.append(o)
+                find_match.append(o['id'])
+                return o
+            except StopIteration:
+                return to_show[cui]
+        else:
+            return to_show[cui + 1]
     elif int(direction) != 1 and cui > 0:
         return to_show[cui - 1]
 
@@ -66,6 +74,7 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
     global start
     global end
     global find_match
+    global current_query
     if score == '':
         score = 0
     if year == '':
@@ -73,11 +82,10 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
     year = int(year)
     score = float(score)
     series = Filters.filter_series(name, gender,actor,director, score, year, topic)
-    print(len(series))
-    to_show = series
+    current_query = None
+    current_query = series
     find_match = []
-    for i in to_show:
-        find_match.append(i['id'])
+    to_show = []
     start = 0
     end = 0
     return get_more()
@@ -89,6 +97,7 @@ def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, to
     global start
     global end
     global find_match
+    global current_query
     if score == '':
         score = 0
     if year == '':
@@ -96,10 +105,10 @@ def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, to
     year = int(year)
     score = float(score)
     movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
-    to_show = movies
+    current_query = None
+    current_query = movies
+    to_show = []
     find_match = []
-    for i in to_show:
-        find_match.append(i['id'])
     start = 0
     end = 0
     return get_more()
@@ -111,16 +120,15 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
     global start
     global end
     global find_match
+    global current_query
     if category == 'Todos':
         category = ''
         gender=''
     if gender == 'Todos':
         gender = ''
-    games = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score)
-    to_show = games
+    current_query = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score)
     find_match = []
-    for i in to_show:
-        find_match.append(i['id'])
+    to_show = []
     start = 0
     end = 0
     return get_more()
@@ -288,7 +296,6 @@ def download_games():
         if r == 2:
             current_process = Process(target= Down_Games)
             current_process.start()
-        print(r)
         return r
     else:
         print('Espera a que terminen Los demas procesos y vuelvalo a intentar')
@@ -302,7 +309,6 @@ def download_series():
         if r == 2:
             current_process = Process(target= Down_Series)
             current_process.start()
-        print(r)
         return r
     else:
         print('Espera a que terminen Los demas procesos y vuelvalo a intentar')
@@ -316,7 +322,6 @@ def download_movies():
         if r == 2:
             current_process = Process(target= Down_Movies)
             current_process.start()
-        print(r)
         return r
     else:
         print('Espera a que terminen Los demas procesos y vuelvalo a intentar')
