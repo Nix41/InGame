@@ -1,5 +1,6 @@
 
 import re
+from DBstructure import *
 
 def clean_line(A):
     B = ""
@@ -70,3 +71,30 @@ def make_lists(dirt, found, not_dir, not_found):
                 left += line
     with open(dirt , 'w+') as std:
         std.write(left)
+
+def lazy():
+    for g in sess.query(Game).all():
+        yield g.name
+
+a = lazy()
+
+def run10():
+    global a
+    print('Funcion 1     ')
+    for i in range(10):
+        s = a.__next__()
+        print(s)
+    print('##############')
+    print()
+
+def run20():
+    global a
+    print('Funcion 2     ')
+    for i in range(20):
+        s = a.__next__()
+        print(s)
+    print('##############')
+    print()
+
+run10()
+run20()

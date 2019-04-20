@@ -108,7 +108,7 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
     series = []
     for s in sess.query(Serie).filter(Serie.title.contains(name)):
     # for s in sess.query(Serie).all():
-        #s.title)
+        print(s.title)
         stopics = []
         gender_filter = False
         for t in s.topics:
@@ -157,7 +157,9 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
             serie['actors'] = actors
             serie['directors'] = directors
             serie['score'] = s.score
+            print('Bcover')
             serie['cover_path'] = s.cover_path
+            print('Acover')
             series.append(serie)
     return series
 

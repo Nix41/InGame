@@ -73,6 +73,7 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
     year = int(year)
     score = float(score)
     series = Filters.filter_series(name, gender,actor,director, score, year, topic)
+    print(len(series))
     to_show = series
     find_match = []
     for i in to_show:
@@ -295,7 +296,7 @@ def download_games():
 
 @eel.expose
 def download_series():
-   global current_process
+    global current_process
     if current_process is None:
         r = try_connection()
         if r == 2:
