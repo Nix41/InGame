@@ -210,12 +210,15 @@ def change_captures(game, images):
             os.remove(o)
     for i in images:
         if not(i in old):
-            bind, iformat = image_data(i)
-            to_write = i[bind:]
-            with open(games_dir +  slash + str(game.id) + slash +'image' + str(c) +'.' + iformat, 'wb') as out_file: 
-                data = base64.b64decode(to_write)
-                out_file.write(data)
-            c +=1 
+            try:
+                bind, iformat = image_data(i)
+                to_write = i[bind:]
+                with open(games_dir +  slash + str(game.id) + slash +'image' + str(c) +'.' + iformat, 'wb') as out_file: 
+                    data = base64.b64decode(to_write)
+                    out_file.write(data)
+                c +=1 
+            except Exception:
+                print('la imagen tiene problemas')
     #'OUT OF HERE')
 
 def remove_images(id, path, game=False):

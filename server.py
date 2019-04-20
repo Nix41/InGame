@@ -284,31 +284,42 @@ def download_games():
     global current_process
     if current_process is None:
         r = try_connection()
-        yield r
         if r == 2:
             current_process = Process(target= Down_Games)
-            current_process .start()
+            current_process.start()
+        print(r)
+        return r
     else:
         print('Espera a que terminen Los demas procesos y vuelvalo a intentar')
         return 0
 
 @eel.expose
 def download_series():
-    try:
-        Down_Series()
-        return 2
-    except URLError:
-        print('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
-        return -1
+   global current_process
+    if current_process is None:
+        r = try_connection()
+        if r == 2:
+            current_process = Process(target= Down_Series)
+            current_process.start()
+        print(r)
+        return r
+    else:
+        print('Espera a que terminen Los demas procesos y vuelvalo a intentar')
+        return 0
 
 @eel.expose
 def download_movies():
-    try:
-        Down_Movies()
-        return 2
-    except URLError:
-        print('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
-        return -1
+    global current_process
+    if current_process is None:
+        r = try_connection()
+        if r == 2:
+            current_process = Process(target= Down_Movies)
+            current_process.start()
+        print(r)
+        return r
+    else:
+        print('Espera a que terminen Los demas procesos y vuelvalo a intentar')
+        return 0
 
 @eel.expose
 def gen_pdf():
@@ -321,9 +332,11 @@ def get_counters():
 
 @eel.expose
 def kill_download():
+    global current_process
     if not (current_process is None):
         current_process.terminate()
-        current_process = Nones
+        current_process = None
+        print('Ha sido detenida la descarga')
 
 eel.start('index_vue.html')
 

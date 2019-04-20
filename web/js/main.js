@@ -97,8 +97,9 @@ var app = new Vue({
         current_detail:'',
 
         //download
-        download: 'Va a comenzar la descarga',
-
+        download: '',
+        down_bot: false,
+        
         //list Mode
         list:'0',
         list_select:'0',
