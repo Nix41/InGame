@@ -46,8 +46,13 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
         score = 0
     # if gender is None:
     #     gender = ""
-    for c in sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch >= launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score):
-    # for c in sess.query(Game).all():
+    t = time.time()
+    print('Before filter: ', t)
+    filter_full = sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch >= launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score)
+    e = time.time()
+    print('After filter: ', time.time() - t)
+    t = e
+    for c in filter_full:
         genders = []
         # #'**')
          #(c.name)
@@ -95,7 +100,9 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
             game['cover_path'] = c.cover_path
             game['captures'] = c.captures_list
             games.append(game)
+    print('After Process: ', time.time() - t)
     return games
+
 
 def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,topic=''):
     series = []

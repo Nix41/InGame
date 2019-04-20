@@ -19,7 +19,6 @@ load_amount = 25
 find_match = []
 current_process = None
 
-
 @eel.expose
 def get_more(i = 1):
     global to_show
