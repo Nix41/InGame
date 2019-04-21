@@ -221,12 +221,7 @@ def change_captures(game, images):
 
 def remove_images(id, path, game=False):
     try:
-        os.remove(path + str(id) + 'image.jpeg')
-        if game:
-            try:
-                shutil.rmtree(path + str(id))
-            except Exception:
-                pass
+        shutil.rmtree(path + str(id))
     except Exception:
         pass
     

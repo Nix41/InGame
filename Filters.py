@@ -131,6 +131,12 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
             if unicodedata.normalize('NFD', director).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', d.name).encode('ascii', 'ignore').lower() :
                 director_filter = True
             directors.append(d.name)
+        if len(s.directors) == 0:
+            director_filter = True
+        if len(s.actors) == 0:
+            actor_filter = True
+        if len(genders) == 0  and len(s.genders) == 0:
+            gender_filter = True
         if gender_filter and actor_filter and director_filter and s.score >= score and topic_filter and s.year >= year:
             serie = {}
             serie['id'] = s.id
@@ -148,15 +154,7 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
 
 def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, topic=""):
     for c in sess.query(Movie).filter(Movie.title.contains(name)):
-        stopics = []
         gender_filter = False
-        for t in c.topics:
-            if topic in t.name:
-                gender_filter = True
-            stopics.append(t.name)
-        if not(c.topics):
-            gender_filter = True
-        topic_filter  = True
         for gen in gender:
             this_topic = False
             for g in c.genders:
@@ -168,6 +166,7 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
         genders = []
         for t in c.genders:
             genders.append(t.name)
+        
         actor_filter = False
         actors = []
         for a in c.actors:
@@ -180,7 +179,13 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
             if unicodedata.normalize('NFD', director).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', d.name).encode('ascii', 'ignore').lower() :
                 director_filter = True
             directors.append(d.name)
-        if gender_filter and actor_filter and director_filter and c.score >= score and topic_filter and c.year >= year:
+        if len(c.directors) == 0:
+            director_filter = True
+        if len(c.actors) == 0:
+            actor_filter = True
+        if len(genders) == 0  and len(c.genders) == 0:
+            gender_filter = True
+        if gender_filter and actor_filter and director_filter and c.score >= score and c.year >= year:
             movie = {}
             movie['id'] = c.id
             movie['title'] = c.title
