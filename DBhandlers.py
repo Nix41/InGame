@@ -172,7 +172,7 @@ def change_cover(obj, image, dir_path):
                     os.remove(file)
     except: Exception
     try:
-        with open(dir_path + str(obj.id) + slash + 'cover' + str(datetime.now()) + '.' + iformat, 'wb') as out_file: 
+        with open(dir_path + str(obj.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.' + iformat, 'wb') as out_file: 
             data = base64.b64decode(to_write)
             out_file.write(data)
     except:
@@ -191,7 +191,7 @@ def load_captures(id, images):
         to_write = i[bind:]
         print('loading:', iformat)
         try:
-            with open(dirt +  slash +'image' + str(datetime.now()) +'.' + iformat, 'wb') as out_file: 
+            with open(dirt +  slash +'image' + str(datetime.now()).replace(':','') +'.' + iformat, 'wb') as out_file: 
                 data = base64.b64decode(to_write)
                 out_file.write(data)
         except:
@@ -209,7 +209,7 @@ def change_captures(game, images):
             try:
                 bind, iformat = image_data(i)
                 to_write = i[bind:]
-                with open(games_dir +  slash + str(game.id) + slash +'image' + str(datetime.now()) +'.' + iformat, 'wb') as out_file: 
+                with open(games_dir +  slash + str(game.id) + slash +'image' + str(datetime.now()).replace(':','') +'.' + iformat, 'wb') as out_file: 
                     data = base64.b64decode(to_write)
                     out_file.write(data)
                 c +=1 
