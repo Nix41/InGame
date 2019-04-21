@@ -92,16 +92,44 @@ class Game(TimestampMixin, Base):
 
     @hybrid_property
     def cover_path(self):
-        return (games_dir[4:] + str(self.id) + 'image.jpeg')
+        cover = ''
+        for r, d, f in os.walk(games_dir + str(self.id) + slash):
+            for file in f:
+                file = os.path.join(r, file)[4:]
+                if 'cover' in file:
+                    cover = file
+        if cover == '':
+            for r, d, f in os.walk(games_dir):
+                for file in f:
+                    file = os.path.join(r, file)[4:]
+                    if (slash + str(self.id) + 'image.') in file:
+                        cover = file
+            if cover != '':
+                try:
+                    with open('web/' + cover, 'rb') as std:
+                        dimage = std.read()
+                    os.remove('web/' + cover)
+                    cover = games_dir +str(self.id) + slash + 'cover' + str(datetime.datetime.now()) +'.jpeg'
+                    with open(cover, 'wb') as std:
+                        std.write(dimage)
+                    cover = cover[4:]
+                except Exception:
+                    print('Could not read the image')
+                    pass
+        return cover
+
     @hybrid_property
     def cover_direct(self):
         return os.getcwd() + slash + games_dir + self.id 
+
     @hybrid_property
     def captures_list(self):
         caps = []
         for r, d, f in os.walk(games_dir + str(self.id) + slash):
             for file in f:
-                caps.append(os.path.join(r, file)[4:])
+                file = os.path.join(r, file)[4:]
+                if not('cover' in file):
+                    caps.append(file)
         return caps
 
 class Requirement(Base):
@@ -179,9 +207,38 @@ class Movie(TimestampMixin, Base):
     country = Column(String)
     sinopsis = Column(String)
     score = Column(Float)
+
     @hybrid_property
     def cover_path(self):
-        return (movies_dir[4:] + str(self.id) + 'image.jpeg')
+        cover = ''
+        try:
+            os.mkdir( movies_dir + str(self.id) + slash)
+        except: FileExistsError
+        for r, d, f in os.walk(movies_dir + str(self.id) + slash):
+            for file in f:
+                file = os.path.join(r, file)[4:]
+                if 'cover' in file:
+                    cover = file
+        if cover == '':
+            for r, d, f in os.walk(movies_dir):
+                for file in f:
+                    file = os.path.join(r, file)[4:]
+                    if (slash + str(self.id) + 'image.') in file:
+                        cover = file
+            if cover != '':
+                try:
+                    with open('web/' + cover, 'rb') as std:
+                        dimage = std.read()
+                    os.remove('web/' + cover)
+                    cover = movies_dir  +str(self.id) + slash + 'cover' + str(datetime.datetime.now()) +'.jpeg'
+                    with open(cover, 'wb') as std:
+                        std.write(dimage)
+                    cover = cover[4:]
+                except Exception:
+                    print('Could not read the image')
+                    pass
+        return cover
+
     @hybrid_property
     def cover_direct(self):
         return os.getcwd() + slash +games_dir + self.id 
@@ -206,9 +263,38 @@ class Serie(TimestampMixin, Base):
     country = Column(String)
     sinopsis = Column(String)
     score = Column(Float)
+
     @hybrid_property
     def cover_path(self):
-        return (series_dir[4:] + str(self.id) + 'image.jpeg')
+        cover = ''
+        try:
+            os.mkdir( series_dir + str(self.id) + slash)
+        except: FileExistsError
+        for r, d, f in os.walk(series_dir + str(self.id) + slash):
+            for file in f:
+                file = os.path.join(r, file)[4:]
+                if 'cover' in file:
+                    cover = file
+        if cover == '':
+            for r, d, f in os.walk(series_dir):
+                for file in f:
+                    file = os.path.join(r, file)[4:]
+                    if (slash + str(self.id) + 'image.') in file:
+                        cover = file
+            if cover != '':
+                try:
+                    with open('web/' + cover, 'rb') as std:
+                        dimage = std.read()
+                    os.remove('web/' + cover)
+                    cover = series_dir  +str(self.id) + slash + 'cover' + str(datetime.datetime.now()) +'.jpeg'
+                    with open(cover, 'wb') as std:
+                        std.write(dimage)
+                    cover = cover[4:]
+                except Exception:
+                    print('Could not read the image')
+                    pass
+        return cover
+
     @hybrid_property
     def cover_direct(self):
         return os.getcwd() + slash + games_dir + self.id 

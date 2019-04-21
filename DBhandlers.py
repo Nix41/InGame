@@ -4,6 +4,7 @@ import DBstructure
 from sqlalchemy.orm.exc import NoResultFound
 import base64
 import shutil
+from datetime import datetime
 
 def add_category_to_game(game , category):
     #'QQQQQQQQ')
@@ -108,9 +109,6 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
             game.language = language
             game.puntuacion = float(puntuacion)
             game.size = size
-
-            # game.max_players = max_players
-            # game.min_players = min_players
             if image != '':
                 change_cover(game, image, games_dir)
             if len(captures) != 0:
@@ -123,14 +121,6 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
             del_game(game)
         sess.commit()
     else:
-        print("heresasssss")
-        print('name:', name)
-        print('launch:',launch)
-        print('desc:',description)
-        print('gm:',game_mode)
-        print('lang:',language)
-        print('score:',puntuacion)
-        print('category:', category)
         game = DBstructure.Game(name = name, description= description, game_mode =game_mode, language= language, launch= launch, puntuacion = puntuacion, size=size )
         for g in genders:
             add_game_gender(game, g)
@@ -159,14 +149,12 @@ def add_game_gender(game, gender):
         sess.commit()
 
 def del_game_gender(game, gender):
-    #gender)
     if not(game is None) and game != -1:
         for g in game.genders:
             if g.name == gender:
                 game.genders.remove(g)
                 sess.commit()
                 break
-    #game.genders)
 
 def add_requirement(game, type, req, minor):
     reqd = Requirement(req_type = type , req = req)
@@ -174,21 +162,36 @@ def add_requirement(game, type, req, minor):
     game.requirements.append(gr)
 
 def change_cover(obj, image, dir_path):
-    to_write = image[23:]
-    with open(dir_path + str(obj.id) + 'image.jpeg', 'wb') as out_file: 
-        data = base64.b64decode(to_write)
-        out_file.write(data)
+    bind, iformat = image_data(image)
+    to_write = image[bind:]
+    try:
+        for r, d, f in os.walk(dir_path + str(obj.id) + slash):
+            for file in f:
+                file = os.path.join(r, file)
+                if 'cover' in file:
+                    os.remove(file)
+    except: Exception
+    try:
+        with open(dir_path + str(obj.id) + slash + 'cover' + str(datetime.now()) + '.' + iformat, 'wb') as out_file: 
+            data = base64.b64decode(to_write)
+            out_file.write(data)
+    except:
+        print('La imagen tiene problemas, Modifique el juego y cambie la imagen')
 
 def load_captures(id, images):
     dirt = games_dir + str(id)
+    print('ID:', id)
+    print(dirt)
     try:
         os.mkdir( dirt)
     except: FileExistsError
     count = 0
     for i in images:
-        to_write = i[23:]
+        bind, iformat = image_data(i)
+        to_write = i[bind:]
+        print('loading:', iformat)
         try:
-            with open(dirt +  slash +'image' + str(count) +'.jpeg', 'wb') as out_file: 
+            with open(dirt +  slash +'image' + str(datetime.now()) +'.' + iformat, 'wb') as out_file: 
                 data = base64.b64decode(to_write)
                 out_file.write(data)
         except:
@@ -197,32 +200,32 @@ def load_captures(id, images):
 
 def change_captures(game, images):
     old = game.captures_list
-    #old)
-    #)
     c = len(old)
     for o in old:
         if not(o in images):
             os.remove(o)
     for i in images:
         if not(i in old):
-            to_write = i[23:]
-            with open(games_dir +  slash + str(game.id) + slash +'image' + str(c) +'.jpeg', 'wb') as out_file: 
-                data = base64.b64decode(to_write)
-                out_file.write(data)
-            c +=1 
+            try:
+                bind, iformat = image_data(i)
+                to_write = i[bind:]
+                with open(games_dir +  slash + str(game.id) + slash +'image' + str(datetime.now()) +'.' + iformat, 'wb') as out_file: 
+                    data = base64.b64decode(to_write)
+                    out_file.write(data)
+                c +=1 
+            except Exception:
+                print('la imagen tiene problemas')
     #'OUT OF HERE')
 
 def remove_images(id, path, game=False):
-    #'removing images')
-    #path + str(id) + 'image.jpeg')
     try:
         os.remove(path + str(id) + 'image.jpeg')
         if game:
-            #'got here')
-            shutil.rmtree(path + str(id))
+            try:
+                shutil.rmtree(path + str(id))
+            except Exception:
+                pass
     except Exception:
-        #e)
-        #'Not found')
         pass
     
 def add_director(tv, director, movie=True):
@@ -271,7 +274,6 @@ def add_actor2(tv, actor):
         sess.commit()
 
 def add_tv_gender2(tv, name, movie=True):
-    #name)
     if not(tv is None) and tv != -1:
         if movie:
             try: 
@@ -283,14 +285,9 @@ def add_tv_gender2(tv, name, movie=True):
                 gender = sess.query(SerieGender).filter(SerieGender.name == name).one()
             except NoResultFound:
                 gender = SerieGender(name = name)
-        #gender)
-        #gender.name)
         tv.genders.append(gender)
         sess.add_all([gender])
         sess.commit()
-        #'done add gendrer')
-        # for g in tv.genders:
-            #g.name)
 
 def del_tv_gender(tv, gender):
     if not(tv is None) and tv != -1:
@@ -392,4 +389,20 @@ def get_counters():
     counters.append(mc)
     return counters
 
-
+def image_data(data):
+    iformat = ''
+    bind = 0
+    slash = False
+    for s in data:
+        if s == ';':
+            slash = False
+        if slash:
+            iformat += s
+        if s == '/':
+            slash = True
+        if s == ',':
+            bind += 1
+            break
+        bind += 1
+    print('format:', iformat,'  Point:', bind)
+    return bind , iformat

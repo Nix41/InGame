@@ -197,35 +197,65 @@ async function create_video_back(name, description, year, country, score, type, 
 }
 
 async function download_games(){
+    app.download = 'Dentro de poco va a comenzar la descarga....';
     r = await eel.download_games()();
-    if (r == -1){
-        alert('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
-    }
-    if (r == 2){
-        alert('Comenzando Descarga en la consola')
+    if(r == 0){
+        alert("Ya existe un proceso corriendo");
+    }else{
+        if (r == -1){
+            // alert('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde');
+            app.download = "No tienes conexion a internet, compruebe su conexion e intentelo mas tarde";
+        }
+        if (r == 2){
+            // alert('Comenzando Descarga en la consola');
+            app.download = "Comenzando Descarga en la consola";
+            app.down_bot = true;
+        }
     }
 }
 
 async function download_series(){
+    app.download = 'Dentro de poco va a comenzar la descarga....';
     r = await eel.download_series()();
-    if (r == -1){
-        alert('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
-    }
-     if (r == 2){
-        alert('Comenzando Descarga en la consola')
+    if(r == 0){
+        alert("Ya existe un proceso corriendo");
+    }else{
+        if (r == -1){
+            // alert('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde');
+            app.download = "No tienes conexion a internet, compruebe su conexion e intentelo mas tarde";
+        }
+        if (r == 2){
+            // alert('Comenzando Descarga en la consola');
+            app.download = "Comenzando Descarga en la consola";
+            app.down_bot = true;
+        }
     }
 }
 
 async function download_movies(){
+    app.download = 'Dentro de poco va a comenzar la descarga....';
     r = await eel.download_movies()();
-    if (r == -1){
-        alert('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
-    }
-     if (r == 2){
-        alert('Comenzando Descarga en la consola')
+    if(r == 0){
+        alert("Ya existe un proceso corriendo");
+    }else{
+        if (r == -1){
+            // alert('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde');
+            app.download = "No tienes conexion a internet, compruebe su conexion e intentelo mas tarde";
+        }
+        if (r == 2){
+            // alert('Comenzando Descarga en la consola');
+            app.download = "Comenzando Descarga en la consola";
+            app.down_bot = true;
+        }
     }
 }
 
 async function gen_pdf(){
     await eel.gen_pdf();
+}
+
+//kill_download
+function stop_download(){
+    eel.kill_download()();
+    alert('Ha sido parada la descarga')
 }

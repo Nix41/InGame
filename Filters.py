@@ -1,6 +1,7 @@
  
 from DBstructure import *
 import unicodedata
+import time
 
 categories = ['']
 
@@ -38,29 +39,24 @@ def get_movie_topics():
     return genders
 
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0 ):
-    games = []
     if launch == "":
         launch = 0
     if score == "":
         score = 0
-    # if gender is None:
-    #     gender = ""
-    for c in sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch >= launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score):
-    # for c in sess.query(Game).all():
+    t = time.time()
+    filter_full = sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch >= launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score)
+    for c in filter_full:
         genders = []
-        # #'**')
-         #(c.name)
-        # #c.category.name)
         gender_filter = False
         for g in c.genders:
-            if gender in g.name:
+            if unicodedata.normalize('NFD', gender).encode('ascii', 'ignore').lower() in unicodedata.normalize('NFD', g.name).encode('ascii', 'ignore').lower() :
                 gender_filter = True
             genders.append(g.name)
         if len(c.genders) == 0 and gender == "":
             gender_filter = True
         cat = False
         if not (c.category is None):
-            cat = category in c.category.name
+            cat = unicodedata.normalize('NFD', category).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', c.category.name).encode('ascii', 'ignore').lower() 
         else:
             cat = True
         if gender_filter and cat :
@@ -93,14 +89,12 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
             game['score'] = c.puntuacion
             game['cover_path'] = c.cover_path
             game['captures'] = c.captures_list
-            games.append(game)
-    return games
+            yield game
+
 
 def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,topic=''):
-    series = []
     for s in sess.query(Serie).filter(Serie.title.contains(name)):
     # for s in sess.query(Serie).all():
-        #s.title)
         stopics = []
         gender_filter = False
         for t in s.topics:
@@ -115,10 +109,8 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
             c_gen = unicodedata.normalize('NFD', gen).encode('ascii', 'ignore')
             for g in s.genders:
                 c_g = unicodedata.normalize('NFD', g.name).encode('ascii', 'ignore')
-                print('Fil: ', c_gen, '    Old: ', c_g)
                 if c_gen.lower() in c_g.lower():
-                    print("True")
-                    print(s.title)
+                    #s.title)
                     this_topic = True
             if not this_topic:
                 topic_filter = False
@@ -130,13 +122,13 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
         actor_filter  = False
         actors = []
         for a in s.actors:
-            if actor in a.name:
+            if unicodedata.normalize('NFD', actor).encode('ascii', 'ignore').lower() in unicodedata.normalize('NFD', a.name).encode('ascii', 'ignore').lower() :
                 actor_filter = True
             actors.append(a.name)
         director_filter = False
         directors = []
         for d in s.directors:
-            if director in d.name:
+            if unicodedata.normalize('NFD', director).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', d.name).encode('ascii', 'ignore').lower() :
                 director_filter = True
             directors.append(d.name)
         if gender_filter and actor_filter and director_filter and s.score >= score and topic_filter and s.year >= year:
@@ -152,11 +144,9 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
             serie['directors'] = directors
             serie['score'] = s.score
             serie['cover_path'] = s.cover_path
-            series.append(serie)
-    return series
+            yield serie
 
 def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, topic=""):
-    movies = []
     for c in sess.query(Movie).filter(Movie.title.contains(name)):
         stopics = []
         gender_filter = False
@@ -170,7 +160,7 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
         for gen in gender:
             this_topic = False
             for g in c.genders:
-                if gen in g.name:
+                if unicodedata.normalize('NFD', gen).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', g.name).encode('ascii', 'ignore').lower() :
                     this_topic = True
             if not this_topic:
                 topic_filter = False
@@ -182,13 +172,13 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
         actor_filter = False
         actors = []
         for a in c.actors:
-            if actor in a.name:
+            if unicodedata.normalize('NFD', actor).encode('ascii', 'ignore').lower() in unicodedata.normalize('NFD', a.name).encode('ascii', 'ignore').lower() :
                 actor_filter = True
             actors.append(a.name)
         directors = []
         director_filter = False
         for d in c.directors:
-            if director in d.name:
+            if unicodedata.normalize('NFD', director).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', d.name).encode('ascii', 'ignore').lower() :
                 director_filter = True
             directors.append(d.name)
         if gender_filter and actor_filter and director_filter and c.score >= score and topic_filter and c.year >= year:
@@ -204,8 +194,7 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
             movie['directors'] = directors
             movie['score'] = c.score
             movie['cover_path'] = c.cover_path
-            movies.append(movie)
-    return movies
+            yield movie
 
 ### RECUERDA AGREGAR CREATED_AT ANTES DE TESTEAR##
 def get_recent():

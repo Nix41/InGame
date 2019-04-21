@@ -50,6 +50,7 @@ function filter_over(gen){
     app.filter_selected_gen = gen.id;
     let g = 0;
     app.filter_subgen = [];
+    app.filter_selected_subgen = '';
     for (x in app.categories[gen.id]){
         let l = [];
         l.push(g);
@@ -234,10 +235,12 @@ function add_game(){
     app.games_dic[app.key][1].captures = app.captures;
 
     update_game(app.name, app.description, app.create_mode, app.language, app.launch, app.score, app.category, app.requirements, app.data, app.datas), size;
+    
 }
 
 async function update_game(name, des, mode, language, launch, score, category, requirements, cover, captures, size){
     eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=[], requirements = requirements,id=-1,cover = cover, captures = captures, size=size)();
+    alert("Post Update")
 }
 
 function del_game(x){
