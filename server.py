@@ -71,7 +71,7 @@ def next_obj(id, direction = 1):
         return to_show[cui - 1]
 
 @eel.expose
-def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topic=""):
+def filter_series(name="", gender=[],actor="",director="", score=0, year=0, country=""):
     global to_show
     global index
     global start
@@ -84,7 +84,7 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
         year = 0
     year = int(year)
     score = float(score)
-    series = Filters.filter_series(name, gender,actor,director, score, year, topic)
+    series = Filters.filter_series(name, gender,actor,director, score, year, country)
     current_query = None
     current_query = series
     find_match = []
@@ -94,7 +94,7 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
     return get_more()
 
 @eel.expose
-def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, topic=""):
+def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, country=""):
     global to_show
     global index
     global start
@@ -107,7 +107,7 @@ def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, to
         year = 0
     year = int(year)
     score = float(score)
-    movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
+    movies = Filters.filter_movies(name, gender, actor, director, score, year, country)
     current_query = None
     current_query = movies
     to_show = []

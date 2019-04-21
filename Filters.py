@@ -92,7 +92,7 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
             yield game
 
 
-def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,topic=''):
+def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,country=''):
     for s in sess.query(Serie).filter(Serie.title.contains(name)):
     # for s in sess.query(Serie).all():
         topic_filter  = True
@@ -123,13 +123,17 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
             if unicodedata.normalize('NFD', director).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', d.name).encode('ascii', 'ignore').lower() :
                 director_filter = True
             directors.append(d.name)
+        country_filter = False
+        if unicodedata.normalize('NFD', country).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', s.country).encode('ascii', 'ignore').lower():
+            country_filter = True
+
         if len(s.directors) == 0:
             director_filter = True
         if len(s.actors) == 0:
             actor_filter = True
         if len(genders) == 0  and len(s.genders) == 0:
             topic_filter = True
-        if topic_filter and actor_filter and director_filter and s.score >= score and topic_filter and s.year >= year:
+        if topic_filter and actor_filter and director_filter and s.score >= score and topic_filter and s.year >= year and country_filter:
             serie = {}
             serie['id'] = s.id
             serie['title'] = s.title
@@ -143,7 +147,7 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
             serie['cover_path'] = s.cover_path
             yield serie
 
-def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, topic=""):
+def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, country=""):
     for c in sess.query(Movie).filter(Movie.title.contains(name)):
         topic_filter  = True
         for gen in gender:
@@ -173,13 +177,16 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
             if unicodedata.normalize('NFD', director).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', d.name).encode('ascii', 'ignore').lower() :
                 director_filter = True
             directors.append(d.name)
+        country_filter = False
+        if unicodedata.normalize('NFD', country).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', c.country).encode('ascii', 'ignore').lower():
+            country_filter = True
         if len(c.directors) == 0:
             director_filter = True
         if len(c.actors) == 0:
             actor_filter = True
         if len(genders) == 0  and len(c.genders) == 0:
             topic_filter = True
-        if topic_filter and actor_filter and director_filter and c.score >= score and c.year >= year:
+        if topic_filter and actor_filter and director_filter and c.score >= score and c.year >= year and country_filter:
             movie = {}
             movie['id'] = c.id
             movie['title'] = c.title
@@ -193,7 +200,6 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
             movie['cover_path'] = c.cover_path
             yield movie
 
-### RECUERDA AGREGAR CREATED_AT ANTES DE TESTEAR##
 def get_recent():
     recent = []
     games = sess.query(Game).order_by(Game.created_at)[-3:]
