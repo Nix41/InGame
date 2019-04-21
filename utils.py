@@ -60,14 +60,20 @@ def clean(path):
         std.writelines(new)
 
 def make_lists(dirt, found, not_dir, not_found):
-    with open(not_dir , 'w+') as std:
+    with open(not_dir , 'a+') as std:
+        print('Not:', not_found)
         std.write(not_found)
     left = ''
     line = None
-    with open(dirt , 'w+') as std:
+    with open(dirt , 'r') as std:
         while line is None or line != '':
             line = std.readline()
-            if not line in found:
+            print(line)
+            if not (line in found):
+                print(line)
                 left += line
+            else:
+                print('Line:', line)
+    print('left:', left + '#')
     with open(dirt , 'w+') as std:
         std.write(left)

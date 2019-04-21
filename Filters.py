@@ -165,7 +165,6 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
             if not this_topic:
                 topic_filter = False
                 break
-             #(topic_filter)
         genders = []
         for t in c.genders:
             genders.append(t.name)

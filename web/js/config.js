@@ -201,6 +201,8 @@ async function download_games(){
     r = await eel.download_games()();
     if(r == 0){
         alert("Ya existe un proceso corriendo");
+        app.download = "Ya existe un proceso corriendo";
+
     }else{
         if (r == -1){
             // alert('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde');
@@ -219,6 +221,7 @@ async function download_series(){
     r = await eel.download_series()();
     if(r == 0){
         alert("Ya existe un proceso corriendo");
+        app.download = "Ya existe un proceso corriendo";
     }else{
         if (r == -1){
             // alert('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde');
@@ -237,6 +240,7 @@ async function download_movies(){
     r = await eel.download_movies()();
     if(r == 0){
         alert("Ya existe un proceso corriendo");
+        app.download = "Ya existe un proceso corriendo";
     }else{
         if (r == -1){
             // alert('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde');

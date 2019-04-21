@@ -164,6 +164,7 @@ def add_requirement(game, type, req, minor):
 def change_cover(obj, image, dir_path):
     bind, iformat = image_data(image)
     to_write = image[bind:]
+    print('Bind:', image)
     try:
         for r, d, f in os.walk(dir_path + str(obj.id) + slash):
             for file in f:
@@ -172,6 +173,7 @@ def change_cover(obj, image, dir_path):
                     os.remove(file)
     except: Exception
     try:
+        print(dir_path + str(obj.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.' + iformat)
         with open(dir_path + str(obj.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.' + iformat, 'wb') as out_file: 
             data = base64.b64decode(to_write)
             out_file.write(data)
