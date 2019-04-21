@@ -124,11 +124,17 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
         game = DBstructure.Game(name = name, description= description, game_mode =game_mode, language= language, launch= launch, puntuacion = puntuacion, size=size )
         for g in genders:
             add_game_gender(game, g)
+            print('h1')
         if len(requirements[0]) == 0:
+            print('h2')
             add_requirement(game, ' ', 'Desconocidos', True)
         if len(requirements[0]) == 0:
+            print('h3')
+            print(requirements)
             add_requirement(game, ' ', 'Desconocidos', False)
         for r in requirements[0]:
+            print('h4')
+            print(requirements)
             add_requirement(game, r[0], r[1], True)
         for r in requirements[1]:
             add_requirement(game, r[0], r[1], False)    
@@ -204,6 +210,12 @@ def load_captures(id, images):
 def change_captures(game, images):
     old = game.captures_list
     c = len(old)
+    dirt = games_dir + str(id)
+    print('ID:', id)
+    print(dirt)
+    try:
+        os.mkdir( dirt)
+    except: FileExistsError
     for o in old:
         if not(o in images):
             os.remove(o)

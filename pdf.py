@@ -4,9 +4,10 @@ from weasyprint import HTML, CSS
 import os
 
 def gen_pdfs():
+    print('Generating PDF')
     html_games=('<div style="width:100%; border:solid grey; border-radius: 20px; height:500px; margin-bottom:11px">'
                 '<div style="width:30%; height:500px; float:left;">'
-                    '<img src="web/img/Work/Games/{0}image.jpeg" class="img-fluid" style="height: 96%; width:100%; margin-top:10px; margin-left:10px; object-fit: cover; border-radius: 20px;" alt="Responsive image">'
+                    '<img src="{7}" class="img-fluid" style="height: 96%; width:100%; margin-top:10px; margin-left:10px; object-fit: cover; border-radius: 20px;" alt="Responsive image">'
                 '</div>'
                 '<div style="width:70%; height:500px; float:left;">'
                     '<div style="border:solid grey; width:96%; height:30px; border-radius: 20px; margin-top:10px; margin-left:15px; margin-right: 0 !important;">'
@@ -73,14 +74,14 @@ def gen_pdfs():
             for gen in g.genders:
                     gens += gen.name + ','
             gens = gens[:-1]
-            s = s + html_games.format(g.id, g.name ,g.description, gens,  g.game_mode, g.launch, g.size)
+            s = s + html_games.format(g.id, g.name ,g.description, gens,  g.game_mode, g.launch, g.size, 'web/' + g.cover_path)
     css = CSS(string='@page {size: A3; margin-top:0px; margin-bottom:39.4px;}')
     HTML(string=s, base_url='./').write_pdf('PDF/Games.pdf', stylesheets=[css])
 
     s = ''
     html_series = ('<div style="width:100%; border:solid grey; border-radius: 20px; height:500px; margin-bottom:11px">'
                 '<div style="width:30%; height:500px; float:left;">'
-                    '<img src="web/img/Work/Series/{0}image.jpeg" class="img-fluid" style="height: 96%; width:100%; margin-top:10px; margin-left:10px; object-fit: cover; border-radius: 20px;" alt="Responsive image">'
+                    '<img src="{6}" class="img-fluid" style="height: 96%; width:100%; margin-top:10px; margin-left:10px; object-fit: cover; border-radius: 20px;" alt="Responsive image">'
                 '</div>'
                 '<div style="width:70%; height:500px; float:left;">'
                     '<div style="border:solid grey; width:96%; height:30px; border-radius: 20px; margin-top:10px; margin-left:15px; margin-right: 0 !important;">'
@@ -137,7 +138,7 @@ def gen_pdfs():
             for gen in g.genders:
                     gens += gen.name + ', '
             gens = gens[:-2]
-            s = s + html_series.format(g.id, g.title ,g.sinopsis, gens, g.year, g.country)
+            s = s + html_series.format(g.id, g.title ,g.sinopsis, gens, g.year, g.country, 'web/' + g.cover_path)
     css = CSS(string='@page {size: A3; margin-top:0px; margin-bottom:39.4px;}')
     HTML(string=s, base_url='./').write_pdf('PDF/Series.pdf', stylesheets=[css])
 
@@ -145,7 +146,7 @@ def gen_pdfs():
 
     html_movies = ('<div style="width:100%; border:solid grey; border-radius: 20px; height:500px; margin-bottom:11px">'
                 '<div style="width:30%; height:500px; float:left;">'
-                    '<img src="web/img/Work/Movies/{0}image.jpeg" class="img-fluid" style="height: 96%; width:100%; margin-top:10px; margin-left:10px; object-fit: cover; border-radius: 20px;" alt="Responsive image">'
+                    '<img src="{6}" class="img-fluid" style="height: 96%; width:100%; margin-top:10px; margin-left:10px; object-fit: cover; border-radius: 20px;" alt="Responsive image">'
                 '</div>'
                 '<div style="width:70%; height:500px; float:left;">'
                     '<div style="border:solid grey; width:96%; height:30px; border-radius: 20px; margin-top:10px; margin-left:15px; margin-right: 0 !important;">'
@@ -201,6 +202,7 @@ def gen_pdfs():
             for gen in g.genders:
                     gens += gen.name + ', '
             gens = gens[:-2]
-            s = s + html_movies.format(g.id, g.title ,g.sinopsis, gens, g.year, g.country)
+            s = s + html_movies.format(g.id, g.title ,g.sinopsis, gens, g.year, g.country, 'web/' + g.cover_path)
     css = CSS(string='@page {size: A3; margin-top:0px; margin-bottom:39.4px;}')
     HTML(string=s, base_url='./').write_pdf('PDF/Movies.pdf', stylesheets=[css])
+    print('Done With PDF')

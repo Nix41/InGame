@@ -97,6 +97,7 @@ async function get_films(){
 }
 
 function see_s(id){
+    app.Onsingle = 0;
     app.name = app.series_dic[id][1].title;
     app.description = app.series_dic[id][1].sinopsis;
     app.genders = app.series_dic[id][1].genders;
@@ -117,6 +118,7 @@ function see_s(id){
 }
 
 function series_edit_cleardata(id, type = 's'){
+        app.data = '';
         app.key = id;
         set_video(id,type);
         app.create_country = app.country;
@@ -139,10 +141,18 @@ function series_edit_cleardata(id, type = 's'){
 }
 
 async function set_video(id,type){
-    if(type == 's'){
-        eel.Set_Serie(app.series_dic[id][1].id)();
+    if(app.Onsingle == 0){
+        if(type == 's'){
+            eel.Set_Serie(app.series_dic[id][1].id)();
+        }else{
+            eel.Set_Movie(app.series_dic[id][1].id)();
+        }
     }else{
-        eel.Set_Movie(app.series_dic[id][1].id)();
+        if(type == 's'){
+            eel.Set_Serie(app.current_detail)();
+        }else{
+            eel.Set_Movie(app.current_detail)();
+        }
     }
 }
 
@@ -238,10 +248,8 @@ function add_video(type){
 async function add_video_back(name, description, year, country, score, type){
     if(type == 's'){
         await eel.CRUD_Serie(title=name, year=year, pais=country,sinopsis=description, genero=[],directors=[],reparto=[],score=score, id=-1,image=app.data)();
-        window.location.reload(true);
     }else{
         await eel.CRUD_Movie(title=name, year=year, pais=country,sinopsis=description, genero=[],directors=[],reparto=[],score=score, id=-1,image=app.data)();
-        window.location.reload(true);
     }
     
 }

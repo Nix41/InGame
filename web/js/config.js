@@ -139,17 +139,21 @@ function delgen_prin(){
 }
 
 function create_game(){
-    if(app.create_name != ''){
-        app.requirements = [];
-        app.requirements.push(app.Min_req);
-        app.requirements.push(app.Max_req);
-        var genders = [];
-        for(x in app.create_selected){
-            genders.push(app.create_selected[x][1])
+    if(app.create_prin != ''){
+        if(app.create_name != ''){
+            app.requirements = [];
+            app.requirements.push(app.Min_req);
+            app.requirements.push(app.Max_req);
+            var genders = [];
+            for(x in app.create_selected){
+                genders.push(app.create_selected[x][1])
+            }
+            create_game_for_real(app.create_name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas, genders, app.create_size);
+        }else{
+            alert("El juego debe tener nombre")
         }
-        create_game_for_real(app.create_name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas, genders, app.create_size);
     }else{
-        alert("El juego debe tener nombre")
+        alert("El juego debe tener un genero principal");
     }
 }
 

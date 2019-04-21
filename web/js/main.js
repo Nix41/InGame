@@ -40,6 +40,8 @@ var app = new Vue({
         current_detail:'',
         index_page : 1,
 
+        //onSingle
+        Onsingle: 0,
         //download
         download: '',
         down_bot: false,
@@ -181,13 +183,23 @@ var app = new Vue({
             for(i = 0; i < input.files.length; i++){
                 if(input.files && input.files[i]){
                     var reader = new FileReader();
+                    var bool = 0;
                     reader.onload = (e) => {
-                        this.datas.push(e.target.result);
+                        var res = e.target.result;
+                        for(x in this.datas){
+                            if(this.datas[x] == res){
+                                bool = 1;
+                                break;
+                            }
+                        }
+                        if(!bool){
+                            this.datas.push(e.target.result);
+                        }
                     }
                     reader.readAsDataURL(input.files[i]);
                 }
             }
-
+            event.target.files = [];
         },
     },
 
@@ -235,9 +247,11 @@ async function OnNext(i=1,t='g'){
             app.series_dic.push([x,element[x]]);
         }
     }
+
 }
 
 async function SingleNext(dir = 1, typ='g'){
+    app.Onsingle = 1;
     var id = app.current_detail;
     var element = await eel.next_obj(id, dir)();
     if (typ == 'g'){
@@ -256,6 +270,7 @@ async function SingleNext(dir = 1, typ='g'){
         app.current_detail = element.id;
     }
     else{
+        app.data = '';
         app.name = element.title;
         app.description = element.sinopsis;
         app.genders = element.genders;

@@ -7,7 +7,7 @@ from urllib.error import URLError
 import urllib
 from multiprocessing import Process
 from multiproc import *
-
+from pdf import gen_pdfs
 
 eel.init('web')
 
@@ -347,7 +347,7 @@ def download_movies():
 
 @eel.expose
 def gen_pdf():
-    pass
+    gen_pdfs()
 
 @eel.expose
 def get_counters():
