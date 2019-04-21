@@ -166,6 +166,9 @@ def change_cover(obj, image, dir_path):
     to_write = image[bind:]
     print('Bind:', image)
     try:
+        os.mkdir( dir_path + str(obj.id) + slash)
+    except: FileExistsError
+    try:
         for r, d, f in os.walk(dir_path + str(obj.id) + slash):
             for file in f:
                 file = os.path.join(r, file)
@@ -173,8 +176,12 @@ def change_cover(obj, image, dir_path):
                     os.remove(file)
     except: Exception
     try:
+<<<<<<< HEAD
         print(dir_path + str(obj.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.' + iformat)
         with open(dir_path + str(obj.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.' + iformat, 'wb') as out_file: 
+=======
+        with open(dir_path + str(obj.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.' + iformat, 'wb+') as out_file: 
+>>>>>>> develop
             data = base64.b64decode(to_write)
             out_file.write(data)
     except:

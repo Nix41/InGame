@@ -139,14 +139,18 @@ function delgen_prin(){
 }
 
 function create_game(){
-    app.requirements = [];
-    app.requirements.push(app.Min_req);
-    app.requirements.push(app.Max_req);
-    var genders = [];
-    for(x in app.create_selected){
-        genders.push(app.create_selected[x][1])
+    if(app.create_name != ''){
+        app.requirements = [];
+        app.requirements.push(app.Min_req);
+        app.requirements.push(app.Max_req);
+        var genders = [];
+        for(x in app.create_selected){
+            genders.push(app.create_selected[x][1])
+        }
+        create_game_for_real(app.create_name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas, genders, app.create_size);
+    }else{
+        alert("El juego debe tener nombre")
     }
-    create_game_for_real(app.create_name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas, genders, app.create_size);
 }
 
 async function create_game_for_real(name, des, mode, language, launch, score, category, requirements, cover, captures, genders, size){
@@ -154,35 +158,38 @@ async function create_game_for_real(name, des, mode, language, launch, score, ca
 }
 
 function create_video(type){
-    app.name = app.create_name;
-    app.description = app.create_description;
-    app.launch = app.create_year;
-    app.country = app.create_country;
-    app.score = app.create_score;
-    var gen = [];
-    for(x in app.create_gen){
-        if(app.create_gen[x][0] >= 0){
-            gen.push(app.create_gen[x][1]);
+    if(app.create_name != ''){
+        app.name = app.create_name;
+        app.description = app.create_description;
+        app.launch = app.create_year;
+        app.country = app.create_country;
+        app.score = app.create_score;
+        var gen = [];
+        for(x in app.create_gen){
+            if(app.create_gen[x][0] >= 0){
+                gen.push(app.create_gen[x][1]);
+            }
         }
-    }
-    var dir = [];
-    for(x in app.create_directors){
-        if(app.create_directors[x][0] >= 0){
-            dir.push(app.create_directors[x][1]);
+        var dir = [];
+        for(x in app.create_directors){
+            if(app.create_directors[x][0] >= 0){
+                dir.push(app.create_directors[x][1]);
+            }
         }
-    }
-    var act = [];
-    for(x in app.create_actors){
-        if(app.create_actors[x][0] >= 0){
-            act.push(app.create_actors[x][1]);
+        var act = [];
+        for(x in app.create_actors){
+            if(app.create_actors[x][0] >= 0){
+                act.push(app.create_actors[x][1]);
+            }
         }
-    }
-    if(app.data != ''){
-        app.cover_path = app.data;
-    }
+        if(app.data != ''){
+            app.cover_path = app.data;
+        }
 
-
-    create_video_back(app.name, app.description, app.launch, app.country, app.score, type, gen, dir, act);
+        create_video_back(app.name, app.description, app.launch, app.country, app.score, type, gen, dir, act);
+    }else{
+        alert('el video debe tener nombre');
+    }
 }
 
 async function create_video_back(name, description, year, country, score, type, gen, dir, act){

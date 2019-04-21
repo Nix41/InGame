@@ -240,7 +240,7 @@ input[type=file] {
 
 #style-h::-webkit-scrollbar
 {
-	height: 5px;
+	height: 10px;
     background-color: rgb(77,77,77);
 }
 

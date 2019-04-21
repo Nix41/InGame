@@ -6,6 +6,7 @@ from WebScrapping import Down_Games, Down_Movies, Down_Series
 from urllib.error import URLError
 import urllib
 from multiprocessing import Process
+from multiproc import *
 
 
 eel.init('web')
@@ -146,8 +147,16 @@ def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             dele = False
         else:
             dele = True
+        if year == '':
+            year = 0
+        if score == '':
+            score = 0
         DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, score, id, image, topics, dele)
     else:
+        if year == '':
+            year = 0
+        if score == '':
+            score = 0
         DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto,score, current.id, image, topics, delete = False)
         Done_update()
 
@@ -158,8 +167,16 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             dele = False
         else:
             dele = True
+        if year == '':
+            year = 0
+        if score == '':
+            score = 0
         DBhandlers.CRUD_Movie(title, year, pais, sinopsis, generos, directors, reparto, score, id, image, topics, dele)
     else:
+        if year == '':
+            year = 0
+        if score == '':
+            score = 0
         DBhandlers.CRUD_Movie(title, year, pais, sinopsis, generos, directors, reparto,score, current.id, image, topics, delete = False)
         Done_update()
 
@@ -178,9 +195,13 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
         if len(requirements) == 0:
              #('had to')
             requirements = [[],[]]
+        if puntuacion == '':
+            puntuacion = 0
         #'DEl:', dele)
         DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image=cover, captures=captures, size = size, delete=dele)
     else:
+        if puntuacion == '':
+            puntuacion = 0
         #'current: ', current)
          #('begin_update')
         #'WTF???????')
@@ -294,8 +315,7 @@ def download_games():
     if current_process is None:
         r = try_connection()
         if r == 2:
-            current_process = Process(target= Down_Games)
-            current_process.start()
+            current_process = downgames()
         return r
     else:
         print('Espera a que terminen Los demas procesos y vuelvalo a intentar')
@@ -307,8 +327,7 @@ def download_series():
     if current_process is None:
         r = try_connection()
         if r == 2:
-            current_process = Process(target= Down_Series)
-            current_process.start()
+            current_process = downseries()
         return r
     else:
         print('Espera a que terminen Los demas procesos y vuelvalo a intentar')
@@ -320,8 +339,7 @@ def download_movies():
     if current_process is None:
         r = try_connection()
         if r == 2:
-            current_process = Process(target= Down_Movies)
-            current_process.start()
+            current_process = downmovies()
         return r
     else:
         print('Espera a que terminen Los demas procesos y vuelvalo a intentar')
@@ -341,6 +359,7 @@ def kill_download():
     global current_process
     if not (current_process is None):
         current_process.terminate()
+        current_process.join()
         current_process = None
         print('Ha sido detenida la descarga')
 
