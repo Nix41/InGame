@@ -109,7 +109,7 @@ class Game(TimestampMixin, Base):
                     with open('web/' + cover, 'rb') as std:
                         dimage = std.read()
                     os.remove('web/' + cover)
-                    cover = games_dir +str(self.id) + slash + 'cover' + str(datetime.datetime.now()) +'.jpeg'
+                    cover = games_dir +str(self.id) + slash + 'cover' + str(datetime.datetime.now()).replace(':','') +'.jpeg'
                     with open(cover, 'wb') as std:
                         std.write(dimage)
                     cover = cover[4:]
@@ -230,7 +230,7 @@ class Movie(TimestampMixin, Base):
                     with open('web/' + cover, 'rb') as std:
                         dimage = std.read()
                     os.remove('web/' + cover)
-                    cover = movies_dir  +str(self.id) + slash + 'cover' + str(datetime.datetime.now()) +'.jpeg'
+                    cover = movies_dir  +str(self.id) + slash + 'cover' + str(datetime.datetime.now()).replace(':','') +'.jpeg'
                     with open(cover, 'wb') as std:
                         std.write(dimage)
                     cover = cover[4:]
@@ -286,7 +286,7 @@ class Serie(TimestampMixin, Base):
                     with open('web/' + cover, 'rb') as std:
                         dimage = std.read()
                     os.remove('web/' + cover)
-                    cover = series_dir  +str(self.id) + slash + 'cover' + str(datetime.datetime.now()) +'.jpeg'
+                    cover = series_dir  +str(self.id) + slash + 'cover' + str(datetime.datetime.now()).replace(':','') +'.jpeg'
                     with open(cover, 'wb') as std:
                         std.write(dimage)
                     cover = cover[4:]

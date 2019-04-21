@@ -25,7 +25,7 @@ def get_captures(game, ids):
         
     for im in game.findAll('img', class_='wi100'):
         if not('video' in im['data-src']):
-            with urllib.request.urlopen(im['data-src']) as response, open(dirt + slash + 'image' + str(datetime.now()) + '.jpeg', 'wb') as out_file:
+            with urllib.request.urlopen(im['data-src']) as response, open(dirt + slash + 'image' + str(datetime.now()).replace(':','') + '.jpeg', 'wb') as out_file:
                 data = response.read()
                 out_file.write(data)
                 i = i + 1
@@ -178,7 +178,7 @@ def find_games(sourcelist):
                     get_captures(soup_game , this_game.id)
                     image = soup_game.find(rel='image_src')
                     im = image['href']
-                    with urllib.request.urlopen(im) as response, open(games_dir + str(this_game.id) + slash + 'cover' + str(datetime.now()) + '.jpeg', 'wb') as out_file: 
+                    with urllib.request.urlopen(im) as response, open(games_dir + str(this_game.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.jpeg', 'wb') as out_file: 
                         data = response.read()
                         out_file.write(data)
                     one = OnExistance(name = g, tipo = 'Game')  
@@ -279,7 +279,7 @@ def build_serie(name, year, pais, sinopsis, generos, directors, reparto, image, 
         try:
             os.mkdir( series_dir + str(serie.id) + slash)
         except: FileExistsError
-        with urllib.request.urlopen(image) as response, open(series_dir + str(serie.id) + slash + 'cover'+ str(datetime.now()) +'.jpeg', 'wb') as out_file:
+        with urllib.request.urlopen(image) as response, open(series_dir + str(serie.id) + slash + 'cover'+ str(datetime.now()).replace(':','') +'.jpeg', 'wb') as out_file:
             data = response.read()
             out_file.write(data)
         ('    La serie ha sido descargada exitosamente')
@@ -307,7 +307,7 @@ def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image, 
         try:
             os.mkdir( movies_dir + str(movie.id) + slash)
         except: FileExistsError
-        with urllib.request.urlopen(image) as response, open(movies_dir+ '/' + str(movie.id) + slash + 'cover'+ str(datetime.now()) +'.jpeg', 'wb') as out_file:
+        with urllib.request.urlopen(image) as response, open(movies_dir+ '/' + str(movie.id) + slash + 'cover'+ str(datetime.now()).replace(':','') +'.jpeg', 'wb') as out_file:
             data = response.read()
             out_file.write(data)
         ('    La pelicula ha sido descargada exitosamente')
