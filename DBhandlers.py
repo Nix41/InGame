@@ -170,6 +170,7 @@ def add_requirement(game, type, req, minor):
 def change_cover(obj, image, dir_path):
     bind, iformat = image_data(image)
     to_write = image[bind:]
+    print('Bind:', image)
     try:
         os.mkdir( dir_path + str(obj.id) + slash)
     except: FileExistsError
@@ -234,12 +235,7 @@ def change_captures(game, images):
 
 def remove_images(id, path, game=False):
     try:
-        os.remove(path + str(id) + 'image.jpeg')
-        if game:
-            try:
-                shutil.rmtree(path + str(id))
-            except Exception:
-                pass
+        shutil.rmtree(path + str(id))
     except Exception:
         pass
     

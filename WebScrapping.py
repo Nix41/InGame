@@ -12,11 +12,12 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException
 import unicodedata
 from datetime import datetime
+from socket import timeout
 
 digits = ['1','2','3','4', '5','6','7','8','9','0']
 
 def get_captures(game, ids):
-    ('    Descargando Capturas')
+    print('    Descargando Capturas')
     i = 0
     dirt = games_dir + str(ids)
     try:
@@ -42,7 +43,7 @@ def gen_requisitos(gameurl):
 def extract_req(req, game, boo):
     space_key = ['Almacenamiento', 'Disco', 'Duro', 'Espacio', 'almacenamiento', 'disco', 'duro', 'espacio']
     sep = re.split(': | \(' , req)
-    ('      ',sep)
+    print('      ',sep)
     if len(sep) > 1:
         reqd = Requirement(req_type = sep[0] , req = sep[1])
     else: 
@@ -83,11 +84,11 @@ def requisitos(url, game):
     for gr in reqs:
         (gr.find_previous().get_text())
         if 'recomendados' in gr.find_previous().get_text():
-            ('    Requisitos Recomendados')
+            print('    Requisitos Recomendados')
             boo = False
         else:
             boo = True
-            ('    Requisitos Minimos')
+            print('    Requisitos Minimos')
         for lis in gr.find_all('li'):
             extract_req(lis.get_text(), game, boo)
         i = i + 1
@@ -107,8 +108,7 @@ def find_games(sourcelist):
                 games.append(line)
             except:
                 pass
-    (games)
-    ('Searching ', len(games), ' Games')
+    print('Searching ', len(games), ' Games')
     options = Options()
     options.headless = True
     options.add_argument('--ignore-certificate-errors')
@@ -120,14 +120,14 @@ def find_games(sourcelist):
     driver.set_page_load_timeout(60)
     found = []
     for g in games:
-        (g, '   ->  ', type(g))
+        print(g, '   ->  ', type(g))
         s = re.sub( ' +', ' ', g ).strip()
-        ('Buscando Juego: ', g[:-1])
-        already = sess.query(OnExistance).filter(OnExistance.name == g, OnExistance.tipo == 'Game')
+        print('Buscando Juego: ', g[:-1])
+        already = sess.query(Game).filter(Game.name == g)
         if already.count() == 0:
             s = s.replace(' ' , '+')
             url = urlstart + s + urlend
-            ('url:',url)
+            print('url:',url)
             try: 
                 driver.get(url)
                 resp = driver.find_element_by_xpath('//*[@class="xXx b"]')
@@ -138,7 +138,7 @@ def find_games(sourcelist):
                 game_name = soup_game.title.string
                 description = "" +soup_game.select_one("#adpepito").get_text()
                 jname = game_name[:-18]
-                ('    Encontrado: ', jname)
+                print('    Encontrado: ', jname)
                 here = sess.query(Game).filter(Game.name == jname)
                 p_element = soup_game.find(class_='pr t6')
                 if p_element is None:
@@ -148,7 +148,7 @@ def find_games(sourcelist):
                     puntuacion = 0
                     for i in range(len(puntuacion_str)):
                         puntuacion += (int)(puntuacion_str[i]) * (10**(-i))
-                ('    Score:', puntuacion)
+                print('    Score:', puntuacion)
                 language=""
                 for head in soup_game.find_all('dt'):
                     typ = head.get_text()
@@ -163,13 +163,13 @@ def find_games(sourcelist):
                             if year > 1000:
                                 break
                         launch = year   
-                        ('    Year:', launch)                    
+                        print('    Year:', launch)                    
                     if 'Jugadores' in typ:
                         game_type = prop
-                        ('    Game Mode:' , game_type)
+                        print('    Game Mode:' , game_type)
                     if 'Idioma' in typ:
                         language = prop 
-                        ('    Language:', language)                 
+                        print('    Language:', language)                 
                 if here.count() == 0:
                     this_game = Game(name = g[:-1], description= description, game_mode =game_type, language= language, launch= launch, puntuacion = puntuacion )  
                     r = soup_game.find('a' , text='Requisitos')
@@ -178,27 +178,35 @@ def find_games(sourcelist):
                     get_captures(soup_game , this_game.id)
                     image = soup_game.find(rel='image_src')
                     im = image['href']
-                    with urllib.request.urlopen(im) as response, open(games_dir + str(this_game.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.jpeg', 'wb') as out_file: 
+                    with urllib.request.urlopen(im) as response, open(games_dir + str(this_game.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.jpeg', 'wb+') as out_file: 
                         data = response.read()
                         out_file.write(data)
                     one = OnExistance(name = g, tipo = 'Game')  
                     sess.add_all([this_game, one])
                     sess.commit()
-                    ('    El juego ha sido descargado Exitosamente')
+                    print('    El juego ha sido descargado Exitosamente')
                     found.append(g)
+                else:
+                    print('Este juego ya existe')
+                    found.append(g)
+                    make_lists(g_list, found , 'lists/not_found_games.txt', not_found)
             except TimeoutException:
-                not_found += (g + '\n') 
+                not_found = g  
                 make_lists(g_list, found , 'lists/not_found_games.txt', not_found)
-                ('    La pagina se demoro demasiado on ', g)
+                not_found = ''
+                print('    La pagina se demoro demasiado on ', g)
             except NoSuchElementException:
-                not_found += (g + '\n')
+                not_found = g 
                 make_lists(g_list, found , 'lists/not_found_games.txt', not_found)
-                ('    No se ha podido encontrar el juego', g ,' en la Pagina') 
+                not_found = ''
+                print('    No se ha podido encontrar el juego', g ,' en la Pagina') 
         else:
-            ('    Ya has hecho esta busqueda: ' + g)
+            print('    Ya has hecho esta busqueda: ' + g)
+            found.append(g)
+            make_lists(g_list, found , 'lists/not_found_games.txt', not_found)
+
     print('Done Download')
     driver.quit()
-    print(found)
     
 
 def extract_info(url, build_method, dname):
@@ -221,37 +229,37 @@ def extract_info(url, build_method, dname):
         prop = nextI.get_text()
         if 'Título original' in typ :
             name = re.sub( '\s+', ' ', prop ).strip()
-            ('    Titulo:', name)
+            print('    Titulo:', name)
         if 'Género' in typ :
             gens = nextI.find_all('a')
             for g in gens:
                 if 'moviegenre' in g['href']:
                     generos.append(g.get_text())
-                    ('    Genero ->', g.get_text())
+                    print('    Genero ->', g.get_text())
                 elif 'movietopic' in g['href']:
                     topics.append(g.get_text())
-                    ('    Tema ->', g.get_text())
+                    print('    Tema ->', g.get_text())
         if 'Reparto' in typ :
             reparto = re.split(',' , re.sub( '\s+', ' ', prop ).strip())
         if 'Sinopsis' in typ :
             sinopsisa = re.sub( '\s+', ' ', prop ).strip()
             sinopsis = sinopsisa[:-15]
-            ('    Sinopsis: ', sinopsis)
+            print('    Sinopsis: ', sinopsis)
         if 'Dirección' in typ :
             directors = re.split(',' , re.sub( '\s+', ' ', prop ).strip()) 
         if 'Año' in typ :
             anno = re.sub( '\s+', ' ', prop ).strip()
-            ('    Año: ', anno)
+            print('    Año: ', anno)
         if 'País' in typ :
             pais = re.sub( '\s+', ' ', prop ).strip()
-            ('    País:', pais)
+            print('    País:', pais)
     image = movsoup.find('img' , itemprop="image")
     scor = movsoup.find('div', id="movie-rat-avg")
     try:
         score = float(scor['content'])
     except Exception:
         score = 0
-    ('    Score:', score)
+    print('    Score:', score)
     if not (image is None):
         build_method(dname, anno, pais, sinopsis, generos, directors, reparto, image['src'], score, topics)
 
@@ -263,13 +271,13 @@ def build_serie(name, year, pais, sinopsis, generos, directors, reparto, image, 
         for g in generos:
             (g)
             add_tv_gender2(serie, g, False)
-        ('    Directores:')
+        print('    Directores:')
         for d in directors:
-            ('      -',d)
+            print('      -',d)
             add_director2(serie, d)
-        ('    Reparto:')
+        print('    Reparto:')
         for a in reparto:
-            ('      -',a)
+            print('      -',a)
             add_actor2(serie, a)
         for t in topics:
             (t)
@@ -282,9 +290,9 @@ def build_serie(name, year, pais, sinopsis, generos, directors, reparto, image, 
         with urllib.request.urlopen(image) as response, open(series_dir + str(serie.id) + slash + 'cover'+ str(datetime.now()).replace(':','') +'.jpeg', 'wb') as out_file:
             data = response.read()
             out_file.write(data)
-        ('    La serie ha sido descargada exitosamente')
+        print('    La serie ha sido descargada exitosamente')
     else:
-        ('    La serie ' + name + ' ya exitia')
+        print('    La serie ' + name + ' ya exitia')
     
 def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image, score, topics):
     already = sess.query(Movie).filter(Movie.title == name)
@@ -292,13 +300,13 @@ def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image, 
         movie = Movie(title=name , year= int(year), country=pais , sinopsis=sinopsis, score=score)
         for g in generos:
             add_tv_gender2(movie, g)
-        ('    Directores:')
+        print('    Directores:')
         for d in directors:
-            ('      -',d)
+            print('      -',d)
             add_director2(movie, d)
-        ('    Reparto:')
+        print('    Reparto:')
         for a in reparto:
-            ('      -',a)
+            print('      -',a)
             add_actor2(movie, a)
         for t in topics:
             add_topic2(movie, t)
@@ -310,7 +318,7 @@ def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image, 
         with urllib.request.urlopen(image) as response, open(movies_dir+ '/' + str(movie.id) + slash + 'cover'+ str(datetime.now()).replace(':','') +'.jpeg', 'wb') as out_file:
             data = response.read()
             out_file.write(data)
-        ('    La pelicula ha sido descargada exitosamente')
+        print('    La pelicula ha sido descargada exitosamente')
     else: 
         ("    La pelicula " + name + ' ya existia')
         
@@ -319,6 +327,7 @@ def search(listdir , stype='' ):
     urlmid = '&stype%5B%5D=title&country=&genre='
     urlend = '&fromyear=&toyear='
     movies = []
+    line = None
     with open(listdir , "r") as std:
         while (line is None) or line != '':
             try:
@@ -328,18 +337,22 @@ def search(listdir , stype='' ):
                 pass
     not_found = ''
     direct = ''
+    found = []
     for m in movies:
         s = re.sub( ' +', ' ', m ).strip()
         if(stype == ''):
-            already = sess.query(OnExistance).filter(OnExistance.name == m, OnExistance.tipo == 'Movie')
+            already = sess.query(Movie).filter(Movie.title == m)
             ('Buscando Pelicula: ', m[:-1])
         if(stype == 'TV_SE'):
-            already = sess.query(OnExistance).filter(OnExistance.name == m, OnExistance.tipo == 'Serie' )
+            already = sess.query(Serie).filter(Serie.title == m)
             ('Buscando Serie: ', m[:-1])
         if(already.count() == 0):
             s = s.replace(' ' , '+')
             url = urlstart + s + urlmid + stype + urlend
-            page = urllib.request.urlopen(url).read()
+            try:
+                page = urllib.request.urlopen(url, timeout=60).read()
+            except (urllib.error.HTTPError, urllib.error.URLError, timeout):
+                print('La pagina tardo demasiado')
             soup = BeautifulSoup(page)
             soup.prettify()
             i = 0
@@ -349,27 +362,29 @@ def search(listdir , stype='' ):
                 ('url:',a['href'])
                 if(stype == ''):
                     extract_info(a['href'], build_movie, m[:-1])
-                    direct = movies_dir + 'notfoundmovies.txt'
+                    found.append(m)
+                    make_lists(m_list, found , 'lists/not_found_movies.txt', not_found)
                     one = OnExistance(name = m, tipo = 'Movie')
                     sess.add_all([one])
                     sess.commit()
                 if(stype == 'TV_SE'):
-                    extract_info(a['href'], build_serie), m[:-1]
-                    direct = series_dir + 'notfoundseries.txt'
+                    extract_info(a['href'], build_serie, m[:-1])
+                    found.append(m)
+                    make_lists(s_list, found , 'lists/not_found_series.txt', not_found)
                     one = OnExistance(name = m, tipo = 'Serie' )
                     sess.add_all([one])
                     sess.commit()
                 i = i + 1
             else: 
-                not_found += ( m + '\n' )
+                not_found = ( m )
+                if(stype == ''):
+                    make_lists(m_list, found , 'lists/not_found_movies.txt', not_found)
+                if(stype == 'TV_SE'):
+                    make_lists(s_list, found , 'lists/not_found_series.txt', not_found)
+                not_found = ''
         else:
-            ('    Ya has hecho esta busqueda ' + m)
-    if(stype == ''):
-        direct = 'lists/not_found_movies.txt'
-    if(stype == 'TV_SE'):
-        direct = 'lists/not_found_series.txt'
-    with open(direct , 'w+')as std:
-        std.write(not_found)
+            print('    Ya has hecho esta busqueda ' + m)
+    print('Done Download')
      
 def Down_Games():
     clean(g_list)

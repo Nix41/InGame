@@ -5,7 +5,6 @@ import seed
 from WebScrapping import Down_Games, Down_Movies, Down_Series
 from urllib.error import URLError
 import urllib
-from multiprocessing import Process
 from multiproc import *
 from pdf import gen_pdfs
 
@@ -30,8 +29,10 @@ def get_more(i = 1):
     global current_query
     global  find_match
     l = len(to_show)
+    # print('GOT:', i, '--', start, '--', end)
     if int(i) == 1:
         if l < end + load_amount:
+            # print('h1')
             for i in range(load_amount - (l - end)):
                 try:
                     g = current_query.__next__()
@@ -47,6 +48,7 @@ def get_more(i = 1):
         if start != 0:
             end = start
             start = max(0, start - load_amount)
+    # print(len(to_show))
     return to_show[start:end]
 
 @eel.expose
@@ -69,7 +71,7 @@ def next_obj(id, direction = 1):
         return to_show[cui - 1]
 
 @eel.expose
-def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topic=""):
+def filter_series(name="", gender=[],actor="",director="", score=0, year=0, country=""):
     global to_show
     global index
     global start
@@ -82,7 +84,7 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
         year = 0
     year = int(year)
     score = float(score)
-    series = Filters.filter_series(name, gender,actor,director, score, year, topic)
+    series = Filters.filter_series(name, gender,actor,director, score, year, country)
     current_query = None
     current_query = series
     find_match = []
@@ -92,7 +94,7 @@ def filter_series(name="", gender=[],actor="",director="", score=0, year=0, topi
     return get_more()
 
 @eel.expose
-def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, topic=""):
+def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, country=""):
     global to_show
     global index
     global start
@@ -105,7 +107,7 @@ def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, to
         year = 0
     year = int(year)
     score = float(score)
-    movies = Filters.filter_movies(name, gender, actor, director, score, year, topic)
+    movies = Filters.filter_movies(name, gender, actor, director, score, year, country)
     current_query = None
     current_query = movies
     to_show = []
@@ -312,7 +314,7 @@ def try_connection():
 @eel.expose
 def download_games():
     global current_process
-    if current_process is None:
+    if current_process is None or not(current_process.is_alive()):
         r = try_connection()
         if r == 2:
             current_process = downgames()
@@ -324,7 +326,7 @@ def download_games():
 @eel.expose
 def download_series():
     global current_process
-    if current_process is None:
+    if current_process is None or not(current_process.is_alive()):
         r = try_connection()
         if r == 2:
             current_process = downseries()
@@ -336,7 +338,7 @@ def download_series():
 @eel.expose
 def download_movies():
     global current_process
-    if current_process is None:
+    if current_process is None or not(current_process.is_alive()):
         r = try_connection()
         if r == 2:
             current_process = downmovies()

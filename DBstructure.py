@@ -93,6 +93,9 @@ class Game(TimestampMixin, Base):
     @hybrid_property
     def cover_path(self):
         cover = ''
+        try:
+            os.mkdir( games_dir + str(self.id) + slash)
+        except: FileExistsError
         for r, d, f in os.walk(games_dir + str(self.id) + slash):
             for file in f:
                 file = os.path.join(r, file)[4:]
