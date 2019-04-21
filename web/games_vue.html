@@ -20,9 +20,67 @@
             </div>
         </div>
         <div id="root">
-            <banner></banner>
+            <!--banner-->
+            <nav class='justify-content-center'>
+                <img src='img/banner_new.png' class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
+                <div style="width:430px; margin-top:-150px; margin-left:10px;">
+                    <img src='img/ingame-05.png' style="height: 8vw; width:100%; margin:0 important; object-fit: cover;" class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
+                </div>
+                <ul class='card-img-overlay d-block navbar-nav d-flex flex-row-reverse'>
+                    <li class='p-2 nav-item'>
+                        <a href='config_vue.html'>
+                            <div v-if="url == '4'">
+                                <img src='img/admin_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                            <div v-else>
+                                <img src='img/config_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
+                        <a href='films_vue.html'>
+                        <div v-if="url == '3'">
+                            <img src='img/films_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        <div v-else>
+                            <img src='img/films_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
+                        <a href='series_vue.html'>
+                        <div v-if="url == '2'">
+                            <img src='img/series_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        <div v-else>
+                            <img src='img/series_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
+                        <a href='games_vue.html'>
+                            <div v-if='url == "game"'>
+                                <img src='img/games_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                            <div v-else>
+                                <img src='img/games_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
+                        <a href='index_vue.html'>
+                            <div v-if="url == '0'">
+                                <img src='img/home_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                            <div v-else>
+                                <img src='img/home_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
             <!--filters-->
-            <div class="after" id="navbar" style="width: 100%; background-color: black; z-index: 100;">
+            <div class="after" id="navbar" style="width: 100%; background-color: black; z-index: 200;">
                 <div style="background-color:rgb(51,51,51); width:100%; height:50px;">
                     <div class="d-flex justify-content-center" style="text-align:center;">
                         <div v-for="gen in filter_gen">
@@ -100,13 +158,23 @@
                 </div>
             </div>
             <!--endfilters-->
-
+            <div class="d-flex justify-content-center" style="margin-top:120px; color:white;">
+                número de página: {{ index_page }}
+            </div>
+            <div v-if="list == 0" class="d-flex justify-content-center" style="margin-bottom: 20px; z-index:101; position:fixed; margin-top:260px;">
+                <div class="p-2" onclick="OnNext('0')" style="margin-left:140px;">
+                    <img src="img/arrow_l.png" class="card-img img-fluid click" style="width:100%; margin:0 important;" alt="Responsive image">
+                </div> 
+                <div class="p-2" onclick="OnNext('1')" style="margin-left:1470px;">
+                    <img src="img/arrow_r.png" class="card-img img-fluid click" style="width:100%; margin:0 important;" alt="Responsive image">
+                </div>    
+            </div>
             <!-- Page section -->
-            <section v-if="list == 0" style="padding-left:10%; padding-right:10%; margin-bottom: 40px; margin-top: 180px;">
+            <section v-if="list == 0" style="padding-left:10%; padding-right:10%; margin-bottom: 40px; margin-top: 10px; height: 2400px;">
                 <div style="margin-top:20px; padding-top:20px;">
                 <div class="d-flex flex-wrap justify-content-center" style="padding-bottom:2%;">
                     <div v-for="game in games_dic">
-                        <div class="p-2 click" style="text-align:center;">
+                        <div class="p-2 click" style="text-align:center; z-index: 102; position: relative; margin-bottom: 50px;">
                             <div :onclick="'see(' + game[0] + ')'" data-toggle="modal" data-target="#myModal" style="height: 337px; width:240px; margin-bottom:80px; margin-left:5px; margin-right:5px;">
                                 <div class="card">
                                     <img :src="'' + game[1].cover_path" class="card-img img-fluid" style="height: 18vw; width:100%; margin:0 important; object-fit: cover;" alt="Responsive image">
@@ -129,11 +197,19 @@
                 </div>
             </section>
             <!-- Page section end -->
+            <div v-if="list == 1" class="d-flex justify-content-center" style="margin-bottom: 20px; z-index:101; position:fixed; margin-top:270px;">
+                <div class="p-2" onclick="OnNext('0')" style="margin-left:150px;">
+                    <img src="img/arrow_l.png" class="card-img img-fluid click" style="width:100%; margin:0 important;" alt="Responsive image">
+                </div> 
+                <div class="p-2" onclick="OnNext('1')" style="margin-left:1490px;">
+                    <img src="img/arrow_r.png" class="card-img img-fluid click" style="width:100%; margin:0 important;" alt="Responsive image">
+                </div>    
+            </div>
             <!-- Page section list -->
                 <!--Table-->
-                <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; margin-top:180px;">
+                <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; margin-top:10px; height: 1830px;">
                         <div class="d-flex justify-content-center">
-                            <div class="p-2" style="padding:0 !important; margin-left:30px;">
+                            <div class="p-2 click" style="padding:0 !important; margin-left:30px; z-index: 102; position: relative;">
                                 <div id="inf" v-for="game in games_dic">
                                 <div :onclick="'see(' + game[0] + ')'" data-toggle="modal" data-target="#myModal" :onmouseover="'change(' + game[0] + ')'" :onmouseout="'restore(' + game[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
                                     <div v-bind:id="'L'+ game[0]" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px;">
@@ -193,14 +269,6 @@
                             </div> 
                         </div>
                     </section>
-                    <div class="d-flex justify-content-center" style="margin-bottom: 20px; z-index:101; position:relative; ">
-                        <div class="p-2" onclick="OnNext('0')">
-                            <img src="img/arrow_l.png" class="card-img img-fluid" style="width:100%; margin:0 important;" alt="Responsive image">
-                        </div> 
-                        <div class="p-2" onclick="OnNext('1')">
-                            <img src="img/arrow_r.png" class="card-img img-fluid" style="width:100%; margin:0 important;" alt="Responsive image">
-                        </div>    
-                    </div>
                     <!--Table-->
             <!-- Page section list end -->
             <!-- The Modal -->

@@ -147,8 +147,16 @@ def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             dele = False
         else:
             dele = True
+        if year == '':
+            year = 0
+        if score == '':
+            score = 0
         DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto, score, id, image, topics, dele)
     else:
+        if year == '':
+            year = 0
+        if score == '':
+            score = 0
         DBhandlers.CRUD_Serie(title, year, pais, sinopsis, generos, directors, reparto,score, current.id, image, topics, delete = False)
         Done_update()
 
@@ -159,8 +167,16 @@ def CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[],
             dele = False
         else:
             dele = True
+        if year == '':
+            year = 0
+        if score == '':
+            score = 0
         DBhandlers.CRUD_Movie(title, year, pais, sinopsis, generos, directors, reparto, score, id, image, topics, dele)
     else:
+        if year == '':
+            year = 0
+        if score == '':
+            score = 0
         DBhandlers.CRUD_Movie(title, year, pais, sinopsis, generos, directors, reparto,score, current.id, image, topics, delete = False)
         Done_update()
 
@@ -179,9 +195,13 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
         if len(requirements) == 0:
              #('had to')
             requirements = [[],[]]
+        if puntuacion == '':
+            puntuacion = 0
         #'DEl:', dele)
         DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image=cover, captures=captures, size = size, delete=dele)
     else:
+        if puntuacion == '':
+            puntuacion = 0
         #'current: ', current)
          #('begin_update')
         #'WTF???????')

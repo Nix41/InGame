@@ -14,7 +14,65 @@
     <head>
     <body class="back">
         <div id='root'>
-            <banner></banner>
+            <!--banner-->
+            <nav class='justify-content-center'>
+                <img src='img/banner_new.png' class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
+                <div style="width:430px; margin-top:-150px; margin-left:10px;">
+                    <img src='img/ingame-05.png' style="height: 8vw; width:100%; margin:0 important; object-fit: cover;" class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
+                </div>
+                <ul class='card-img-overlay d-block navbar-nav d-flex flex-row-reverse'>
+                    <li class='p-2 nav-item'>
+                        <a href='config_vue.html'>
+                            <div v-if="url == '4'">
+                                <img src='img/admin_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                            <div v-else>
+                                <img src='img/config_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
+                        <a href='films_vue.html'>
+                        <div v-if="url == '3'">
+                            <img src='img/films_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        <div v-else>
+                            <img src='img/films_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
+                        <a href='series_vue.html'>
+                        <div v-if="url == '2'">
+                            <img src='img/series_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        <div v-else>
+                            <img src='img/series_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
+                        <a href='games_vue.html'>
+                            <div v-if='url == "game"'>
+                                <img src='img/games_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                            <div v-else>
+                                <img src='img/games_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
+                        <a href='index_vue.html'>
+                            <div v-if="url == '0'">
+                                <img src='img/home_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                            <div v-else>
+                                <img src='img/home_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
             <!--Carousel-->
             <div id="carousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner" >

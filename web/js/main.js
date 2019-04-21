@@ -5,64 +5,7 @@ Vue.component('banner',{
         }
     },
     template: `
-    <nav class='justify-content-center'>
-        <img src='img/banner_new.png' class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
-        <div style="width:430px; margin-top:-150px; margin-left:10px;">
-            <img src='img/ingame-05.png' style="height: 8vw; width:100%; margin:0 important; object-fit: cover;" class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
-        </div>
-        <ul class='card-img-overlay d-block navbar-nav d-flex flex-row-reverse'>
-            <li class='p-2 nav-item'>
-                <a href='config_vue.html'>
-                    <div v-if="url == '4'">
-                        <img src='img/admin_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
-                    </div>
-                    <div v-else>
-                        <img src='img/config_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
-                    </div>
-                </a>
-            </li>
-            <li class='p-2 nav-item'>
-                <a href='films_vue.html'>
-                <div v-if="url == '3'">
-                    <img src='img/films_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
-                </div>
-                <div v-else>
-                    <img src='img/films_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
-                </div>
-                </a>
-            </li>
-            <li class='p-2 nav-item'>
-                <a href='series_vue.html'>
-                <div v-if="url == '2'">
-                    <img src='img/series_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
-                </div>
-                <div v-else>
-                    <img src='img/series_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
-                </div>
-                </a>
-            </li>
-            <li class='p-2 nav-item'>
-                <a href='games_vue.html'>
-                    <div v-if='url == "game"'>
-                        <img src='img/games_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
-                    </div>
-                    <div v-else>
-                        <img src='img/games_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
-                    </div>
-                </a>
-            </li>
-            <li class='p-2 nav-item'>
-                <a href='index_vue.html'>
-                    <div v-if="url == '0'">
-                        <img src='img/home_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
-                    </div>
-                    <div v-else>
-                        <img src='img/home_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
-                    </div>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    
     `,
 });
 
@@ -95,6 +38,7 @@ var app = new Vue({
         Temp: [0,1,2,3,4,5,6,7,8],
         url:'',
         current_detail:'',
+        index_page : 1,
 
         //download
         download: '',
@@ -261,6 +205,27 @@ async function get_recent(){
 
 async function OnNext(i=1,t='g'){
     var element = await eel.get_more(i)();
+    if(i == 1){
+        if(t == 'g'){
+            if(element[0].id != app.games_dic[0][1].id){
+                app.index_page += 1;
+            }
+        }else{
+            if(element[0].id != app.series_dic[0][1].id){
+                app.index_page += 1;
+            }
+        }
+    }else{
+        if(t == 'g'){
+            if(element[0].id != app.games_dic[0][1].id){
+                app.index_page -= 1;
+            }
+        }else{
+            if(element[0].id != app.series_dic[0][1].id){
+                app.index_page -= 1;
+            }
+        }
+    }
     app.games_dic = [];
     app.series_dic = [];
     for (x in element){
