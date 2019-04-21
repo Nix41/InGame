@@ -5,7 +5,6 @@ import seed
 from WebScrapping import Down_Games, Down_Movies, Down_Series
 from urllib.error import URLError
 import urllib
-from multiprocessing import Process
 from multiproc import *
 
 
@@ -30,8 +29,10 @@ def get_more(i = 1):
     global current_query
     global  find_match
     l = len(to_show)
+    # print('GOT:', i, '--', start, '--', end)
     if int(i) == 1:
         if l < end + load_amount:
+            # print('h1')
             for i in range(load_amount - (l - end)):
                 try:
                     g = current_query.__next__()
@@ -47,6 +48,7 @@ def get_more(i = 1):
         if start != 0:
             end = start
             start = max(0, start - load_amount)
+    # print(len(to_show))
     return to_show[start:end]
 
 @eel.expose
@@ -312,7 +314,7 @@ def try_connection():
 @eel.expose
 def download_games():
     global current_process
-    if current_process is None:
+    if current_process is None or not(current_process.is_alive()):
         r = try_connection()
         if r == 2:
             current_process = downgames()
@@ -324,7 +326,7 @@ def download_games():
 @eel.expose
 def download_series():
     global current_process
-    if current_process is None:
+    if current_process is None or not(current_process.is_alive()):
         r = try_connection()
         if r == 2:
             current_process = downseries()
@@ -336,7 +338,7 @@ def download_series():
 @eel.expose
 def download_movies():
     global current_process
-    if current_process is None:
+    if current_process is None or not(current_process.is_alive()):
         r = try_connection()
         if r == 2:
             current_process = downmovies()

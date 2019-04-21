@@ -95,14 +95,6 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
 def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,topic=''):
     for s in sess.query(Serie).filter(Serie.title.contains(name)):
     # for s in sess.query(Serie).all():
-        stopics = []
-        gender_filter = False
-        for t in s.topics:
-            if topic in t.name:
-                gender_filter = True
-            stopics.append(t.name)
-        if not(s.topics):
-            gender_filter = True
         topic_filter  = True
         for gen in gender:
             this_topic = False
@@ -136,13 +128,12 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
         if len(s.actors) == 0:
             actor_filter = True
         if len(genders) == 0  and len(s.genders) == 0:
-            gender_filter = True
-        if gender_filter and actor_filter and director_filter and s.score >= score and topic_filter and s.year >= year:
+            topic_filter = True
+        if topic_filter and actor_filter and director_filter and s.score >= score and topic_filter and s.year >= year:
             serie = {}
             serie['id'] = s.id
             serie['title'] = s.title
             serie['year'] = s.year 
-            serie['topics'] = stopics
             serie['sinopsis'] = s.sinopsis
             serie['country'] = s.country
             serie['genders'] = genders
@@ -154,11 +145,14 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
 
 def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, topic=""):
     for c in sess.query(Movie).filter(Movie.title.contains(name)):
-        gender_filter = False
+        topic_filter  = True
         for gen in gender:
             this_topic = False
+            c_gen = unicodedata.normalize('NFD', gen).encode('ascii', 'ignore')
             for g in c.genders:
-                if unicodedata.normalize('NFD', gen).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', g.name).encode('ascii', 'ignore').lower() :
+                c_g = unicodedata.normalize('NFD', g.name).encode('ascii', 'ignore')
+                if c_gen.lower() in c_g.lower():
+                    #s.title)
                     this_topic = True
             if not this_topic:
                 topic_filter = False
@@ -184,13 +178,12 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
         if len(c.actors) == 0:
             actor_filter = True
         if len(genders) == 0  and len(c.genders) == 0:
-            gender_filter = True
-        if gender_filter and actor_filter and director_filter and c.score >= score and c.year >= year:
+            topic_filter = True
+        if topic_filter and actor_filter and director_filter and c.score >= score and c.year >= year:
             movie = {}
             movie['id'] = c.id
             movie['title'] = c.title
             movie['year'] = c.year 
-            movie['topics'] = stopics
             movie['sinopsis'] = c.sinopsis
             movie['country'] = c.country
             movie['genders'] = genders
