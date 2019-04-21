@@ -1,5 +1,6 @@
 
 import re
+from DBstructure import *
 
 def clean_line(A):
     B = ""
@@ -58,5 +59,15 @@ def clean(path):
     with open(path, 'w') as std:
         std.writelines(new)
 
-
-
+def make_lists(dirt, found, not_dir, not_found):
+    with open(not_dir , 'w+') as std:
+        std.write(not_found)
+    left = ''
+    line = None
+    with open(dirt , 'w+') as std:
+        while line is None or line != '':
+            line = std.readline()
+            if not line in found:
+                left += line
+    with open(dirt , 'w+') as std:
+        std.write(left)

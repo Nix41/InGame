@@ -39,24 +39,14 @@ def get_movie_topics():
     return genders
 
 def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0 ):
-    games = []
     if launch == "":
         launch = 0
     if score == "":
         score = 0
-    # if gender is None:
-    #     gender = ""
     t = time.time()
-    print('Before filter: ', t)
     filter_full = sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch >= launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score)
-    e = time.time()
-    print('After filter: ', time.time() - t)
-    t = e
     for c in filter_full:
         genders = []
-        # #'**')
-         #(c.name)
-        # #c.category.name)
         gender_filter = False
         for g in c.genders:
             if unicodedata.normalize('NFD', gender).encode('ascii', 'ignore').lower() in unicodedata.normalize('NFD', g.name).encode('ascii', 'ignore').lower() :
@@ -99,16 +89,12 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
             game['score'] = c.puntuacion
             game['cover_path'] = c.cover_path
             game['captures'] = c.captures_list
-            games.append(game)
-    print('After Process: ', time.time() - t)
-    return games
+            yield game
 
 
 def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,topic=''):
-    series = []
     for s in sess.query(Serie).filter(Serie.title.contains(name)):
     # for s in sess.query(Serie).all():
-        #s.title)
         stopics = []
         gender_filter = False
         for t in s.topics:
@@ -158,11 +144,9 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,t
             serie['directors'] = directors
             serie['score'] = s.score
             serie['cover_path'] = s.cover_path
-            series.append(serie)
-    return series
+            yield serie
 
 def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, topic=""):
-    movies = []
     for c in sess.query(Movie).filter(Movie.title.contains(name)):
         stopics = []
         gender_filter = False
@@ -210,8 +194,7 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
             movie['directors'] = directors
             movie['score'] = c.score
             movie['cover_path'] = c.cover_path
-            movies.append(movie)
-    return movies
+            yield movie
 
 ### RECUERDA AGREGAR CREATED_AT ANTES DE TESTEAR##
 def get_recent():

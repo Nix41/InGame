@@ -14,6 +14,17 @@
     <body class="back">
     <div id="root">
         <banner></banner>
+         <!-- Modal -->
+        <div style="background-color:rgb(51,51,51); width:100%; height:65px; padding-top:10px;">
+            <div class="d-flex justify-content-center" style="text-align:center;">
+                <div class="p-2">
+                    <p style="color:white;font-size:20px;">{{ download }}</p>
+                </div>
+                <div v-if="down_bot" class="p-2">
+                    <button type="button" class="btn btn-secondary" onclick="stop_download()" data-dismiss="modal">Detener descarga</button>
+                </div>
+            </div>
+        </div>
         <!--Menu-->
         <section style="padding-left:8%; padding-right:8%; text-align:center; z-index: 101; position: relative;">
             <div class="d-flex justify-content-center">
@@ -793,25 +804,8 @@
             </div>
         </section>
         <!--Modal Edit end-->
-        <!-- Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                </div>
-                <div class="modal-body">
-                {{ download }}
-                </div>
-                <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="stop_download()" data-dismiss="modal">Detener descarga</button>
-                </div>
-            </div>
-            </div>
-        </div>
+       
+
         <footerv></footerv>
     </div>
     <script src="js/jquery-3.2.1.min.js"></script>
