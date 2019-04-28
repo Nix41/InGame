@@ -7,6 +7,7 @@ from urllib.error import URLError
 import urllib
 import subprocess 
 import multiprocessing as mp
+import cart
 
 if __name__ == '__main__': 
     mp.freeze_support()
@@ -370,6 +371,38 @@ if __name__ == '__main__':
             current_process.join()
             current_process = None
             print('Ha sido detenida la descarga')
+
+    @eel.expose
+    def add_cart_game(Id):
+        cart.Add_Game(Id)
+
+    @eel.expose
+    def add_cart_serie(Id):
+        cart.Add_Serie(Id)
+
+    @eel.expose
+    def add_cart_movie(Id):
+        cart.Add_Movie(Id)
+    
+    @eel.expose
+    def get_games_cart():
+        return cart.get_games_cart()
+    @eel.expose
+    def get_series_cart():
+        return cart.get_series_cart()
+    @eel.expose
+    def get_movies_cart():
+        return cart.get_movies_cart()
+
+    @eel.expose
+    def edit_games_cart(gs):
+        cart.edit_games(gs)
+    @eel.expose
+    def edit_series_cart(gs):
+        cart.edit_series(gs)
+    @eel.expose
+    def edit_movies_cart(gs):
+        cart.edit_movies(gs)
 
     def downgames():
         print('NAME1' ,__name__)

@@ -150,6 +150,9 @@ def find_games(sourcelist):
                         puntuacion += (int)(puntuacion_str[i]) * (10**(-i))
                 print('    Score:', puntuacion)
                 language=""
+                launch = 0
+                year = 0
+                game_type = ""
                 for head in soup_game.find_all('dt'):
                     typ = head.get_text()
                     prop = head.find_next('dd').get_text()

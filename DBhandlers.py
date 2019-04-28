@@ -210,16 +210,14 @@ def load_captures(id, images):
 def change_captures(game, images):
     old = game.captures_list
     c = len(old)
-    dirt = games_dir + str(id)
-    print('ID:', id)
-    print(dirt)
+    dirt = games_dir + str(game.id)
     try:
-        os.mkdir( dirt)
+        os.mkdir(dirt)
     except: FileExistsError
     for o in old:
         try:
             if not(o in images):
-                os.remove(o)
+                os.remove('web/'+o)
         except: Exception
     for i in images:
         if not(i in old):
@@ -232,7 +230,6 @@ def change_captures(game, images):
                 c +=1 
             except Exception:
                 print('la imagen tiene problemas')
-    #'OUT OF HERE')
 
 def remove_images(id, path, game=False):
     try:
