@@ -364,8 +364,14 @@ function del_image(element){
 
 function car(id){
     alert("el juego " + app.games_dic[id][1].name + " ha sido agregado al carrito");
+    add_cart_game(app.games_dic[id][1].id);
+}
+
+async function add_cart_game(id){
+    await eel.add_cart_game(id);
 }
 
 function car_details(name){
     alert("el juego " + name + " ha sido agregado al carrito");
+    add_cart_game(app.current_detail);
 }

@@ -12,7 +12,6 @@ import cart
 if __name__ == '__main__': 
     mp.freeze_support()
     eel.init('web')
-    print('NAME2' ,__name__)
     current = None
     to_show = []
     index = 0
