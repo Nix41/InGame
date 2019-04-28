@@ -163,7 +163,7 @@
                             <div class="p-2 click" style="text-align:center; z-index: 102; position: relative;">
                                 <div :onclick="'see_s(' + serie[0] + ')'" data-toggle="modal" data-target="#SerieModal" style="height: 337px; width:240px; margin-bottom:80px; margin-left:5px; margin-right:5px;">
                                     <div class="card">
-                                        <img :src="'' + serie[1].cover_path" class="card-img img-fluid" style="height: 18vw; width:100%; margin:0 important; object-fit: cover;" alt="Responsive image">
+                                        <img :src="'' + serie[1].cover_path" class="card-img img-fluid" style="height: 100%; width:100%; margin:0 important;" alt="Responsive image">
                                         <div v-if="serie.score != 0" class="card-img-overlay score red">{{serie[1].score}}</div>
                                     </div>
                                     <div class="review-text" style="margin-top:10px;">
@@ -264,7 +264,7 @@
                                 <div class="d-flex" style="margin-top:30px;">
                                     <div class="p-2" style="height:600px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:33px;">
                                         <div class="" style="width:400px; height:580px; margin-top:2px; margin-left: 10px;">
-                                            <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:20.3vw; border-radius: 20px; object-fit: cover;" alt="Responsive image">
+                                            <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
                                         </div>
                                     </div>
                                     <div class="p-2" style="margin-left:20px;">

@@ -261,12 +261,13 @@ def extract_info(url, build_method, dname):
         score = 0
     print('    Score:', score)
     if not (image is None):
-        build_method(dname, anno, pais, sinopsis, generos, directors, reparto, image['src'], score, topics)
+        build_method(dname, anno, pais, sinopsis, generos, directors, reparto, image['src'], score, topics, name)
 
-def build_serie(name, year, pais, sinopsis, generos, directors, reparto, image, score, topics):
-    name = name[:-11]
+def build_serie(name, year, pais, sinopsis, generos, directors, reparto, image, score, topics, original):
+    original = original[:-11]
     already = sess.query(Serie).filter(Serie.title == name)
-    if already.count() == 0:
+    old = sess.query(Serie).filter(Serie.title == original)
+    if already.count() == 0 and old.count() == 0:
         serie = Serie(title=name , year= int(year), country=pais , sinopsis=sinopsis, score=score)
         for g in generos:
             (g)
@@ -294,9 +295,11 @@ def build_serie(name, year, pais, sinopsis, generos, directors, reparto, image, 
     else:
         print('    La serie ' + name + ' ya exitia')
     
-def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image, score, topics):
+def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image, score, topics, original):
+    original = original[:-11]
     already = sess.query(Movie).filter(Movie.title == name)
-    if already.count() == 0:
+    old = sess.query(Movie).filter(Movie.title == original)
+    if already.count() == 0 and old.count() == 0:
         movie = Movie(title=name , year= int(year), country=pais , sinopsis=sinopsis, score=score)
         for g in generos:
             add_tv_gender2(movie, g)
@@ -340,12 +343,13 @@ def search(listdir , stype='' ):
     found = []
     for m in movies:
         s = re.sub( ' +', ' ', m ).strip()
+        s = s.replace('-', '')
         if(stype == ''):
             already = sess.query(Movie).filter(Movie.title == m)
-            ('Buscando Pelicula: ', m[:-1])
+            print('Buscando Pelicula: ', m[:-1])
         if(stype == 'TV_SE'):
             already = sess.query(Serie).filter(Serie.title == m)
-            ('Buscando Serie: ', m[:-1])
+            print('Buscando Serie: ', m[:-1])
         if(already.count() == 0):
             s = s.replace(' ' , '+')
             url = urlstart + s + urlmid + stype + urlend
@@ -353,6 +357,8 @@ def search(listdir , stype='' ):
                 page = urllib.request.urlopen(url, timeout=60).read()
             except (urllib.error.HTTPError, urllib.error.URLError, timeout):
                 print('La pagina tardo demasiado')
+            except UnicodeEncodeError:
+                print('El string no era correcto')
             soup = BeautifulSoup(page)
             soup.prettify()
             i = 0

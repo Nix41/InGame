@@ -18,6 +18,7 @@ async function get_games(){
     app.games.push(list);
 }
 async function filter_games_by_name(){
+    app.index_page=1;
     app.games = []
     let filter = document.getElementById("name_filter");
     let value = await eel.filter_games(name = app.title, gender = app.filter_selected_subgen, launch=app.year, players=0,game_mode=app.filter_mode, category=app.filter_selected_gen, lenguage=app.filter_language, score=app.filter_score )();
@@ -351,17 +352,16 @@ function change(x){
     let key = x;
     $("#L" + key).css("background-color","rgb(51,51,51)");
     $("#details").css("background-color","rgb(51,51,51)");
-    app.description = app.games_dic[x][1].description;
-    app.Max_req = app.games_dic[x][1].requirements[1];
-    app.Min_req = app.games_dic[x][1].requirements[0];
-    app.datas = [];
-    for(y=0;y < app.games_dic[x][1].captures.length; y++){
-        var list = [];
-        list.push(app.games_dic[x][1].captures[y]);
-        if(y+1 <= app.games_dic[x][1].captures.length - 1){
-            list.push(app.games_dic[x][1].captures[y+1]);
-            y++;
-        }
-        app.datas.push(list)
-    }
+}
+
+function del_image(element){
+    app.del_image = 1;
+    var index = app.captures.indexOf(element);
+    app.captures.splice(index,1);
+    app.datas = app.captures;
+    app.del_image = 0;
+}
+
+function car(id){
+    alert("el juego " + app.games_dic[id][1].name + " ha sido agregado al carrito");
 }

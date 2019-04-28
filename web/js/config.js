@@ -3,7 +3,9 @@ function false_input(){
 }
 
 function false_input2(){
-    $("#open_file2").click();
+    if(app.del_image == 0){
+        $("#open_file2").click();
+    }
 }
 
 async function get_counters(){
@@ -149,6 +151,7 @@ function create_game(){
                 genders.push(app.create_selected[x][1])
             }
             create_game_for_real(app.create_name, app.create_description, app.create_mode, app.create_language, app.create_year, app.create_score, app.create_prin, app.requirements, app.data, app.datas, genders, app.create_size);
+
         }else{
             alert("El juego debe tener nombre")
         }
@@ -159,6 +162,7 @@ function create_game(){
 
 async function create_game_for_real(name, des, mode, language, launch, score, category, requirements, cover, captures, genders, size){
     eel.CRUD_Game(name = name, description = des, game_mode = mode, language = language, launch = launch, puntuacion = score, category = category,genders=genders, requirements = requirements,id=-1,cover = cover, captures = captures, size=size)();
+    alert('El juego ha sido creado satisfactoriamente')
 }
 
 function create_video(type){
@@ -199,12 +203,10 @@ function create_video(type){
 async function create_video_back(name, description, year, country, score, type, gen, dir, act){
     if(type == 's'){
         await eel.CRUD_Serie(title=name, year=year, pais=country,sinopsis=description, genero=gen,directors=dir,reparto=act,score=score, id=-1,image=app.data)();
-        window.location.reload(true);
     }else{
         await eel.CRUD_Movie(title=name, year=year, pais=country,sinopsis=description, genero=gen,directors=dir,reparto=act,score=score, id=-1,image=app.data)();
-        window.location.reload(true);
     }
-    
+    alert('El Video ha sido creado satisfactoriamente')
 }
 
 async function download_games(){

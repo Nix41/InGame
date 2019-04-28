@@ -53,6 +53,7 @@ function filter_mouse_out(gen){
 }
 
 async function filter_series_all(typ ='s'){
+    app.index_page = 1;
     app.series = []
     let value = [];
     if (typ == 's'){

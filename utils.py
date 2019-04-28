@@ -47,10 +47,15 @@ def stupidshit(w, p):
     return new
 
 def clean(path):
+    movies = []
+    line = None
     with open(path , "r") as std:
-        movies = std.readlines()
+        while line is None or line != '':
+            try:
+                line = std.readline()
+                movies.append(line)
+            except: Exception
     new = []
-
     for m in movies:
         s = re.sub( ' +', ' ', m ).strip()
         if(len(s) > 1):

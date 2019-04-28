@@ -39,6 +39,8 @@ var app = new Vue({
         url:'',
         current_detail:'',
         index_page : 1,
+        where_I_am: 0,
+        del_image: 0,
 
         //onSingle
         Onsingle: 0,
@@ -247,7 +249,8 @@ async function OnNext(i=1,t='g'){
             app.series_dic.push([x,element[x]]);
         }
     }
-
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
 }
 
 async function SingleNext(dir = 1, typ='g'){
@@ -290,3 +293,54 @@ async function SingleNext(dir = 1, typ='g'){
     }
    
 }
+
+//keys navigation
+$("body").keydown(function(e) {
+    if(app.where_I_am == 0){
+        if(e.keyCode == 37) { // left
+            if(app.url == 2 || app.url == 3){
+                OnNext('0','s');
+            }else{
+                OnNext('0');
+            }
+        }
+        else if(e.keyCode == 39) { // right
+            if(app.url == 2 || app.url == 3){
+                OnNext('1','s');
+            }else{
+                OnNext('1');
+            }
+        }
+    }else{
+        if(e.keyCode == 37) { // left
+            if(app.url == 2 || app.url == 3){
+                SingleNext('0','s');
+            }else{
+                SingleNext('0');
+            }
+        }
+        else if(e.keyCode == 39) { // right
+            if(app.url == 2 || app.url == 3){
+                SingleNext('1','s');
+            }else{
+                SingleNext('1');
+            }
+        }
+    }
+  });
+
+  $('#myModal').on('hidden.bs.modal', function () {
+    app.where_I_am = 0;
+  })
+
+  $('#myModal').on('shown.bs.modal', function () {
+    app.where_I_am = 1;
+  })
+
+  $('#SerieModal').on('hidden.bs.modal', function () {
+    app.where_I_am = 0;
+  })
+
+  $('#SerieModal').on('shown.bs.modal', function () {
+    app.where_I_am = 1;
+  })

@@ -28,6 +28,13 @@
                 </div>
                 <ul class='card-img-overlay d-block navbar-nav d-flex flex-row-reverse'>
                     <li class='p-2 nav-item'>
+                        <a href='#'>
+                            <div>
+                                <img src='img/carrito.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
                         <a href='config_vue.html'>
                             <div v-if="url == '4'">
                                 <img src='img/admin_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
@@ -177,8 +184,11 @@
                         <div class="p-2 click" style="text-align:center; z-index: 102; position: relative; margin-bottom: 50px;">
                             <div :onclick="'see(' + game[0] + ')'" data-toggle="modal" data-target="#myModal" style="height: 337px; width:240px; margin-bottom:80px; margin-left:5px; margin-right:5px;">
                                 <div class="card">
-                                    <img :src="'' + game[1].cover_path" class="card-img img-fluid" style="height: 18vw; width:100%; margin:0 important; object-fit: cover;" alt="Responsive image">
+                                    <img :src="'' + game[1].cover_path" class="card-img img-fluid" style="height: 100%; width:100%; margin:0 important;" alt="Responsive image">
                                     <div v-if="game[1].score != 0" class="card-img-overlay score red">{{game[1].score}}</div>
+                                </div>
+                                <div :onclick="'car(' + game[0] + ')'" id="car" style="background-color: white; position: relative; z-index:102; margin-left:170px; margin-top: -70px; border-radius: 50px; height: 60px; width: 60px; border: 0.5px solid; border-color: rgb(209,4,4);">
+                                    <img src='img/car_active.png' class='img-fluid' style="height: 40px; width:40px; margin-top:12px; margin-left: -8px;" alt='Responsive image'>
                                 </div>
                                 <div class="review-text" style="margin-top:10px;">
                                     <h5 style="text-align:center; margin-bottom:2%;">{{ game[1].name }}</h5>
@@ -290,7 +300,7 @@
                             <div class="d-flex" style="margin-top:30px;">
                                 <div class="p-2" style="height:600px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:33px;">
                                     <div class="" style="width:400px; height:580px; margin-top:2px; margin-left: 10px;">
-                                        <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:20.3vw; border-radius: 20px; object-fit: cover;" alt="Responsive image">
+                                        <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
                                     </div>
                                 </div>
                                 <div class="p-2" style="margin-left:20px;">
@@ -622,11 +632,12 @@
                             </div>
                             <div class="d-flex">
                                 <div class="" style="width:1030px; height:270px; margin-left:34px; margin-top:10px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
-                                    <div class="table-wrapper-scroll-x my-custom-scrollbar1" onclick="false_input2()" style="color:white; width:1000px; height:250px; margin-left:15px;" id="style-h">
+                                    <div class="table-wrapper-scroll-x my-custom-scrollbar1" style="color:white; width:1000px; height:250px; margin-left:15px;" id="style-h">
                                         <div class="d-flex">
                                             <div v-for="x in datas">
                                                 <div class="p-2" style="width:340px; height:230px; margin-top:10px; border-radius: 20px; padding:0px important!;">
-                                                    <img :src="'' + x" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                                    <img :src="'' + x" onclick="false_input2()" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                                    <img src="img/delete_gen.png" :onclick="'del_image(`' + x + '`)'" class="card-img img-fluid click" style="width:25px; margin-top:-230px; margin-left:300px; position: relative;" alt="Responsive image">
                                                 </div>
                                             </div>
                                         </div>
@@ -702,6 +713,10 @@
             $(document).ready(function(){
                 get_games();
                 app.url = 'game';
+
+                $(document).on ("click", "#car", function (event) {
+                    event.stopPropagation();
+                });
             });
         </script>
     </body>

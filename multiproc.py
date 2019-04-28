@@ -1,17 +1,21 @@
 from WebScrapping import Down_Games, Down_Movies, Down_Series
-from multiprocessing import Process
+import multiprocessing as mp
 
-def downgames():
-    current_process = Process(target= Down_Games)
-    current_process.start()
-    return current_process
 
-def downseries():
-    current_process = Process(target= Down_Series)
-    current_process.start()
-    return current_process
+if __name__ == 'multiproc': 
+    print('here')
+    def downgames():
+        current_process = mp.Process(target= Down_Games)
+        current_process.start()
+        return current_process
 
-def downmovies():
-    current_process = Process(target= Down_Movies)
-    current_process.start()
-    return current_process
+    def downseries():
+        current_process = mp.Process(target= Down_Series)
+        current_process.start()
+        return current_process
+
+    def downmovies():
+        current_process = mp.Process(target= Down_Movies)
+        current_process.start()
+        return current_process
+
