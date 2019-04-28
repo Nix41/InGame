@@ -365,3 +365,7 @@ function del_image(element){
 function car(id){
     alert("el juego " + app.games_dic[id][1].name + " ha sido agregado al carrito");
 }
+
+function car_details(name){
+    alert("el juego " + name + " ha sido agregado al carrito");
+}
