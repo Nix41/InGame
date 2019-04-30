@@ -115,7 +115,7 @@ def find_games(sourcelist):
     options.experimental_options["prefs"] = chrome_prefs
     chrome_prefs["profile.default_content_settings"] = {"images": 2}
     chrome_prefs["profile.managed_default_content_settings"] = {"images": 2}
-    driver = webdriver.Chrome("/usr/bin/chromedriver", options=options)
+    driver = webdriver.Chrome("driver/chromedriver.exe", options=options)
     driver.set_page_load_timeout(60)
     found = []
     for g in games:
@@ -331,6 +331,8 @@ def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image, 
             data = response.read()
             out_file.write(data)
         print('    La pelicula ha sido descargada exitosamente')
+        make_lists(m_list, found , 'lists/not_found_games.txt', not_found)
+
     else: 
         ("    La pelicula " + name + ' ya existia')
         
