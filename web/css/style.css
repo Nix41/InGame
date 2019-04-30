@@ -326,3 +326,15 @@ body.preloader-site {
 	width: 100%;
 }
 
+/* responsive 1920 1080 */
+@media only screen and (min-width: 1920px){
+	.arrow{
+		margin-left: 1470px;
+	}
+}
+/* responsive 1366 768 */
+@media only screen and (min-width: 1366px) and (max-width: 1900px){
+	.arrow{
+		margin-left: 1370px;
+	}
+}

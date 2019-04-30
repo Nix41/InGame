@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/font-awesome.min.css"/>
+        <link rel="icon" type="image/png" href="img/icoingame.png" />
     <head>
     <body class="back">
         <div class="preloader-wrapper">
@@ -167,6 +168,9 @@
                                     <img :src="'' + serie[1].cover_path" class="card-img img-fluid" style="height: 100%; width:100%; margin:0 important;" alt="Responsive image">
                                     <div v-if="serie.score != 0" class="card-img-overlay score red">{{serie[1].score}}</div>
                                 </div>
+                                <div :onclick="'car(' + serie[0] + ',`s`' + ')'" id="car" style="background-color: white; position: relative; z-index:102; margin-left:170px; margin-top: -70px; border-radius: 50px; height: 60px; width: 60px; border: 0.5px solid; border-color: rgb(209,4,4);">
+                                    <img src='img/car_active.png' class='img-fluid' style="height: 40px; width:40px; margin-top:12px; margin-left: -8px;" alt='Responsive image'>
+                                </div>
                                 <div class="review-text" style="margin-top:10px;">
                                     <h5 style="text-align:center; margin-bottom:2%;">{{ serie[1].title }}</h5>
                                     <div class="rating" style="text-align:center; margin-bottom:2%;">
@@ -195,26 +199,29 @@
             <!-- Page section list -->
                 <!--Table-->
                 <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; margin-bottom: 50px; margin-top:15px;">
-                    <div class="d-flex">
+                    <div class="d-flex justify-content-center">
                         <div class="p-2 inverse-scroll" style="padding:0 !important; margin-left:60px;">
                             <div v-for="serie in series_dic">
                             <div :onclick="'see_s(' + serie[0] + ')'" data-toggle="modal" data-target="#SerieModal" :onmouseover="'change_s(' + serie[0] + ')'" :onmouseout="'restore_s(' + serie[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
-                                <div v-bind:id="'L'+ serie[0]" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px;">
+                                <div v-bind:id="'L'+ serie[0]" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px; border-top-right-radius: 400px 400px; border-bottom-right-radius: 400px 400px;">
                                     <div class="d-flex">
                                         <div class="p-2">
                                             <div class="score_list red">{{ serie[1].score }}</div>
                                         </div>
-                                        <div class="p-2" style="padding:0 !important; padding-left:10px; font-size:20px; color:white; margin-top: -7px;">
-                                            <div class="d-flex">
+                                        <div class="p-2" style="padding:0 !important; padding-left:10px; font-size:20px; color:white;">
+                                            <div class="d-flex" style="max-height: 40px;">
                                                 <div class="p-2" style="width:480px;">{{ serie[1].title }}</div>
-                                                <div class="p-2" style="font-size:20px; color:white; margin-left:680px; padding-top:10px;">
+                                                <div class="p-2" style="width:100px; font-size:20px; color:white; margin-left:300px; padding-top:10px;">
                                                         {{ serie[1].year }}
                                                 </div>
-                                                <div class="p-2" style="font-size:20px; color:white; margin-left:50px; margin-right:10px; padding-top:10px;">
+                                                <div class="p-2" style="width:200px; font-size:20px; color:white; margin-left:50px; margin-right:10px; padding-top:10px;">
                                                         {{ serie[1].country }}
                                                 </div>
+                                                <div class="click" :onclick="'car(' + serie[0] + ',`s`' + ')'" id="car" style="background-color: white; position: relative; z-index:102; border-radius: 50px; height: 50px; width: 50px; margin-top:10px; border: 0.5px solid; border-color: rgb(209,4,4); margin-right: 10px; margin-left: 20px;">
+                                                    <img src='img/car_active.png' class='img-fluid' style="height: 40px; width:40px; margin-left: -2px; margin-top:5px;" alt='Responsive image'>
+                                                </div>
                                             </div>
-                                            <div>
+                                            <div style="width: 800px;">
                                                 <div class="row">
                                                     <div class="rating" style="padding-left:15px;">
                                                         <i v-if="serie[1].score/2 >= 1" class="fa fa-star"></i>
@@ -267,6 +274,9 @@
                                 <div class="p-2" style="height:600px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:33px;">
                                     <div class="" style="width:400px; height:580px; margin-top:2px; margin-left: 10px;">
                                         <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                    </div>
+                                    <div class="click" :onclick="'car_details(`' + name + '`,'+ current_detail +',`s`' + ')'" id="car" style="background-color: white; position: relative; z-index:102; margin-left:340px; margin-top: -70px; border-radius: 50px; height: 60px; width: 60px; border: 0.5px solid; border-color: rgb(209,4,4);">
+                                        <img src='img/car_active.png' class='img-fluid' style="height: 40px; width:40px; margin-top:12px; margin-left: 5px;" alt='Responsive image'>
                                     </div>
                                 </div>
                                 <div class="p-2" style="margin-left:20px; margin-top:50px;">
@@ -355,7 +365,7 @@
                                 <div class="p-2" :onclick="'series_edit_cleardata('+key+',`s`)'" data-toggle="modal" data-target="#SerieEdit"  style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; margin-left:34px; margin-top:10px; color:white;">
                                     <p style="margin-top:-5px;">Editar</p>
                                 </div>
-                                <div class="p-2" :onclick="'del_serie('+key+')'" data-dismiss="modal" style="background-color:rgb(209,4,4); border-radius: 20px; height:30px; margin-left:10px; margin-top:10px; color:white;">
+                                <div class="p-2" :onclick="'del_serie('+current_detail+')'" data-dismiss="modal" style="background-color:rgb(209,4,4); border-radius: 20px; height:30px; margin-left:10px; margin-top:10px; color:white;">
                                     <p style="margin-top:-5px;">Eliminar</p>
                                 </div>
                             </div>
@@ -602,6 +612,10 @@
         <script>
                 $(document).ready(function(){
                     get_series();
+
+                    $(document).on ("click", "#car", function (event) {
+                        event.stopPropagation();
+                    });
                 });
                 app.url = '2';
                 app.index_page = 1;

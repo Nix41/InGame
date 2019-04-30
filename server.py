@@ -309,7 +309,7 @@ if __name__ == '__main__':
         try:
             r = urllib.request.urlopen('http://google.com')
             return 2
-        except URLError:
+        except Exception:
             print('No tienes conexion a internet, compruebe su conexion e intentelo mas tarde')
             return -1
 
@@ -353,9 +353,7 @@ if __name__ == '__main__':
 
     @eel.expose
     def gen_pdf():
-        print('here pdf')
         subprocess.run('python pdf.py')
-        print('out pdf')
 
     @eel.expose
     def get_counters():
@@ -404,7 +402,6 @@ if __name__ == '__main__':
         cart.edit_movies(gs)
 
     def downgames():
-        print('NAME1' ,__name__)
         current_process = mp.Process(target= Down_Games)
         current_process.start()
         return current_process

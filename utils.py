@@ -76,8 +76,9 @@ def make_lists(dirt, found, not_dir, not_found):
             for f in found:
                 if f in line:
                     already = True
-                    break 
-            if line in not_found:
+                    break
+            print('#'+line+'#' , '*'+not_found+'*') 
+            if line == not_found:
                 already = True
             if not (already):
                 left += line

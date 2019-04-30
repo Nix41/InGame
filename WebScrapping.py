@@ -23,7 +23,6 @@ def get_captures(game, ids):
     try:
         os.mkdir( dirt)
     except: FileExistsError
-        
     for im in game.findAll('img', class_='wi100'):
         if not('video' in im['data-src']):
             with urllib.request.urlopen(im['data-src']) as response, open(dirt + slash + 'image' + str(datetime.now()).replace(':','') + '.jpeg', 'wb') as out_file:
@@ -99,7 +98,7 @@ def find_games(sourcelist):
     urlstart = 'https://www.3djuegos.com/?q='
     urlend = '&zona=resultados-buscador&id_foro=0&subzona=juegos&id_plat=1'
     games = []
-    not_found = ''  
+    not_found = ''
     line = None
     with open(sourcelist , "r") as std:
         while (line is None) or line != '':
@@ -178,17 +177,23 @@ def find_games(sourcelist):
                     r = soup_game.find('a' , text='Requisitos')
                     req = r['href']
                     requisitos(req, this_game)
-                    get_captures(soup_game , this_game.id)
-                    image = soup_game.find(rel='image_src')
-                    im = image['href']
-                    with urllib.request.urlopen(im) as response, open(games_dir + str(this_game.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.jpeg', 'wb+') as out_file: 
-                        data = response.read()
-                        out_file.write(data)
-                    one = OnExistance(name = g, tipo = 'Game')  
-                    sess.add_all([this_game, one])
-                    sess.commit()
-                    print('    El juego ha sido descargado Exitosamente')
-                    found.append(g)
+                    try:
+                        get_captures(soup_game , this_game.id)
+                        image = soup_game.find(rel='image_src')
+                        im = image['href']
+                        with urllib.request.urlopen(im) as response, open(games_dir + str(this_game.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.jpeg', 'wb+') as out_file: 
+                            data = response.read()
+                            out_file.write(data)
+                        one = OnExistance(name = g, tipo = 'Game')  
+                        sess.add_all([this_game, one])
+                        sess.commit()
+                        print('    El juego ha sido descargado Exitosamente')
+                        found.append(g)
+                    except Exception:
+                        print('problemas con la conexion')
+                        not_found = g
+                        make_lists(g_list, found , 'lists/not_found_games.txt', not_found)
+                        not_found = ''
                 else:
                     print('Este juego ya existe')
                     found.append(g)

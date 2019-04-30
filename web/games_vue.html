@@ -10,6 +10,7 @@
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/font-awesome.min.css"/>
+        <link rel="icon" type="image/png" href="img/icoingame.png" />
     <head>
     <body class="back">
         <div class="preloader-wrapper">
@@ -28,7 +29,7 @@
                 </div>
                 <ul class='card-img-overlay d-block navbar-nav d-flex flex-row-reverse'>
                     <li class='p-2 nav-item'>
-                        <a >
+                        <a href='car.html'>
                             <div>
                                 <img src='img/carrito.png' class='img-fluid nav-menu-item' alt='Responsive image'>
                             </div>
@@ -168,11 +169,11 @@
             <div class="d-flex justify-content-center" style="margin-top:120px; color:white;">
                 número de página: {{ index_page }}
             </div>
-            <div v-if="list == 0" class="d-flex justify-content-center" style="margin-bottom: 20px; z-index:101; position:fixed; margin-top:260px;">
+            <div v-if="list == 0" class="d-flex justify-content-between" style="margin-bottom: 20px; z-index:101; position:fixed; margin-top:260px;">
                 <div class="p-2" onclick="OnNext('0')" style="margin-left:140px;">
                     <img src="img/arrow_l.png" class="card-img img-fluid click" style="width:100%; margin:0 important;" alt="Responsive image">
                 </div> 
-                <div class="p-2" onclick="OnNext('1')" style="margin-left:1470px;">
+                <div class="p-2 arrow" onclick="OnNext('1')">
                     <img src="img/arrow_r.png" class="card-img img-fluid click" style="width:100%; margin:0 important;" alt="Responsive image">
                 </div>    
             </div>
@@ -302,7 +303,7 @@
                                     <div class="" style="width:400px; height:580px; margin-top:2px; margin-left: 10px;">
                                         <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
                                     </div>
-                                    <div class="click" :onclick="'car_details(`' + name +'`)'" id="car" style="background-color: white; position: relative; z-index:102; margin-left:340px; margin-top: -70px; border-radius: 50px; height: 60px; width: 60px; border: 0.5px solid; border-color: rgb(209,4,4);">
+                                    <div class="click" :onclick="'car_details(`' + name + '`,' + current_detail +')'" id="car" style="background-color: white; position: relative; z-index:102; margin-left:340px; margin-top: -70px; border-radius: 50px; height: 60px; width: 60px; border: 0.5px solid; border-color: rgb(209,4,4);">
                                         <img src='img/car_active.png' class='img-fluid' style="height: 40px; width:40px; margin-top:12px; margin-left: 5px;" alt='Responsive image'>
                                     </div>
                                 </div>
@@ -430,7 +431,7 @@
                                 <div class="p-2" :onclick="'edit_cleardata('+key+')'" data-toggle="modal" data-target="#ModalEdit"  style="background-color:rgb(53,181,78); border-radius: 20px; height:30px; margin-left:34px; margin-top:10px; color:white;">
                                     <p style="margin-top:-5px;">Editar</p>
                                 </div>
-                                <div class="p-2" :onclick="'del_game('+key+')'" data-dismiss="modal" style="background-color:rgb(209,4,4); border-radius: 20px; height:30px; margin-left:10px; margin-top:10px; color:white;">
+                                <div class="p-2" :onclick="'del_game('+current_detail+')'" data-dismiss="modal" style="background-color:rgb(209,4,4); border-radius: 20px; height:30px; margin-left:10px; margin-top:10px; color:white;">
                                     <p style="margin-top:-5px;">Eliminar</p>
                                 </div>
                             </div>
@@ -635,12 +636,14 @@
                             </div>
                             <div class="d-flex">
                                 <div class="" style="width:1030px; height:270px; margin-left:34px; margin-top:10px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
-                                    <div class="table-wrapper-scroll-x my-custom-scrollbar1" style="color:white; width:1000px; height:250px; margin-left:15px;" id="style-h">
+                                    <div :onclick="'false_input2()'" class="table-wrapper-scroll-x my-custom-scrollbar1" style="color:white; width:1000px; height:250px; margin-left:15px;" id="style-h">
                                         <div class="d-flex">
                                             <div v-for="x in datas">
                                                 <div class="p-2" style="width:340px; height:230px; margin-top:10px; border-radius: 20px; padding:0px important!;">
-                                                    <img :src="'' + x" onclick="false_input2()" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
-                                                    <img src="img/delete_gen.png" :onclick="'del_image(`' + x + '`)'" class="card-img img-fluid click" style="width:25px; margin-top:-230px; margin-left:300px; position: relative;" alt="Responsive image">
+                                                    <img :src="'' + x" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                                    <div id="del_image" :onclick="'del_image(`' + x + '`)'">
+                                                        <img src="img/delete_gen.png" class="card-img img-fluid click" style="width:25px; margin-top:-230px; margin-left:300px; position: relative;" alt="Responsive image">
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -720,6 +723,7 @@
                 $(document).on ("click", "#car", function (event) {
                     event.stopPropagation();
                 });
+                
             });
         </script>
     </body>

@@ -41,6 +41,9 @@ var app = new Vue({
         index_page : 1,
         where_I_am: 0,
         del_image: 0,
+        car_g: 0,
+        car_s: 0,
+        car_f: 0,
 
         //onSingle
         Onsingle: 0,
@@ -289,7 +292,7 @@ async function SingleNext(dir = 1, typ='g'){
         for(x in element.directors){
             app.directors.push([x,element.directors[x]]);
         }
-        app.cover_path = element.cover_path
+        app.cover_path = element.cover_path;
     }
    
 }

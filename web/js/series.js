@@ -300,11 +300,11 @@ function list_gray(){
 }
 
 async function del_serie(key){
-    await eel.CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=app.series_dic[key][1].id, image="", topics=[], 1)();
+    await eel.CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=key, image="", topics=[], 1)();
     document.location.reload(true);
 }
 
 async function del_movie(key){
-    await eel.CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=app.series_dic[key][1].id, image="", topics=[], 1)();
+    await eel.CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=key, image="", topics=[], 1)();
     document.location.reload(true);
 }

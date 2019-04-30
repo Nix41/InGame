@@ -5,6 +5,8 @@ function false_input(){
 function false_input2(){
     if(app.del_image == 0){
         $("#open_file2").click();
+    }else{
+        app.del_image = 0;
     }
 }
 

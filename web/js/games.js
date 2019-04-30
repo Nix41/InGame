@@ -313,7 +313,8 @@ async function update_game(name, des, mode, language, launch, score, category, r
 }
 
 function del_game(x){
-    delete_game(app.games_dic[x][1].id)
+    alert(x);
+    delete_game(x)
     document.location.reload(true);
 }
 
@@ -359,19 +360,38 @@ function del_image(element){
     var index = app.captures.indexOf(element);
     app.captures.splice(index,1);
     app.datas = app.captures;
-    app.del_image = 0;
 }
 
-function car(id){
-    alert("el juego " + app.games_dic[id][1].name + " ha sido agregado al carrito");
-    add_cart_game(app.games_dic[id][1].id);
+async function car(id,t='g'){
+    if(t == 'g'){
+        alert("el juego " + app.games_dic[id][1].name + " ha sido agregado al carrito");
+        add_cart_game(app.games_dic[id][1].id);
+    }else{
+        if(t == 's'){
+            alert("la serie " +  app.series_dic[id][1].title + " ha sido agregada al carrito");
+            await eel.add_cart_serie(app.series_dic[id][1].id);
+        }else{
+            alert("la pelicula " +  app.series_dic[id][1].title + " ha sido agregada al carrito");
+            await eel.add_cart_movie(app.series_dic[id][1].id);
+        }
+    }
 }
 
 async function add_cart_game(id){
     await eel.add_cart_game(id);
 }
 
-function car_details(name){
-    alert("el juego " + name + " ha sido agregado al carrito");
-    add_cart_game(app.current_detail);
+async function car_details(name,id , t = 'g'){
+    if(t == 'g'){
+        alert("el juego " + name + " ha sido agregado al carrito");
+        add_cart_game(id);
+    }else{
+        if(t == 's'){
+            alert("la serie " +  name + " ha sido agregada al carrito");
+            await eel.add_cart_serie(id);
+        }else{
+            alert("la pelicula " +  name + " ha sido agregada al carrito");
+            await eel.add_cart_movie(id);
+        }
+    }
 }
