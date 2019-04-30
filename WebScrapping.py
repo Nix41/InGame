@@ -115,7 +115,7 @@ def find_games(sourcelist):
     options.experimental_options["prefs"] = chrome_prefs
     chrome_prefs["profile.default_content_settings"] = {"images": 2}
     chrome_prefs["profile.managed_default_content_settings"] = {"images": 2}
-    driver = webdriver.Chrome("driver/chromedriver.exe", options=options)
+    driver = webdriver.Chrome("/usr/bin/chromedriver", options=options)
     driver.set_page_load_timeout(60)
     found = []
     for g in games:
@@ -189,6 +189,7 @@ def find_games(sourcelist):
                         sess.commit()
                         print('    El juego ha sido descargado Exitosamente')
                         found.append(g)
+                        make_lists(g_list, found , 'lists/not_found_games.txt', not_found)
                     except Exception:
                         print('problemas con la conexion')
                         not_found = g
@@ -398,6 +399,11 @@ def search(listdir , stype='' ):
                 not_found = ''
         else:
             print('    Ya has hecho esta busqueda ' + m)
+            if(stype == ''):
+                make_lists(m_list, found , 'lists/not_found_movies.txt', not_found)
+            if(stype == 'TV_SE'):
+                make_lists(s_list, found , 'lists/not_found_series.txt', not_found)
+
     print('Done Download')
      
 def Down_Games():
