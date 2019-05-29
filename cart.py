@@ -1,26 +1,29 @@
 from DBstructure import *
+import os
+
+desktop = os.path.join(os.environ['HOMEPATH'], 'Desktop')
 
 def Add_Game(Id):
     Id = str(Id)
     game = sess.query(Game).get(Id)
-    with open('++Carrito Juegos Ingame.txt', 'a+') as std:
+    with open(desktop + '/++Carrito Juegos Ingame.txt', 'a+') as std:
         std.write('[' +str(Id) + '] ' + game.name + '\n')
 
 def Add_Serie(Id):
     Id = str(Id)
     serie = sess.query(Serie).get(Id)
-    with open('++Carrito Series Ingame.txt', 'a+') as std:
+    with open(desktop + '/++Carrito Series Ingame.txt', 'a+') as std:
         std.write('['+ str(Id) + '] ' + serie.title+ '\n')
 
 def Add_Movie(Id):
     Id = str(Id)
     movie = sess.query(Movie).get(Id)
-    with open('++Carrito Movies Ingame.txt', 'a+') as std:
+    with open(desktop + '/++Carrito Movies Ingame.txt', 'a+') as std:
         std.write('['+  str(Id) + '] ' + movie.title+ '\n') 
     
 def get_games_cart():
     gids = []
-    with open('++Carrito Juegos Ingame.txt', 'r+') as std:
+    with open(desktop + '/++Carrito Juegos Ingame.txt', 'r+') as std:
         txt = std.readlines()
     for t in txt:
         gids.append(get_id(t))
@@ -64,7 +67,7 @@ def get_games_cart():
     
 def get_series_cart():
     gids = []
-    with open('++Carrito Series Ingame.txt', 'r+') as std:
+    with open(desktop + '/++Carrito Series Ingame.txt', 'r+') as std:
         txt = std.readlines()
     for t in txt:
         gids.append(get_id(t))
@@ -96,7 +99,7 @@ def get_series_cart():
 
 def get_movies_cart():
     gids = []
-    with open('++Carrito Movies Ingame.txt', 'r+') as std:
+    with open(desktop + '/++Carrito Movies Ingame.txt', 'r+') as std:
         txt = std.readlines()
     for t in txt:
         gids.append(get_id(t))
@@ -130,21 +133,21 @@ def edit_games(gs):
     lines = []
     for g in gs:
         lines.append('['+str(g[0])+'] '+g[1]+ '\n')
-    with open('++Carrito Juegos Ingame.txt', 'w+') as std:
+    with open(desktop + '/++Carrito Juegos Ingame.txt', 'w+') as std:
         txt = std.writelines(lines)
 
 def edit_series(gs):
     lines = []
     for g in gs:
         lines.append('['+str(g[0])+'] '+g[1] + '\n')
-    with open('++Carrito Series Ingame.txt', 'w+') as std:
+    with open(desktop + '/++Carrito Series Ingame.txt', 'w+') as std:
         txt = std.writelines(lines)
 
 def edit_movies(gs):
     lines = []
     for g in gs:
         lines.append('['+str(g[0])+'] '+g[1]+ '\n')
-    with open('++Carrito Movies Ingame.txt', 'w+') as std:
+    with open(desktop + '/++Carrito Movies Ingame.txt', 'w+') as std:
         txt = std.writelines(lines)
         
 

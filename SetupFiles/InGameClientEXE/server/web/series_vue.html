@@ -1,0 +1,393 @@
+<html>
+    <head>
+        <title>Series</title>
+        <meta http-equiv="Cache-Control" content="max-age=0">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store,must-revalidate">
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Last-Modified" content="0">
+        <meta http-equiv="Cache-Control" content="Tue, 01 Jan 1980 11:00:00 GMT">
+        <meta http-equiv="Pragma" content="no-cache">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/font-awesome.min.css"/>
+        <link rel="icon" type="image/png" href="img/icoingame.png" />
+    <head>
+    <body class="back arrow_nav">
+        <div class="preloader-wrapper">
+            <div class="preloader">
+                <div style="width: 700px; margin-left:-300px;">
+                    <img src="img/ingame-05.png" class="img-fluid" style="width:100%;" alt="NILA">
+                </div>
+            </div>
+        </div>
+        <div id="root">
+            <!--banner-->
+            <nav class='justify-content-center'>
+                <img src='img/banner_new.png' class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
+                <div style="width:430px; margin-top:-150px; margin-left:10px;">
+                    <img src='img/ingame-05.png' style="height: 8vw; width:100%; margin:0 important; object-fit: cover;" class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
+                </div>
+                <ul class='card-img-overlay d-block navbar-nav d-flex flex-row-reverse'>
+                    <li class='p-2 nav-item'>
+                        <a href='car.html'>
+                            <div>
+                                <img src='img/carrito.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
+                        <a href='films_vue.html'>
+                        <div v-if="url == '3'">
+                            <img src='img/films_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        <div v-else>
+                            <img src='img/films_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
+                        <a href='series_vue.html'>
+                        <div v-if="url == '2'">
+                            <img src='img/series_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        <div v-else>
+                            <img src='img/series_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
+                        <a href='games_vue.html'>
+                            <div v-if='url == "game"'>
+                                <img src='img/games_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                            <div v-else>
+                                <img src='img/games_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                        </a>
+                    </li>
+                    <li class='p-2 nav-item'>
+                        <a href='index_vue.html'>
+                            <div v-if="url == '0'">
+                                <img src='img/home_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                            <div v-else>
+                                <img src='img/home_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!--filters-->
+            <div class="after" id="navbar" style="width: 100%; background-color: black; z-index: 200;">
+                <div class="d-flex justify-content-center" style="background-color:rgb(51,51,51);width:100%;">
+                    <div class="p-2 d-flex flex-wrap justify-content-center" style="text-align:center; width:100%;">
+                        <div v-for="gen in filter_video_gen">
+                            <div v-bind:id="'catv' + gen[1]" class="p-2 click" :onclick="'filter_clk(' + gen[1] + ')'"   v-bind:style="'height:40px; color:white; background-color:rgb(77,77,77); margin:5px; border-radius: 15px;'">
+                                <div >
+                                    <p>{{ gen[0] }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="background-color:rgb(51,51,51);width:100%;height:50px; margin-top:5px;">
+                    <div class="d-flex justify-content-center">
+                        <div class="p-2" style="height:40px; width:350px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                            <form style="border-radius: 15px">
+                                <a href="#" onclick="filter_series_all('s')">
+                                    <div>
+                                        <img src="img/search_icon.png" class="img-fluid" style="margin-top:-2; margin-left:5px;">
+                                    </div>
+                                </a>
+                                <input id='name' type="text" v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-model="title" class="input" style="margin-top:-33px; width:280px; height:35px; margin-left: 45px; color:white;" placeholder="Título...">
+                            </form>
+                        </div>
+                        <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                            <form style="border-radius: 15px;">
+                                <input id='name_filter' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-on:keyup="check_year" min="0" v-model="year" type="number" name="quantity" min="1980" max="3000" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Lanzamiento...">
+                            </form>
+                        </div>
+                        <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                            <form style="border-radius: 15px;">
+                                <input id='name_filter' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-on:keyup="check_score" min="0" v-model="filter_score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
+                            </form>
+                        </div>
+                        <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                            <form style="border-radius: 15px;">
+                                <input id='name_filter' type="text" v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-model="filter_language" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Actor...">
+                            </form>
+                        </div>
+                        <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                            <form style="border-radius: 15px;">
+                                <input id='name_filter' type="text" v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-model="filter_mode" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Director...">
+                            </form>
+                        </div>
+                        <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                            <form style="border-radius: 15px;">
+                                <input id='name_filter' type="text" v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-model="filter_topic" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="País...">
+                            </form>
+                        </div>
+                        <div class="d-flex">
+                            <div class="p-2 click">
+                                <div :onmouseover="'list_red()'" :onmouseout="'list_gray()'" :onclick="'List_s()'" style="margin-top:-3px; background-color: none; width:48px;">
+                                    <div v-if="list_select == 0">
+                                        <img src="img/list.png" class="img-fluid" style="height: 2vw; width:100%; object-fit: cover; margin-top:-1px;">
+                                    </div>
+                                    <div v-else>
+                                        <img src="img/list_red.png" class="img-fluid" style="height: 2vw; width:100%; object-fit: cover; margin-top:-1px;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--endfilters-->
+            <div class="d-flex justify-content-center" style="margin-top:130px; color:white;">
+                número de página: {{ index_page }}
+            </div>
+            <div v-if="list == 0" class="d-flex justify-content-center" style="margin-bottom: 20px; z-index:101; position:fixed; margin-top:260px;">
+                <div class="p-2" onclick="OnNext('0','s')" style="margin-left:140px;">
+                    <img src="img/arrow_l.png" class="card-img img-fluid click" style="width:100%; margin:0 important;" alt="Responsive image">
+                </div> 
+                <div class="p-2" onclick="OnNext('1','s')" style="margin-left:1470px;">
+                    <img src="img/arrow_r.png" class="card-img img-fluid click" style="width:100%; margin:0 important;" alt="Responsive image">
+                </div>    
+            </div>
+            <!-- Page section -->
+            <section v-if="list == 0" style="padding-left:10%; padding-right:10%; margin-bottom: 100px; margin-top:10px;">
+                <div style="margin-top:20px; padding-top:20px;">
+                <div class="d-flex flex-wrap justify-content-center" style="padding-bottom:2%;">
+                    <div v-for="serie in series_dic">
+                        <div class="p-2 click" style="text-align:center; z-index: 102; position: relative;">
+                            <div :onclick="'see_s(' + serie[0] + ')'" data-toggle="modal" data-target="#SerieModal" style="height: 337px; width:240px; margin-bottom:80px; margin-left:5px; margin-right:5px;">
+                                <div class="card">
+                                    <img :src="'' + serie[1].cover_path" class="card-img img-fluid" style="height: 350px; width:240px; margin:0 important;" alt="Responsive image">
+                                    <div v-if="serie.score != 0" class="card-img-overlay score red">{{serie[1].score}}</div>
+                                </div>
+                                <div :onclick="'car(' + serie[0] + ',`s`' + ')'" id="car" style="background-color: white; position: relative; z-index:102; margin-left:170px; margin-top: -70px; border-radius: 50px; height: 60px; width: 60px; border: 0.5px solid; border-color: rgb(209,4,4);">
+                                    <img src='img/car_active.png' class='img-fluid' style="height: 40px; width:40px; margin-top:12px; margin-left: -8px;" alt='Responsive image'>
+                                </div>
+                                <div class="review-text" style="margin-top:10px;">
+                                    <h5 style="text-align:center; margin-bottom:2%;">{{ serie[1].title }}</h5>
+                                    <div class="rating" style="text-align:center; margin-bottom:2%;">
+                                        <i v-if="serie[1].score/2 >= 1" class="fa fa-star"></i>
+                                        <i v-if="serie[1].score/2 >= 2" class="fa fa-star"></i>
+                                        <i v-if="serie[1].score/2 >= 3" class="fa fa-star"></i>
+                                        <i v-if="serie[1].score/2 >= 4" class="fa fa-star"></i>
+                                        <i v-if="serie[1].score/2 >= 5" class="fa fa-star is-fade"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+            </section>
+            <!-- Page section end -->
+            <div v-if="list == 1" class="d-flex justify-content-center" style="margin-bottom: 20px; z-index:101; position:fixed; margin-top:270px;">
+                <div class="p-2" onclick="OnNext('0','s')" style="margin-left:150px;">
+                    <img src="img/arrow_l.png" class="card-img img-fluid click" style="width:100%; margin:0 important;" alt="Responsive image">
+                </div> 
+                <div class="p-2" onclick="OnNext('1','s')" style="margin-left:1490px;">
+                    <img src="img/arrow_r.png" class="card-img img-fluid click" style="width:100%; margin:0 important;" alt="Responsive image">
+                </div>    
+            </div>
+            <!-- Page section list -->
+                <!--Table-->
+                <section v-if="list == 1" id="table_items" style="margin-left:8%; margin-right:8%; margin-bottom: 50px; margin-top:15px;">
+                    <div class="d-flex justify-content-center">
+                        <div class="p-2 inverse-scroll" style="padding:0 !important; margin-left:60px;">
+                            <div v-for="serie in series_dic">
+                            <div :onclick="'see_s(' + serie[0] + ')'" data-toggle="modal" data-target="#SerieModal" :onmouseover="'change_s(' + serie[0] + ')'" :onmouseout="'restore_s(' + serie[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
+                                <div v-bind:id="'L'+ serie[0]" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px; border-top-right-radius: 400px 400px; border-bottom-right-radius: 400px 400px;">
+                                    <div class="d-flex">
+                                        <div class="p-2">
+                                            <div class="score_list red">{{ serie[1].score }}</div>
+                                        </div>
+                                        <div class="p-2" style="padding:0 !important; padding-left:10px; font-size:20px; color:white;">
+                                            <div class="d-flex" style="max-height: 40px;">
+                                                <div class="p-2" style="width:480px;">{{ serie[1].title }}</div>
+                                                <div class="p-2" style="width:100px; font-size:20px; color:white; margin-left:300px; padding-top:10px;">
+                                                        {{ serie[1].year }}
+                                                </div>
+                                                <div class="p-2" style="width:200px; font-size:20px; color:white; margin-left:50px; margin-right:10px; padding-top:10px;">
+                                                        {{ serie[1].country }}
+                                                </div>
+                                                <div class="click" :onclick="'car(' + serie[0] + ',`s`' + ')'" id="car" style="background-color: white; position: relative; z-index:102; border-radius: 50px; height: 50px; width: 50px; margin-top:10px; border: 0.5px solid; border-color: rgb(209,4,4); margin-right: 10px; margin-left: 20px;">
+                                                    <img src='img/car_active.png' class='img-fluid' style="height: 40px; width:40px; margin-left: -2px; margin-top:5px;" alt='Responsive image'>
+                                                </div>
+                                            </div>
+                                            <div style="width: 800px;">
+                                                <div class="row">
+                                                    <div class="rating" style="padding-left:15px;">
+                                                        <i v-if="serie[1].score/2 >= 1" class="fa fa-star"></i>
+                                                        <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                        <i v-if="serie[1].score/2 >= 2" class="fa fa-star"></i>
+                                                        <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                        <i v-if="serie[1].score/2 >= 3" class="fa fa-star"></i>
+                                                        <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                        <i v-if="serie[1].score/2 >= 4" class="fa fa-star"></i>
+                                                        <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                        <i v-if="serie[1].score/2 >= 5" class="fa fa-star is-fade"></i>
+                                                        <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                    </div>
+                                                    <div style="padding-left:15px;">
+                                                        <div class="d-flex">
+                                                            <div v-for="gen in serie[1].genders">
+                                                                <div class="p-2" style="padding:0 !important;">| {{ gen }} |</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+                            </div>
+                        </div> 
+                    </div>
+                </section>
+                <!--Table-->
+            <!-- Page section list end -->
+            <!-- The Modal -->
+            <section>
+                <div class="modal fade" id="SerieModal">
+                    <div class="modal-dialog modal-xl modal-dialog-centered">
+                        <div class="modal-content shadow-lg rounded-1" style="background-color:rgb(50,50,50); border-radius: 20px;">
+                        <!-- Modal body -->
+                        <div class="modal-body">
+                            <div class="span-12" style="margin-right:8px;">
+                                <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                            </div>
+                            <div class="p-2 click" :onclick="'SingleNext(0' + ', `s`)'" style="width:100px; position: fixed; margin-top: 400px; margin-left:-250px; z-index:101;">
+                                    <img src="img/arrow_l.png" class="card-img img-fluid" style="width:100%; margin:0 important;" alt="Responsive image">
+                            </div>
+                            <div class="p-2 click" :onclick="'SingleNext(1' + ', `s`)'" style="width:100px; position: fixed; margin-top: 400px; margin-left:1250px;z-index:101;">
+                                <img src="img/arrow_r.png" class="card-img img-fluid" style="width:100%; margin:0 important;" alt="Responsive image">
+                            </div> 
+                            <div class="d-flex" style="margin-top:30px;">
+                                <div class="p-2" style="height:600px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:33px;">
+                                    <div class="" style="width:400px; height:580px; margin-top:2px; margin-left: 10px;">
+                                        <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                    </div>
+                                    <div class="click" :onclick="'car_details(`' + name + '`,'+ current_detail +',`s`' + ')'" id="car" style="background-color: white; position: relative; z-index:102; margin-left:340px; margin-top: -70px; border-radius: 50px; height: 60px; width: 60px; border: 0.5px solid; border-color: rgb(209,4,4);">
+                                        <img src='img/car_active.png' class='img-fluid' style="height: 40px; width:40px; margin-top:12px; margin-left: 5px;" alt='Responsive image'>
+                                    </div>
+                                </div>
+                                <div class="p-2" style="margin-left:20px; margin-top:50px;">
+                                    <div class="d-flex flex-wrap" style="margin-top:-50px;">
+                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                            <div style="color:white;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;">
+                                                    <p>Título:  {{ name }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                            <div style="color:white;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;">
+                                                    <p>fecha:  {{ launch }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                            <div style="color:white;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;">
+                                                    <p>país:  {{ country }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                            <div style="color:white;">
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-if="score > 0" style="margin-top:-28px; margin-left:20px;">
+                                                    <p>puntuación:  {{ score }} puntos </p>
+                                                </div>
+                                                <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-else style="margin-top:-28px; margin-left:20px;">
+                                                    <p>puntuación:  ??? puntos </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="color:white; margin-left:10px;">
+                                        <p>Géneros:</p>
+                                    </div>
+                                    <div class="d-flex flex-wrap" style="max-width:750px;">
+                                        <div v-for="cat in genders" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:20px; margin-bottom:10px;">
+                                            <div>
+                                                <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ cat }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="color:white; margin-left:10px;">
+                                        <p>Directores:</p>
+                                    </div>
+                                    <div class="d-flex flex-wrap" style="max-width:750px;">
+                                        <div v-for="dic in directors" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:20px; margin-bottom:10px;">
+                                            <div>
+                                                <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ dic[1] }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex">
+                                <div class="" style="width:660px; height:260px; margin-left:34px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                    <div style="text-align:center; margin-top:10px;">Sinópsis:</div>
+                                    <div>
+                                        <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:635px; margin:10px;" id="style-13">
+                                            <div class="container">
+                                                <p style="margin-top:2px;">{{ description }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="" style="width:370px; height:260px; margin-left:10px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                    <div style="text-align:center; margin-top:10px;">Reparto:</div>
+                                    <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:332px; margin:10px;" id="style-13">
+                                        <div class="container inverse-scroll">
+                                            <div style="margin-top:6px;"></div>
+                                            <div style="font-size:18px;">
+                                                <ul v-for="act in actors" style="text-align: center;">
+                                                    <li v-if="act != ''" >{{ act[1] }}</li>
+                                                    <p v-else>Desconocidos<p></p>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <!--Modal end-->
+            <footerv></footerv>
+        </div>
+        <script src="js/jquery-3.2.1.min.js"></script>
+        <script src="js/preloader.js"></script>
+        <script src="js/popper.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/vue.js"></script>
+        <script src="js/main.js"></script>
+        <script src="js/series.js"></script>
+        <script src="js/games.js"></script>
+        <script src="js/config.js"></script>
+        <script src="js/float.js"></script>
+        <script src="/eel.js"></script>
+        <script>
+                $(document).ready(function(){
+                    get_series();
+
+                    $(document).on ("click", "#car", function (event) {
+                        event.stopPropagation();
+                    });
+                });
+                app.url = '2';
+                app.index_page = 1;
+        </script>
+    </body>
+</html>

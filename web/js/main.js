@@ -298,7 +298,7 @@ async function SingleNext(dir = 1, typ='g'){
 }
 
 //keys navigation
-$("body").keydown(function(e) {
+$(".arrow_nav").keydown(function(e) {
     if(app.where_I_am == 0){
         if(e.keyCode == 37) { // left
             if(app.url == 2 || app.url == 3){

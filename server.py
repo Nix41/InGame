@@ -8,6 +8,7 @@ import urllib
 import subprocess 
 import multiprocessing as mp
 import cart
+from utils import copy_to_client
 
 if __name__ == '__main__': 
     mp.freeze_support()
@@ -415,6 +416,13 @@ if __name__ == '__main__':
         current_process = mp.Process(target= Down_Movies)
         current_process.start()
         return current_process
+    
+    @eel.expose
+    def gen_exe():
+        copy_to_client()
+        print('generating EXE')
+        subprocess.run('"SetupFiles/Inno Setup 5/ISCC.exe" /Qp /O"ClientEXE" /F"InGame_setup" /Sbyparam=$p "SetupFiles/setup_script.iss"')
+        print('EXE ready')
 
     eel.start('index_vue.html')
 

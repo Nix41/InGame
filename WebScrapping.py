@@ -17,7 +17,7 @@ from socket import timeout
 digits = ['1','2','3','4', '5','6','7','8','9','0']
 
 def get_captures(game, ids):
-    print('    Descargando Capturas')
+    print('    Descargando Capturas ', ids)
     i = 0
     dirt = games_dir + str(ids)
     try:
@@ -178,15 +178,16 @@ def find_games(sourcelist):
                     req = r['href']
                     requisitos(req, this_game)
                     try:
-                        get_captures(soup_game , this_game.id)
                         image = soup_game.find(rel='image_src')
                         im = image['href']
-                        with urllib.request.urlopen(im) as response, open(games_dir + str(this_game.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.jpeg', 'wb+') as out_file: 
-                            data = response.read()
-                            out_file.write(data)
                         one = OnExistance(name = g, tipo = 'Game')  
                         sess.add_all([this_game, one])
                         sess.commit()
+                        print('    Descargando Capturas No interrumpir!!')
+                        get_captures(soup_game , this_game.id)
+                        with urllib.request.urlopen(im) as response, open(games_dir + str(this_game.id) + slash + 'cover' + str(datetime.now()).replace(':','') + '.jpeg', 'wb+') as out_file: 
+                            data = response.read()
+                            out_file.write(data)
                         print('    El juego ha sido descargado Exitosamente')
                         found.append(g)
                         make_lists(g_list, found , 'lists/not_found_games.txt', not_found)
@@ -332,7 +333,6 @@ def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image, 
             out_file.write(data)
         print('    La pelicula ha sido descargada exitosamente')
         make_lists(m_list, found , 'lists/not_found_games.txt', not_found)
-
     else: 
         ("    La pelicula " + name + ' ya existia')
         
@@ -349,6 +349,7 @@ def search(listdir , stype='' ):
                 movies.append(line)
             except:
                 pass
+    print('Searching ', len(movies), ' Videos')
     not_found = ''
     direct = ''
     found = []

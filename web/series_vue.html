@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="css/font-awesome.min.css"/>
         <link rel="icon" type="image/png" href="img/icoingame.png" />
     <head>
-    <body class="back">
+    <body class="back arrow_nav">
         <div class="preloader-wrapper">
             <div class="preloader">
                 <div style="width: 700px; margin-left:-300px;">
@@ -165,7 +165,7 @@
                         <div class="p-2 click" style="text-align:center; z-index: 102; position: relative;">
                             <div :onclick="'see_s(' + serie[0] + ')'" data-toggle="modal" data-target="#SerieModal" style="height: 337px; width:240px; margin-bottom:80px; margin-left:5px; margin-right:5px;">
                                 <div class="card">
-                                    <img :src="'' + serie[1].cover_path" class="card-img img-fluid" style="height: 100%; width:100%; margin:0 important;" alt="Responsive image">
+                                    <img :src="'' + serie[1].cover_path" class="card-img img-fluid" style="height: 350px; width:240px; margin:0 important;" alt="Responsive image">
                                     <div v-if="serie.score != 0" class="card-img-overlay score red">{{serie[1].score}}</div>
                                 </div>
                                 <div :onclick="'car(' + serie[0] + ',`s`' + ')'" id="car" style="background-color: white; position: relative; z-index:102; margin-left:170px; margin-top: -70px; border-radius: 50px; height: 60px; width: 60px; border: 0.5px solid; border-color: rgb(209,4,4);">

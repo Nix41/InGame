@@ -1,0 +1,525 @@
+<html>
+    <head>
+        <title>Cart</title>
+        <meta http-equiv="Cache-Control" content="max-age=0">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store,must-revalidate">
+        <meta http-equiv="Expires" content="0">
+        <meta http-equiv="Last-Modified" content="0">
+        <meta http-equiv="Cache-Control" content="Tue, 01 Jan 1980 11:00:00 GMT">
+        <meta http-equiv="Pragma" content="no-cache">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="icon" type="image/png" href="img/icoingame.png" />
+        <link rel="stylesheet" href="css/font-awesome.min.css"/>
+    </head>
+
+    <body class="back">
+    <div id="root">
+        <!--banner-->
+        <nav class='justify-content-center'>
+            <img src='img/banner_new.png' class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
+            <div style="width:430px; margin-top:-150px; margin-left:10px;">
+                <img src='img/ingame-05.png' style="height: 8vw; width:100%; margin:0 important; object-fit: cover;" class='card-img rounded-0 img-fluid ingame-navbar' alt='Responsive image'>
+            </div>
+            <ul class='card-img-overlay d-block navbar-nav d-flex flex-row-reverse'>
+                <li class='p-2 nav-item'>
+                    <a href='car.html'>
+                        <div>
+                            <img src='img/carrito_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                    </a>
+                </li>
+                <li class='p-2 nav-item'>
+                    <a href='films_vue.html'>
+                    <div v-if="url == '3'">
+                        <img src='img/films_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                    </div>
+                    <div v-else>
+                        <img src='img/films_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                    </div>
+                    </a>
+                </li>
+                <li class='p-2 nav-item'>
+                    <a href='series_vue.html'>
+                    <div v-if="url == '2'">
+                        <img src='img/series_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                    </div>
+                    <div v-else>
+                        <img src='img/series_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                    </div>
+                    </a>
+                </li>
+                <li class='p-2 nav-item'>
+                    <a href='games_vue.html'>
+                        <div v-if='url == "game"'>
+                            <img src='img/games_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        <div v-else>
+                            <img src='img/games_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                    </a>
+                </li>
+                <li class='p-2 nav-item'>
+                    <a href='index_vue.html'>
+                        <div v-if="url == '0'">
+                            <img src='img/home_active.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                        <div v-else>
+                            <img src='img/home_item.png' class='img-fluid nav-menu-item' alt='Responsive image'>
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!--Menu-->
+        <section style="padding-left:8%; padding-right:8%; text-align:center; z-index: 101; position: relative;">
+            <div class="d-flex justify-content-center" style="z-index:101; position:relative;">
+                <div class="p-2 click d-flex justify-content-center align-items-center" onclick="get_car_games()" data-toggle="modal" data-target="#car_games" style="background-color:rgb(51,51,51); width:360px; height:340px; margin:20px; border-radius: 60px;">
+                    <div v-if="car_g == 0" class="p-2" style="width:180px; height:220px;">
+                        <img :src="'img/car_games.png'" class="card-img img-fluid" style="height:100%;" alt="Responsive image">
+                    </div>
+                    <div v-if="car_g == 1" class="p-2" style="width:180px; height:220px;">
+                        <img :src="'img/car_games_active.png'" class="card-img img-fluid" style="height:100%;" alt="Responsive image">
+                    </div>
+                </div>
+                <div class="p-2 click d-flex justify-content-center align-items-center" onclick="get_car_series()" data-toggle="modal" data-target="#car_videos" style="background-color:rgb(51,51,51); width:360px; height:340px; margin:20px; border-radius: 60px;">
+                    <div v-if="car_s == 0" class="p-2" style="width:180px; height:220px;">
+                        <img :src="'img/car_series.png'" class="card-img img-fluid" style="height: 100%;" alt="Responsive image">
+                    </div>
+                    <div v-if="car_s == 1" class="p-2" style="width:180px; height:220px;">
+                        <img :src="'img/car_series_active.png'" class="card-img img-fluid" style="height: 100%;" alt="Responsive image">
+                    </div>
+                </div>
+                <div class="p-2 click d-flex justify-content-center align-items-center" onclick="get_car_films()" data-toggle="modal" data-target="#car_videos" style="background-color:rgb(51,51,51); width:360px; height:340px; margin:20px; border-radius: 60px;">
+                    <div v-if="car_f == 0" class="p-2" style="width:180px; height:220px;">
+                        <img :src="'img/car_films.png'" class="card-img img-fluid" style="width:100%;" alt="Responsive image">
+                    </div>
+                    <div v-if="car_f == 1" class="p-2" style="width:180px; height:220px;">
+                        <img :src="'img/car_films_active.png'" class="card-img img-fluid" style="width:100%;" alt="Responsive image">
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--EndMenu-->
+        <!-- The Modal car_games -->
+        <section>
+            <div class="modal fade" id="car_games">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content shadow-lg rounded-1" style="background-color:rgb(50,50,50); border-radius: 20px;">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="span-12" style="margin-right:8px;">
+                            <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                        </div>
+                        <!--Table-->
+                        <div id="table_items" style="margin-left:8%; margin-right:8%; margin-top:50px;">
+                            <div class="d-flex justify-content-center">
+                                <div class="p-2 click" style="padding:0 !important; margin-left:30px; z-index: 102; position: relative; margin-right: 30px;">
+                                    <div id="inf" v-for="game in games_dic">
+                                    <div id="show_car_game_modal" :onclick="'see(' + game[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
+                                        <div v-bind:id="'L'+ game[0]" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px; border-top-right-radius: 400px 400px; border-bottom-right-radius: 400px 400px;">
+                                            <div class="d-flex">
+                                                <div class="p-2">
+                                                    <div class="score_list red">{{ game[1].score }}</div>
+                                                </div>
+                                                <div class="p-2" style=" padding-left:10px; font-size:20px; color:white; margin-top: -7px; padding-right:0 !important;">
+                                                    <div class="d-flex" style="max-height: 30px;">
+                                                        <div class="p-2" style="width:550px; padding: 0 !important;">{{ game[1].name }}</div>
+                                                        <div class="p-2" style="width:50px; padding: 0 !important; font-size:20px; color:white; margin-left:200px; padding-top:10px;">
+                                                            {{ game[1].launch }}
+                                                        </div>
+                                                        <div class="p-2" style="width:70px; padding: 0 !important; font-size:20px; color:white; margin-left:25px; padding-top:10px;">
+                                                            <div v-if="game[1].size != null" style="margin-right:15px;">
+                                                                {{ game[1].size }} Gb
+                                                            </div>
+                                                            <div v-else style="margin-right:15px;">
+                                                                ???
+                                                            </div>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <div id="#del" class="score_list red click" :onclick="'del_car_game(' + game[1].id + ')'">
+                                                                X
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="rating" style="padding-left:15px;">
+                                                            <i v-if="game[1].score/2 >= 1" class="fa fa-star"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                            <i v-if="game[1].score/2 >= 2" class="fa fa-star"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                            <i v-if="game[1].score/2 >= 3" class="fa fa-star"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                            <i v-if="game[1].score/2 >= 4" class="fa fa-star"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                            <i v-if="game[1].score/2 >= 5" class="fa fa-star is-fade"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <!--Table-->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- The Modal car_videos -->
+        <section>
+            <div class="modal fade" id="car_videos">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content shadow-lg rounded-1" style="background-color:rgb(50,50,50); border-radius: 20px;">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="span-12" style="margin-right:8px;">
+                            <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                        </div>
+                        <!--Table-->
+                        <div id="table_items" style="margin-left:8%; margin-right:8%; margin-top:50px;">
+                            <div class="d-flex justify-content-center">
+                                <div class="p-2 click" style="padding:0 !important; margin-left:30px; z-index: 102; position: relative; margin-right: 30px;">
+                                    <div id="inf" v-for="video in series_dic">
+                                    <div id="show_car_video_modal" :onclick="'see_s(' + video[0] + ')'" class="card" style="margin-bottom:3px; background:none; border:none;">
+                                        <div v-bind:id="'L'+ video[0]" style="padding:0 !important; background-color:rgb(26,26,26); border-top-left-radius: 400px 400px; border-bottom-left-radius: 400px 400px; border-top-right-radius: 400px 400px; border-bottom-right-radius: 400px 400px;">
+                                            <div class="d-flex">
+                                                <div class="p-2">
+                                                    <div class="score_list red">{{ video[1].score }}</div>
+                                                </div>
+                                                <div class="p-2" style=" padding-left:10px; font-size:20px; color:white; margin-top: -7px; padding-right:0 !important;">
+                                                    <div class="d-flex" style="max-height: 30px;">
+                                                        <div class="p-2" style="width:550px; padding: 0 !important;">{{ video[1].title }}</div>
+                                                        <div class="p-2" style="width:50px; padding: 0 !important; font-size:20px; color:white; margin-left:200px; padding-top:10px;">
+                                                            {{  video[1].year }}
+                                                        </div>
+                                                        <div class="p-2" style="width:150px; padding: 0 !important; font-size:20px; color:white; margin-left:10px; padding-top:10px; margin-right: 10px;">
+                                                            {{  video[1].country }}
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <div id="#del" class="score_list red click" style="z-index: 102; position: relative;" :onclick="'del_car_video(' + video[1].id + ')'">
+                                                                X
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="rating" style="padding-left:15px;">
+                                                            <i v-if="video[1].score/2 >= 1" class="fa fa-star"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                            <i v-if="video[1].score/2 >= 2" class="fa fa-star"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                            <i v-if="video[1].score/2 >= 3" class="fa fa-star"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                            <i v-if="video[1].score/2 >= 4" class="fa fa-star"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                            <i v-if="video[1].score/2 >= 5" class="fa fa-star is-fade"></i>
+                                                            <i v-else class="fa fa-star" style="color:rgb(55,55,55);"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <!--Table-->
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- The Modal -->
+        <section>
+            <div class="modal fade" id="Modal_car">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content shadow-lg rounded-1" style="background-color:rgb(50,50,50); border-radius: 20px;">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="span-12" style="margin-right:8px;">
+                            <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                        </div> 
+                        <div class="d-flex" style="margin-top:30px;">
+                            <div class="p-2" style="height:600px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:33px;">
+                                <div class="" style="width:400px; height:580px; margin-top:2px; margin-left: 10px;">
+                                    <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                </div>
+                            </div>
+                            <div class="p-2" style="margin-left:20px;">
+                                <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="width:608px; height:590px;" id="style-modal">
+                                <div class="d-flex flex-wrap" style="margin-bottom: 5px;">
+                                    <div class="p-2" style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom: 15px;">
+                                        <div style="color:white;">
+                                            <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" style="margin-left:20px;">
+                                                <p >Título:  {{ name }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2" style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom: 15px;">
+                                        <div style="color:white;">
+                                            <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" style="margin-left:20px;">
+                                                <p >fecha:  {{ launch }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2" style="margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom: 15px;">
+                                        <div style="color:white;">
+                                            <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" style="margin-left:20px;">
+                                                <p style="margin:0 !important;">modo de juego:  {{ gamemode }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2" style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                        <div style="color:white;">
+                                            <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" v-if="score > 0">
+                                                <p style="margin:0 !important;">puntuación:  {{ score }} puntos </p>
+                                            </div>
+                                            <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" v-else>
+                                                <p>puntuación:  ??? puntos </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2" style="margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                        <div style="color:white;">
+                                            <div style="margin-left:15px; margin-right:15px;">
+                                                <p style="margin:0 !important;">idioma:  {{ language }} </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="p-2" style="max-height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px;">
+                                        <div style="color:white;">
+                                            <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" v-if="size > 0">
+                                                <p style="margin:0 !important;">espacio en disco:  {{ size }} GB</p>
+                                            </div>
+                                            <div style="margin-left:15px; margin-right:15px; margin-top:-4px;" v-else>
+                                                <p style="margin:0 !important;">espacio en disco:  ??? GB</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="color:white;">
+                                    <p>Generos:</p>
+                                </div>
+                                <div class="d-flex flex-wrap" style="max-width:750px;">
+                                    <div style="color:white; height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:20px;">
+                                        <div>
+                                            <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ category }} </p>
+                                        </div>
+                                    </div>
+                                    <div v-for="cat in genders" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:20px; margin-bottom:10px;">
+                                        <div>
+                                            <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ cat }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex flex-wrap" style="max-width:750px;">
+                                    <div class="" style="width:580px; height:260px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                        <div style="text-align:center; margin-top:10px;">Descripción:</div>
+                                        <div>
+                                            <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:560px; margin:10px;" id="style-13">
+                                                <div class="container">
+                                                    <p style="margin-top:2px;">{{ description }}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="" style="width:580px; height:260px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                        <div style="text-align:center; margin-top:10px;">Requerimientos:</div>
+                                        <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:560px; margin:10px;" id="style-13">
+                                            <div class="container inverse-scroll">
+                                                <div style="margin-top:6px;"></div>
+                                                <h5>Requisitos Minimos:</h5>
+                                                <div style="font-size:18px;">
+                                                    <ul v-for="req in requirements[0]">
+                                                        <li v-if="req.req != 'Desconocidos'" >{{ req.type }} : {{ req.req }}</li>
+                                                        <p v-else>Desconocidos<p>
+                                                    </ul>
+                                                </div>
+                                                <h5>Requisitos Recomendados:</h5>
+                                                <div style="font-size:18px;">
+                                                    <ul v-for="req in requirements[1]">
+                                                        <li v-if="req.req != 'Desconocidos'" >{{ req.type }} : {{ req.req }}</li>
+                                                        <p v-else>Desconocidos<p>
+                                                    </ul>
+                                                </div>  
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            
+                        </div>
+                        <div class="d-flex">
+                            <div class="" style="width:1040px; height:270px; margin-left:34px; margin-top:10px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                <div class="table-wrapper-scroll-x my-custom-scrollbar1" style="color:white; width:1010px; height:250px; margin:5px; margin-left:12px;" id="style-h">
+                                    <div class="d-flex">
+                                        <div v-for="x in captures">
+                                            <div class="p-2" style="width:340px; height:230px; margin-top:10px; border-radius: 20px; padding:0px important!;">
+                                                <img :src="'' + x" class="img img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Modal end-->
+        <!-- The Modal -->
+        <section>
+            <div class="modal fade" id="Modal_car_video">
+                <div class="modal-dialog modal-xl modal-dialog-centered">
+                    <div class="modal-content shadow-lg rounded-1" style="background-color:rgb(50,50,50); border-radius: 20px;">
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        <div class="span-12" style="margin-right:8px;">
+                            <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+                        </div> 
+                        <div class="d-flex" style="margin-top:30px;">
+                            <div class="p-2" style="height:600px; background-color:rgb(77,77,77); border-radius: 20px; margin-left:33px;">
+                                <div class="" style="width:400px; height:580px; margin-top:2px; margin-left: 10px;">
+                                    <img :src="'' + cover_path" class="img-fluid" style="height: 100%; width:100%; border-radius: 20px;" alt="Responsive image">
+                                </div>
+                                <div class="click" :onclick="'car_details(`' + name + '`,'+ current_detail +',`s`' + ')'" id="car" style="background-color: white; position: relative; z-index:102; margin-left:340px; margin-top: -70px; border-radius: 50px; height: 60px; width: 60px; border: 0.5px solid; border-color: rgb(209,4,4);">
+                                    <img src='img/car_active.png' class='img-fluid' style="height: 40px; width:40px; margin-top:12px; margin-left: 5px;" alt='Responsive image'>
+                                </div>
+                            </div>
+                            <div class="p-2" style="margin-left:20px; margin-top:50px;">
+                                <div class="d-flex flex-wrap" style="margin-top:-50px;">
+                                    <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                        <div style="color:white;">
+                                            <div style="margin-left:15px; margin-right:15px; margin-top:5px;">
+                                                <p>Título:  {{ name }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                        <div style="color:white;">
+                                            <div style="margin-left:15px; margin-right:15px; margin-top:5px;">
+                                                <p>fecha:  {{ launch }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                        <div style="color:white;">
+                                            <div style="margin-left:15px; margin-right:15px; margin-top:5px;">
+                                                <p>país:  {{ country }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div style="height:35px; margin-right:20px; background-color:rgb(77,77,77); border-radius: 20px; margin-bottom:15px;">
+                                        <div style="color:white;">
+                                            <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-if="score > 0" style="margin-top:-28px; margin-left:20px;">
+                                                <p>puntuación:  {{ score }} puntos </p>
+                                            </div>
+                                            <div style="margin-left:15px; margin-right:15px; margin-top:5px;" v-else style="margin-top:-28px; margin-left:20px;">
+                                                <p>puntuación:  ??? puntos </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="color:white; margin-left:10px;">
+                                    <p>Géneros:</p>
+                                </div>
+                                <div class="d-flex flex-wrap" style="max-width:750px;">
+                                    <div v-for="cat in genders" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:20px; margin-bottom:10px;">
+                                        <div>
+                                            <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ cat }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="color:white; margin-left:10px;">
+                                    <p>Directores:</p>
+                                </div>
+                                <div class="d-flex flex-wrap" style="max-width:750px;">
+                                    <div v-for="dic in directors" style="color:white;  height:30px; background-color:rgb(77,77,77); border-radius: 20px; margin-right:20px; margin-bottom:10px;">
+                                        <div>
+                                            <p style="margin-left:20px; margin-right:20px; margin-top:3px;">{{ dic[1] }} </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="" style="width:660px; height:260px; margin-left:34px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                <div style="text-align:center; margin-top:10px;">Sinópsis:</div>
+                                <div>
+                                    <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:635px; margin:10px;" id="style-13">
+                                        <div class="container">
+                                            <p style="margin-top:2px;">{{ description }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="" style="width:370px; height:260px; margin-left:10px; margin-top:30px; color:white; background-color:rgb(77,77,77); border-radius: 20px;">
+                                <div style="text-align:center; margin-top:10px;">Reparto:</div>
+                                <div class="table-wrapper-scroll-y my-custom-scrollbar1" style="color:white; width:332px; margin:10px;" id="style-13">
+                                    <div class="container inverse-scroll">
+                                        <div style="margin-top:6px;"></div>
+                                        <div style="font-size:18px;">
+                                            <ul v-for="act in actors" style="text-align: center;">
+                                                <li v-if="act != ''" >{{ act[1] }}</li>
+                                                <p v-else>Desconocidos<p></p>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--Modal end-->
+        <footerv></footerv>
+    </div>
+    <script src="js/jquery-3.2.1.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/vue.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/games.js"></script>
+    <script src="js/series.js"></script>
+    <script src="js/car.js"></script>
+    <script src="js/config.js"></script>
+    <script src="/eel.js"></script>
+    <script>
+        $(document).ready(function(){
+            get_counters();
+
+            $(document).on ("click", "#del", function (event) {
+                event.stopPropagation();
+            });
+
+            $(document).on ("click", "#show_car_game_modal", function (event) {
+                if(check_del == 0){
+                    $('#Modal_car').modal();
+                }else{
+                    check_del = 0;
+                }
+            });
+
+            $(document).on ("click", "#show_car_video_modal", function (event) {
+                if(check_del == 0){
+                    $('#Modal_car_video').modal();
+                }else{
+                    check_del = 0;
+                }
+            });
+
+        });
+    </script>
+    </body>
+</html>

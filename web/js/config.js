@@ -278,3 +278,8 @@ function stop_download(){
     eel.kill_download()();
     alert('Ha sido parada la descarga')
 }
+
+function gen_exe(){
+    eel.gen_exe()();
+    alert('Se esta creando el ejecutable');
+}

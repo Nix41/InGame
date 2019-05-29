@@ -1,6 +1,9 @@
 
 import re
 from DBstructure import *
+import shutil
+import os
+from distutils.dir_util import copy_tree
 
 def clean_line(A):
     B = ""
@@ -77,10 +80,22 @@ def make_lists(dirt, found, not_dir, not_found):
                 if f in line:
                     already = True
                     break
-            print('#'+line+'#' , '*'+not_found+'*') 
             if line == not_found:
                 already = True
             if not (already):
                 left += line
     with open(dirt , 'w+') as std:
         std.write(left)
+
+def copy_to_client():
+    print('Copiando los archivos')
+    try:
+        os.remove('SetupFiles/InGameClientEXE/server/yasmany')
+    except: Exception
+    try:
+        shutil.rmtree('SetupFiles/InGameClientEXE/server/web/img/Work')
+    except: Exception
+    shutil.copyfile('yasmany', 'SetupFiles/InGameClientEXE/server/yasmany')
+    shutil.copytree('web/img/Work', 'SetupFiles/InGameClientEXE/server/web/img/Work')
+
+
