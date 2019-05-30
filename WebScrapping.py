@@ -332,7 +332,6 @@ def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image, 
             data = response.read()
             out_file.write(data)
         print('    La pelicula ha sido descargada exitosamente')
-        make_lists(m_list, found , 'lists/not_found_games.txt', not_found)
     else: 
         ("    La pelicula " + name + ' ya existia')
         
