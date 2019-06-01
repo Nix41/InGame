@@ -44,6 +44,7 @@ var app = new Vue({
         car_g: 0,
         car_s: 0,
         car_f: 0,
+        order_by: '',
 
         //onSingle
         Onsingle: 0,
@@ -347,3 +348,49 @@ $(".arrow_nav").keydown(function(e) {
   $('#SerieModal').on('shown.bs.modal', function () {
     app.where_I_am = 1;
   })
+
+
+function change_gen(x){
+    if(x == 0){
+    app.order_by = '';
+    }
+    if(x == 1){
+    app.order_by = 1;
+    }
+    if(x == 2){
+    app.order_by = 2;
+    }
+    if(x == 3){
+    app.order_by = 3;
+    }
+}
+
+function change_gen_series(x){
+    if(x == 0){
+      app.order_by = '';
+    }
+    if(x == 1){
+      app.order_by = 1;
+    }
+    if(x == 2){
+      app.order_by = 2;
+    }
+    if(x == 3){
+      app.order_by = 3;
+    }
+}
+
+function change_gen_films(x){
+    if(x == 0){
+      app.order_by = '';
+    }
+    if(x == 1){
+      app.order_by = 1;
+    }
+    if(x == 2){
+      app.order_by = 2;
+    }
+    if(x == 3){
+      app.order_by = 3;
+    }
+}

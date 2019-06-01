@@ -105,14 +105,45 @@
                                 <input id='name' type="text" v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-model="title" class="input" style="margin-top:-33px; width:280px; height:35px; margin-left: 45px; color:white;" placeholder="Título...">
                             </form>
                         </div>
-                        <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
+                        <div class="p-2 dropdown">
+                            <button class="btn dropdown-toggle" style="color:rgb(108,117,125); background-color:rgb(31,31,31); border-radius: 15px; margin:-2px" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Ordenar por ...
+                            </button>
+                            <div class="dropdown-menu" style="background-color:rgb(33,33,33);" aria-labelledby="dropdownMenuButton">
+                                <div v-if="order_by == 0">
+                                    <a class="dropdown-item active" :onclick="'change_gen_series(`0`)'" style="color:white;" href="#">No ordenar</a>
+                                </div>
+                                <div v-else>
+                                    <a class="dropdown-item" :onclick="'change_gen_series(`0`)'" style="color:white;" href="#">No ordenar</a>
+                                </div>
+                                <div v-if="order_by == 1">
+                                    <a class="dropdown-item active" :onclick="'change_gen_series(`1`)'" style="color:white;" href="#">Nombre</a>
+                                </div>
+                                <div v-else>
+                                    <a class="dropdown-item" :onclick="'change_gen_series(`1`)'" style="color:white;" href="#">Nombre</a>
+                                </div>
+                                <div v-if="order_by == 2">
+                                    <a class="dropdown-item active" :onclick="'change_gen_series(`2`)'" style="color:white;" href="#">Lanzamiento</a>
+                                </div>
+                                <div v-else>
+                                    <a class="dropdown-item" :onclick="'change_gen_series(`2`)'" style="color:white;" href="#">Lanzamiento</a>
+                                </div>
+                                <div v-if="order_by == 3">
+                                    <a class="dropdown-item active" :onclick="'change_gen_series(`3`)'" style="color:white;" href="#">Puntuación</a>
+                                </div>
+                                <div v-else>
+                                    <a class="dropdown-item " :onclick="'change_gen_series(`3`)'" style="color:white;" href="#">Puntuación</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-2" style="height:40px; width:164px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                             <form style="border-radius: 15px;">
-                                <input id='name_filter' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-on:keyup="check_year" min="0" v-model="year" type="number" name="quantity" min="1980" max="3000" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Lanzamiento...">
+                                <input id='name_filter' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-on:keyup="check_year" min="0" v-model="year" type="number" name="quantity" min="1980" max="3000" class="form-control input" style="margin-top:-6px; width:140px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Lanzamiento...">
                             </form>
                         </div>
                         <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                             <form style="border-radius: 15px;">
-                                <input id='name_filter' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-on:keyup="check_score" min="0" v-model="filter_score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
+                                <input id='name_filter' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_series_all(`s`)'" v-on:keyup="check_score" min="0" v-model="filter_score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:140px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
                             </form>
                         </div>
                         <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
@@ -611,14 +642,16 @@
         <script src="/eel.js"></script>
         <script>
                 $(document).ready(function(){
+                    app.order_by = '';
+                    app.url = '2';
+                    app.index_page = 1;
                     get_series();
 
                     $(document).on ("click", "#car", function (event) {
                         event.stopPropagation();
                     });
                 });
-                app.url = '2';
-                app.index_page = 1;
+                
         </script>
     </body>
 </html>
