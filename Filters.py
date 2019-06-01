@@ -5,6 +5,52 @@ import time
 
 categories = ['']
 
+def parse_game(c, genders):
+    requirements = []
+    requirements.append([])
+    requirements.append([])
+    for r in c.requirements:
+        req = {}
+        req['type'] = r.req.req_type
+        req['req'] = r.req.req
+        if r.minormax == True:
+            requirements[0].append(req)
+        else:
+            requirements[1].append(req)
+    game = {}
+    game['id'] = c.id
+    game['name'] = c.name
+    game['description'] = c.description
+    game['genders'] = genders
+    game['requirements'] = requirements
+    game['size'] = c.size
+    if not (c.category is None):
+        cate = c.category.name
+    else:
+        cate = ''
+    game['category'] = cate
+    game['launch'] = c.launch
+    game['game_mode'] = c.game_mode
+    game['language'] = c.language
+    game['score'] = c.puntuacion
+    game['cover_path'] = c.cover_path
+    game['captures'] = c.captures_list
+    return game
+
+def parse_tv(s, genders, actors, directors ):
+    serie = {}
+    serie['id'] = s.id
+    serie['title'] = s.title
+    serie['year'] = s.year 
+    serie['sinopsis'] = s.sinopsis
+    serie['country'] = s.country
+    serie['genders'] = genders
+    serie['actors'] = actors
+    serie['directors'] = directors
+    serie['score'] = s.score
+    serie['cover_path'] = s.cover_path
+    return serie
+
 def get_game_genders():
     cats = {}
     for cat in sess.query(GameCategory).all():
@@ -38,14 +84,28 @@ def get_movie_topics():
         genders.append(gen.name)
     return genders
 
-def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0 ):
+def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0 , order=""):
     if launch == "":
         launch = 0
     if score == "":
         score = 0
     t = time.time()
     filter_full = sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch >= launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score)
-    for c in filter_full:
+    if order == "Name0":
+        ordered = filter_full.order_by(Game.name)
+    elif order == "Name1":
+        ordered = filter_full.order_by(Game.name.desc())
+    elif order == "Launch0":
+        ordered = filter_full.order_by(Game.launch)
+    elif order == "Launch1":
+        ordered = filter_full.order_by(Game.launch.desc())
+    elif order == "Ranking0":
+        ordered = filter_full.order_by(Game.puntuacion)
+    elif order == "Ranking1":
+        ordered = filter_full.order_by(Game.puntuacion.desc())
+    else:
+        ordered = filter_full
+    for c in ordered:
         genders = []
         gender_filter = False
         for g in c.genders:
@@ -60,40 +120,27 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
         else:
             cat = True
         if gender_filter and cat :
-            requirements = []
-            requirements.append([])
-            requirements.append([])
-            for r in c.requirements:
-                req = {}
-                req['type'] = r.req.req_type
-                req['req'] = r.req.req
-                if r.minormax == True:
-                    requirements[0].append(req)
-                else:
-                    requirements[1].append(req)
-            game = {}
-            game['id'] = c.id
-            game['name'] = c.name
-            game['description'] = c.description
-            game['genders'] = genders
-            game['requirements'] = requirements
-            game['size'] = c.size
-            if not (c.category is None):
-                cate = c.category.name
-            else:
-                cate = ''
-            game['category'] = cate
-            game['launch'] = c.launch
-            game['game_mode'] = c.game_mode
-            game['language'] = c.language
-            game['score'] = c.puntuacion
-            game['cover_path'] = c.cover_path
-            game['captures'] = c.captures_list
+            game = parse_game(c, genders)
             yield game
 
 
-def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,country=''):
-    for s in sess.query(Serie).filter(Serie.title.contains(name)):
+def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,country='', order=''):
+    filter_full = sess.query(Serie).filter(Serie.title.contains(name))
+    if order == "Name0":
+        ordered = filter_full.order_by(Serie.title)
+    elif order == "Name1":
+        ordered = filter_full.order_by(Serie.title.desc())
+    elif order == "Launch0":
+        ordered = filter_full.order_by(Serie.year)
+    elif order == "Launch1":
+        ordered = filter_full.order_by(Serie.year.desc())
+    elif order == "Ranking0":
+        ordered = filter_full.order_by(Serie.score)
+    elif order == "Ranking1":
+        ordered = filter_full.order_by(Serie.score.desc())
+    else:
+        ordered = filter_full
+    for s in ordered :
     # for s in sess.query(Serie).all():
         topic_filter  = True
         for gen in gender:
@@ -134,21 +181,26 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,c
         if len(genders) == 0  and len(s.genders) == 0:
             topic_filter = True
         if topic_filter and actor_filter and director_filter and s.score >= score and topic_filter and s.year >= year and country_filter:
-            serie = {}
-            serie['id'] = s.id
-            serie['title'] = s.title
-            serie['year'] = s.year 
-            serie['sinopsis'] = s.sinopsis
-            serie['country'] = s.country
-            serie['genders'] = genders
-            serie['actors'] = actors
-            serie['directors'] = directors
-            serie['score'] = s.score
-            serie['cover_path'] = s.cover_path
+            serie = parse_tv(s, genders, actors, directors)
             yield serie
 
-def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, country=""):
-    for c in sess.query(Movie).filter(Movie.title.contains(name)):
+def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, country="", order=''):
+    filter_full = sess.query(Movie).filter(Movie.title.contains(name))
+    if order == "Name0":
+        ordered = filter_full.order_by(Movie.title)
+    elif order == "Name1":
+        ordered = filter_full.order_by(Movie.title.desc())
+    elif order == "Launch0":
+        ordered = filter_full.order_by(Movie.year)
+    elif order == "Launch1":
+        ordered = filter_full.order_by(Movie.year.desc())
+    elif order == "Ranking0":
+        ordered = filter_full.order_by(Movie.score)
+    elif order == "Ranking1":
+        ordered = filter_full.order_by(Movie.score.desc())
+    else:
+        ordered = filter_full
+    for c in ordered :
         topic_filter  = True
         for gen in gender:
             this_topic = False
@@ -187,17 +239,7 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
         if len(genders) == 0  and len(c.genders) == 0:
             topic_filter = True
         if topic_filter and actor_filter and director_filter and c.score >= score and c.year >= year and country_filter:
-            movie = {}
-            movie['id'] = c.id
-            movie['title'] = c.title
-            movie['year'] = c.year 
-            movie['sinopsis'] = c.sinopsis
-            movie['country'] = c.country
-            movie['genders'] = genders
-            movie['actors'] = actors
-            movie['directors'] = directors
-            movie['score'] = c.score
-            movie['cover_path'] = c.cover_path
+            movie = parse_tv(c, genders, actors, directors)
             yield movie
 
 def get_recent():
@@ -242,8 +284,6 @@ def get_directors():
     return directors
 
 # filter_games()
-
-# s
 # filter_series()
 # filter_movies()
 

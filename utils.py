@@ -38,7 +38,6 @@ def clean_line(A):
             x -= 1
     else:
         C = B
-     #(C)
     return C
 
 def stupidshit(w, p):
@@ -62,6 +61,7 @@ def clean(path):
     for m in movies:
         s = re.sub( ' +', ' ', m ).strip()
         if(len(s) > 1):
+            print(s)
             t = clean_line(s)
             new.append(t + '\n')
     with open(path, 'w') as std:

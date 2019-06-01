@@ -74,7 +74,7 @@ if __name__ == '__main__':
             return to_show[cui - 1]
 
     @eel.expose
-    def filter_series(name="", gender=[],actor="",director="", score=0, year=0, country=""):
+    def filter_series(name="", gender=[],actor="",director="", score=0, year=0, country="", order=''):
         global to_show
         global index
         global start
@@ -87,7 +87,7 @@ if __name__ == '__main__':
             year = 0
         year = int(year)
         score = float(score)
-        series = Filters.filter_series(name, gender,actor,director, score, year, country)
+        series = Filters.filter_series(name, gender,actor,director, score, year, country, order)
         current_query = None
         current_query = series
         find_match = []
@@ -97,7 +97,7 @@ if __name__ == '__main__':
         return get_more()
 
     @eel.expose
-    def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, country=""):
+    def filter_movies(name="", gender=[],actor="",director="", score=0, year = 0, country="", order =''):
         global to_show
         global index
         global start
@@ -110,7 +110,7 @@ if __name__ == '__main__':
             year = 0
         year = int(year)
         score = float(score)
-        movies = Filters.filter_movies(name, gender, actor, director, score, year, country)
+        movies = Filters.filter_movies(name, gender, actor, director, score, year, country, order)
         current_query = None
         current_query = movies
         to_show = []
@@ -120,7 +120,7 @@ if __name__ == '__main__':
         return get_more()
 
     @eel.expose
-    def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0):
+    def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", category="", lenguage="", score=0, order=''):
         global to_show
         global index
         global start
@@ -132,7 +132,7 @@ if __name__ == '__main__':
             gender=''
         if gender == 'Todos':
             gender = ''
-        current_query = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score)
+        current_query = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score, order='')
         find_match = []
         to_show = []
         start = 0
