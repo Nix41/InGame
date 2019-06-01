@@ -338,3 +338,13 @@ body.preloader-site {
 		margin-left: 1370px;
 	}
 }
+
+/* Dropdown */
+.dropdown-menu > div > a:hover {
+    background-color: rgb(77,77,77) !important;
+    background-image: none !important;
+}
+
+ .active {
+    background-color: rgb(209,4,4) !important;
+}
