@@ -21,7 +21,7 @@ async function filter_games_by_name(){
     app.index_page=1;
     app.games = []
     let filter = document.getElementById("name_filter");
-    let value = await eel.filter_games(name = app.title, gender = app.filter_selected_subgen, launch=app.year, players=0,game_mode=app.filter_mode, category=app.filter_selected_gen, lenguage=app.filter_language, score=app.filter_score )();
+    let value = await eel.filter_games(name = app.title, gender = app.filter_selected_subgen, launch=app.year, players=0,game_mode=app.filter_mode, category=app.filter_selected_gen, lenguage=app.filter_language, score=app.filter_score , order=app.order_by)();
     let i = 1;
     app.games_dic = [];
     for (x in value) {

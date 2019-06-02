@@ -91,17 +91,11 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
         score = 0
     t = time.time()
     filter_full = sess.query(Game).filter(Game.name.contains(name)).filter(Game.launch >= launch).filter(Game.game_mode.contains(game_mode)).filter(Game.language.contains(lenguage)).filter(Game.puntuacion >= score)
-    if order == "Name0":
+    if order == 1:
         ordered = filter_full.order_by(Game.name)
-    elif order == "Name1":
-        ordered = filter_full.order_by(Game.name.desc())
-    elif order == "Launch0":
-        ordered = filter_full.order_by(Game.launch)
-    elif order == "Launch1":
+    elif order == 2:
         ordered = filter_full.order_by(Game.launch.desc())
-    elif order == "Ranking0":
-        ordered = filter_full.order_by(Game.puntuacion)
-    elif order == "Ranking1":
+    elif order == 3:
         ordered = filter_full.order_by(Game.puntuacion.desc())
     else:
         ordered = filter_full
@@ -126,17 +120,11 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
 
 def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,country='', order=''):
     filter_full = sess.query(Serie).filter(Serie.title.contains(name))
-    if order == "Name0":
+    if order == 1:
         ordered = filter_full.order_by(Serie.title)
-    elif order == "Name1":
-        ordered = filter_full.order_by(Serie.title.desc())
-    elif order == "Launch0":
-        ordered = filter_full.order_by(Serie.year)
-    elif order == "Launch1":
+    elif order == 2:
         ordered = filter_full.order_by(Serie.year.desc())
-    elif order == "Ranking0":
-        ordered = filter_full.order_by(Serie.score)
-    elif order == "Ranking1":
+    elif order == 3:
         ordered = filter_full.order_by(Serie.score.desc())
     else:
         ordered = filter_full
@@ -186,17 +174,11 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,c
 
 def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, country="", order=''):
     filter_full = sess.query(Movie).filter(Movie.title.contains(name))
-    if order == "Name0":
+    if order == 1:
         ordered = filter_full.order_by(Movie.title)
-    elif order == "Name1":
-        ordered = filter_full.order_by(Movie.title.desc())
-    elif order == "Launch0":
-        ordered = filter_full.order_by(Movie.year)
-    elif order == "Launch1":
+    elif order == 2:
         ordered = filter_full.order_by(Movie.year.desc())
-    elif order == "Ranking0":
-        ordered = filter_full.order_by(Movie.score)
-    elif order == "Ranking1":
+    elif order == 3:
         ordered = filter_full.order_by(Movie.score.desc())
     else:
         ordered = filter_full

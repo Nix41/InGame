@@ -57,10 +57,10 @@ async function filter_series_all(typ ='s'){
     app.series = []
     let value = [];
     if (typ == 's'){
-        value = await eel.filter_series(name=app.title , gender=app.filter_selected_gens, actor=app.filter_language, director=app.filter_mode, score=app.filter_score, year=app.year, country=app.filter_topic )();
+        value = await eel.filter_series(name=app.title , gender=app.filter_selected_gens, actor=app.filter_language, director=app.filter_mode, score=app.filter_score, year=app.year, country=app.filter_topic , order=app.order_by)();
     }
     else{
-        value = await eel.filter_movies(name=app.title , gender=app.filter_selected_gens, actor=app.filter_language, director=app.filter_mode, score=app.filter_score, year=app.year, country=app.filter_topic )();
+        value = await eel.filter_movies(name=app.title , gender=app.filter_selected_gens, actor=app.filter_language, director=app.filter_mode, score=app.filter_score, year=app.year, country=app.filter_topic, order=app.order_by )();
     }
     let i = 1;
     let list = [];

@@ -363,6 +363,7 @@ function change_gen(x){
     if(x == 3){
     app.order_by = 3;
     }
+    filter_games_by_name();
 }
 
 function change_gen_series(x){
@@ -378,6 +379,7 @@ function change_gen_series(x){
     if(x == 3){
       app.order_by = 3;
     }
+    filter_series_all('s');
 }
 
 function change_gen_films(x){
@@ -393,4 +395,5 @@ function change_gen_films(x){
     if(x == 3){
       app.order_by = 3;
     }
+    filter_series_all('f');
 }

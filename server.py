@@ -127,12 +127,13 @@ if __name__ == '__main__':
         global end
         global find_match
         global current_query
+        print('Here with order:', order, '#')
         if category == 'Todos':
             category = ''
             gender=''
         if gender == 'Todos':
             gender = ''
-        current_query = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score, order='')
+        current_query = Filters.filter_games(name=name, gender=gender, launch=launch, game_mode=game_mode, category=category, lenguage=lenguage, score=score, order=order)
         find_match = []
         to_show = []
         start = 0
