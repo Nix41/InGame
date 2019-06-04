@@ -38,6 +38,7 @@ function push_prin(gen){
 function push_prin_create(id){
     app.create_prin = app.create_gen[id][1];
     app.pgen_check = 3;
+    refresh_sub(app.create_gen[id][1]);
 }
 
 
@@ -282,4 +283,20 @@ function stop_download(){
 function gen_exe(){
     eel.gen_exe()();
     alert('Se esta creando el ejecutable');
+}
+
+function refresh_sub(x){
+    i = 0;
+    app.create_gensub = [];
+    for(e in app.categories[x]){
+        if(app.categories[x][e] != "Todos"){
+            app.create_gensub.push([i,app.categories[x][e]])
+            ++i;
+        }
+    }
+}
+
+async function get_gens(){
+    let gens = await eel.get_game_genders()();
+    app.categories = gens;
 }

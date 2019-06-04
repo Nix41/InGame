@@ -31,6 +31,7 @@ async function filter_games_by_name(){
 }
 
 function see(id){
+    alert(id);
     app.Onsingle = 0;
     app.name = app.games_dic[id][1].name;
     app.description = app.games_dic[id][1].description;

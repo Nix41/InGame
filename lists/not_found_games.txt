@@ -1,55 +1,138 @@
-South Park - The Fractured But Whole
-World War Z
-World War Z
-World War Z
-Deus Ex - Mankind Divided
-World War Z
-Train Simulator 2019
-10-4 - Indirect Contact
-Abberbury
-Brrrainz - Feed Your Hunger
-Code 7 - A Story Driven Hacking Adventure
-Creature Hunt
-Darksiders III - The Crucible
-Deck of Ashes
-Devilshaft - The Tower
-DriftForce
-EndlessHell
-Fire Pro Wrestling World - NJPW Junior Heavyweight Championship
-First Person Tennis - The Real Tennis Simulator
-Forebearers - Hearth & Home
-Franchise Wars
-Horse Riding - Deluxe
-Hovership Havoc
-I Can See the Future
-Kerbal Space Program - Room to Maneuver
-List.txt
-Metaverse Keeper
-MYHA - Return to the Lost Island
-One Finger - Death Punch 2
-Overcooked 2 - Campfire Cook Off
-Papercraft
-Rocket League - Rocket Pass 3
-Shards of Infinity
-Sigma Theory - Global Cold War
+ Ancestors Legacy - Saladin's Conquest 
+ Man O' War Corsair - Warhammer Naval Battles  
+ Last Epoch  
+ Diesel Brothers - Truck Building Simulator 
+ ArmA III - Global Mobilization Cold War Germany 
+7'scarlet 
+Abrakadaboom  
+Ancient Lands - The Tsar Awakening 
+Assault Android - Cactus  
+AT SUNDOWN - Shots in the Dark  
+Blue Crystal 
+BOSSGARD  
+City of Edges 
+Collision Course 
+Creatures Inc 
+Criss Cross 
+Dead in Vinland - Norse Side Stories  
+DEEP SPACE WAIFU - WORLD 
+Diacrisis 
+Door 
+Epitasis 
+Fade to Silence  
+Fell Seal - Arbiter's Mark  
+Flan 
+Hardware Engineers  
+Landinar - Into the Void 
+Lilycle - Rainbow Stage 
+Lorelai 
+Miko Gakkou Monogatari - Kaede Episode  
+Minecraft - Village & Pillage  
+MudRunner - Old-Timers 
+Neko-Nin Exheart 2 - Love Plus 
+Neverinth 
+PC Building Simulator - Razer Workshop 
+Phantom Thief - Celianna 
+SAELIG  
+Sloth - Heart to Heart 
 store.bat
-Tangledeep - Legend of Shara
-The LEGO Movie 2 Videogame - Galactic Adventures Character & Level Pack
-The Mystery of Woolley Mountain
-The Renovator
-Unrest Indigo
-Waves of the Atlantide
-You Have a Drunk Friend
-Dead End Road
-Three Kingdoms The Last Warlord
-Thrive Island Survival v223
-Ticket to Earth
-Three Kingdoms The Last Warlord
-Thrive Island Survival v223
-Ticket to Earth
-100 Percent Orange Juice - Yuki and Tomomo Renewal
-100 Percent Orange Juice - Yuki and Tomomo Renewal
-7 Days To Die A16 Experimental
-911 Operator - Every Life Matters
-A Collection of Bad Moments
-A Druids Duel
+Tactics and Strategy Master 2 - Princess of Holy Light 
+The Legend of Dark Witch 1  
+The Legend of Dark Witch 2 - The Price of Desire 
+The Swords of Ditto - Mormo's Curse 
+Troubleshooter 
+TUBWT 
+Ultra Off-Road Simulator 2019 - Alaska  
+Ultrawings - FLAT 
+Walkerman 
+WenJia  
+A Song in the Void 
+Amortizer - Off Road 
+Astrologaster 
+Bloons - Adventure Time TD 
+Clue - The Classic Mystery Game Sherlock Theme 
+Dawn of Man - Spiritual  
+Demon Club 
+Destiny or Fate  
+Detective Di - The Silk Rose Murders 
+Gunship Recon 
+HADES - Battle Out of Hell  
+Hitchhiker 
+Jump King 
+Monster Energy Supercross 2 - The Official Videogame  
+Never Let Me Awake 
+New World Horizon 
+Planet Nomads  
+Saint Hazel's - Horsepital 
+Starters Orders 7 - Horse Racing 
+Super Phantom Cat 
+Superfighters Deluxe  
+The Long Dark - Steadfast Ranger  
+The Ritual - Indie Horror Game 
+The Subject  
+A Hat in Time - Nyakuza Metro + Online Party  
+Absolver - Downfall  
+Andromalius 
+Armored Brigade  
+ASTRONEER - Extra Large Shredder  
+AVARIAvs 
+Badminton Warrior 
+Battle Brothers - Warriors of the North 
+Bl00 
+Blood - Fresh Supply 
+DomiDo 
+Don't Starve - Hamlet  
+Draid 
+Echo Tokyo - Phoenix 
+Fantastic Danmaku Festival  
+Four Seals 
+Galactic Campaign 
+Gochi Show - How to Learn Japanese Cooking Game 
+Gochi Show For Girls - How to Learn Japanese Cooking Game 
+Golf It! - Asia Theme  
+Great Ball of Fire 
+Heliborne - Reinforcements  
+Immure 
+IS Defense  
+Kurr Snaga 
+Light Fairytale  
+Little Savior 
+Mashinky - 5th ERA 
+Moot District 
+Never Again 
+Pax Nova 
+Peanut 
+Puss in Boots - Fear Not Hooman  
+Puzzled Heroes 
+Rethink - Evolved 3 
+Retro Game Crunch  
+Risk System 
+Rsin 
+Sequela 
+Snakeybus  
+Sniper Elite V2  
+Summon of Asmodeus 
+Swag and Sorcery 
+The Garden Pub 
+The Universim - Burning Skies 
+Thea 2 - The Shattering 
+Titan Quest - Atlantis  
+Twincop 
+Uglydolls - An Imperfect Adventure 
+Winged Sakura - Mindy's Arc 2 
+Zykrun 
+3 on 3 - Super Robot Hockey 
+60 Seconds - Rocket Science  
+Alien Attack - In Space  
+Beraltors 
+Boom Boom Tower 
+Bowling Over It 
+Broke Protocol - Online City RPG  
+Bubsy - Paws on Fire 
+Bugs Must Die 
+Bunker - Nightmare Begins 
+Car Mechanic Simulator 2018 - RAM  
+CHANGE - A Homeless Survival Experience  
+Cities Skylines - Campus  
+City of Brass - Blacksmiths Forge  
+Core of Darkness 
