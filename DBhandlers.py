@@ -124,23 +124,18 @@ def CRUD_Game(name="", description="", game_mode="", language="", launch=0, punt
         game = DBstructure.Game(name = name, description= description, game_mode =game_mode, language= language, launch= launch, puntuacion = puntuacion, size=size )
         for g in genders:
             add_game_gender(game, g)
-            print('h1')
         if len(requirements[0]) == 0:
-            print('h2')
             add_requirement(game, ' ', 'Desconocidos', True)
-        if len(requirements[0]) == 0:
-            print('h3')
-            print(requirements)
+        if len(requirements[1]) == 0:
             add_requirement(game, ' ', 'Desconocidos', False)
         for r in requirements[0]:
-            print('h4')
-            print(requirements)
             add_requirement(game, r[0], r[1], True)
         for r in requirements[1]:
             add_requirement(game, r[0], r[1], False)    
         add_category_to_game(game, category)
         sess.add_all([game])
         sess.commit()
+        # print('commited with ID', game.id)
         change_cover(game, image, games_dir)
         load_captures(game.id, captures)
         return game
@@ -189,8 +184,6 @@ def change_cover(obj, image, dir_path):
 
 def load_captures(id, images):
     dirt = games_dir + str(id)
-    print('ID:', id)
-    print(dirt)
     try:
         os.mkdir( dirt)
     except: FileExistsError
@@ -198,7 +191,7 @@ def load_captures(id, images):
     for i in images:
         bind, iformat = image_data(i)
         to_write = i[bind:]
-        print('loading:', iformat)
+        #print('loading:', iformat)
         try:
             with open(dirt +  slash +'image' + str(datetime.now()).replace(':','') +'.' + iformat, 'wb') as out_file: 
                 data = base64.b64decode(to_write)
@@ -374,6 +367,7 @@ def set_downloads(games, series, movies):
         std.write(movies)
 
 def change_req(game,reqs):
+    #print('These are the reqs', type(reqs), reqs)
     if len(reqs) == 0:
         #'had to here')
         reqs = [[],[]]
@@ -413,5 +407,5 @@ def image_data(data):
             bind += 1
             break
         bind += 1
-    print('format:', iformat,'  Point:', bind)
+    #print('format:', iformat,'  Point:', bind)
     return bind , iformat

@@ -313,7 +313,6 @@ async function update_game(name, des, mode, language, launch, score, category, r
 }
 
 function del_game(x){
-    alert(x);
     delete_game(x)
     document.location.reload(true);
 }

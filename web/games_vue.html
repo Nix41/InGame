@@ -155,22 +155,22 @@
                         </div>
                         <div class="p-2" style="height:40px; width:164px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                             <form style="border-radius: 15px;">
-                                <input id='name_filter' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_games_by_name()'" v-on:keyup="check_year" min="0" v-model="year" type="number" name="quantity" min="1980" max="3000" class="form-control input" style="margin-top:-6px; width:140px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Lanzamiento...">
+                                <input id='lanz' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_games_by_name()'" v-on:keyup="check_year" min="0" v-model="year" type="number" name="quantity" min="1980" max="3000" class="form-control input" style="margin-top:-6px; width:140px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Lanzamiento...">
                             </form>
                         </div>
                         <div class="p-2" style="height:40px; width:164px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                             <form style="border-radius: 15px;">
-                                <input id='name_filter' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_games_by_name()'" v-on:keyup="check_score" min="0" v-model="filter_score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:140px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
+                                <input id='punt' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_games_by_name()'" v-on:keyup="check_score" min="0" v-model="filter_score" type="number" name="quantity" min="1" max="10" class="form-control input" style="margin-top:-6px; width:140px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Puntuación...">
                             </form>
                         </div>
                         <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                             <form style="border-radius: 15px;">
-                                <input id='name_filter' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_games_by_name()'" type="text" v-model="filter_language" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Idioma...">
+                                <input id='idio' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_games_by_name()'" type="text" v-model="filter_language" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Idioma...">
                             </form>
                         </div>
                         <div class="p-2" style="height:40px; width:234px; background-color:rgb(31,31,31); border-radius: 15px; margin:5px;">
                             <form style="border-radius: 15px;">
-                                <input id='name_filter' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_games_by_name()'" type="text" v-model="filter_mode" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Modo de Juego...">
+                                <input id='mod' v-on:keydown.enter.prevent='prevent' :onkeyup="'filter_games_by_name()'" type="text" v-model="filter_mode" class="form-control input" style="margin-top:-6px; width:210px; height:34px; margin-left: 10px; color:white; background-color:rgb(31,31,31);" placeholder="Modo de Juego...">
                             </form>
                         </div>
                         <div class="d-flex">
@@ -738,6 +738,7 @@
         <script src="js/series.js"></script>
         <script src="js/config.js"></script>
         <script src="js/float.js"></script>
+        <script src="js/sweetalert.min.js"></script>
         <script src="/eel.js"></script>
         <script>
             $(document).ready(function(){
@@ -745,6 +746,8 @@
                 app.url = 'game';
                 app.order_by = '';
                 app.index_page = 1;
+                app.stack_open = 0;
+                get_gens();
 
                 $(document).on ("click", "#car", function (event) {
                     event.stopPropagation();

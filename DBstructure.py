@@ -40,7 +40,7 @@ try:
     os.mkdir( series_dir)
 except: FileExistsError
 try:
-    os.mkdir( series_dir)
+    os.mkdir( movies_dir)
 except: FileExistsError
 
 Base = declarative_base()

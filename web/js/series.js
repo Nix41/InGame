@@ -121,6 +121,7 @@ function see_s(id){
 function series_edit_cleardata(id, type = 's'){
         app.data = '';
         app.key = id;
+        app.editing = true;
         set_video(id,type);
         app.create_country = app.country;
         app.create_directors = [];
@@ -157,8 +158,10 @@ async function set_video(id,type){
     }
 }
 
-function agregate_gen_video(type = 's'){
+function agregate_gen_video(gen , type = 's'){
+    app.create_video_gen = app.filter_video_gen[gen][0];
     app.create_gen.push([app.create_gen.length,app.create_video_gen]);
+    app.genders.push(app.create_video_gen);
     app.pgen_check = 0;
     add_tv_gender(app.create_video_gen, type);
 }
@@ -173,8 +176,14 @@ async function add_tv_gender(gen, type = 's'){
 
 function delgenvideo(id){
     del_tv_gender(app.create_gen[id][1]);
-    app.create_gen[id][0] = -1*id;
+    app.create_gen[id][0] = -1*id -1;
     $('#'+id).remove();
+    app.genders = [];
+    for(g in app.create_gen){
+        if(app.create_gen[g][0] >= 0){
+            app.genders.push(app.create_gen[g][1]);
+        }
+    }
 }
 
 async function del_tv_gender(gen){
@@ -203,7 +212,7 @@ async function add_director(dir){
 
 function deldic(id){
     del_director(app.create_directors[id][1]);
-    app.create_directors[id][0] = -1*id;
+    app.create_directors[id][0] = -1*id -1;
     $('#D'+id).remove();
 }
 
@@ -213,7 +222,7 @@ async function del_director(dir){
 
 function delact(id){
     del_actor(app.create_actors[id][1]);
-    app.create_actors[id][0] = -1*id;
+    app.create_actors[id][0] = -1*id -1;
     $('#A'+id).remove();
 }
 
@@ -236,14 +245,39 @@ async function add_actor(dir){
 }
 
 function add_video(type){
+    app.editing = false;
     app.name = app.create_name;
     app.description = app.create_description;
     app.launch = app.create_year;
     app.country = app.create_country;
     app.score = app.create_score;
+    app.actors = [];
+    app.directors = [];
+    app.series_dic[app.key][1].actors = [];
+    app.series_dic[app.key][1].directors = [];
     if(app.data != ''){
         app.cover_path = app.data;
     }
+    for(a in app.create_actors){
+        if(app.create_actors[a][0] >= 0){
+            app.actors.push(app.create_actors[a]);
+            app.series_dic[app.key][1].actors.push(app.create_actors[a][1]);
+        }
+    }
+    for(d in app.create_directors){
+        if(app.create_directors[d][0] >= 0){
+            app.directors.push(app.create_directors[d]);
+            app.series_dic[app.key][1].directors.push(app.create_directors[d][1]);
+        }
+    }
+    app.series_dic[app.key][1].title = app.name;
+    app.series_dic[app.key][1].sinopsis = app.description;
+    app.series_dic[app.key][1].genders = app.genders;
+    app.series_dic[app.key][1].year = app.launch;
+    app.series_dic[app.key][1].score = app.score;
+    app.series_dic[app.key][1].country = app.country;
+
+    app.series_dic[app.key][1].cover_path = app.cover_path;
     add_video_back(app.name, app.description, app.launch, app.country, app.score, type);
 }
 async function add_video_back(name, description, year, country, score, type){
@@ -301,10 +335,10 @@ function list_gray(){
 
 async function del_serie(key){
     await eel.CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=key, image="", topics=[], 1)();
-    document.location.reload(true);
+    // document.location.reload(true);
 }
 
 async function del_movie(key){
     await eel.CRUD_Movie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=key, image="", topics=[], 1)();
-    document.location.reload(true);
+    // document.location.reload(true);
 }

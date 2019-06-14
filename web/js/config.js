@@ -31,8 +31,10 @@ function agregate_gen_prin(){
 
 
 function push_prin(gen){
+    //alert(gen.id);
     app.create_prin = gen.id;
     app.pgen_check = 3;
+    refresh_sub(gen.id);
 }
 
 function push_prin_create(id){
@@ -299,4 +301,18 @@ function refresh_sub(x){
 async function get_gens(){
     let gens = await eel.get_game_genders()();
     app.categories = gens;
+    let i = 1;
+    app.create_gen = {};
+    for(x in app.categories){
+        if(x != "Todos"){
+            app.create_gen[i] = [i,x];
+            ++i;
+        }
+    }
+    let gens2 = await eel.get_video_genders()();
+    let k = 0;
+    for (x in gens2){
+        app.filter_video_gen.push([gens2[x], x, -1]);
+        k++;
+    }
 }

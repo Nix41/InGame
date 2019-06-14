@@ -17,7 +17,6 @@ AppVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 DefaultDirName={pf}\{#MyAppName}
 DisableProgramGroupPage=yes
-OutputDir=C:\Users\Kamina\Desktop\InGame\ClientEXE
 OutputBaseFilename=InGame Setup
 SetupIconFile=setup_icon.ico
 Compression=lzma
@@ -29,12 +28,11 @@ Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: StartAfterInstall; Description: Instalar navegador Chrome (necesario para la correcta ejecución de InGame);
+Name: StartAfterInstall; Description: Instalar navegador Chrome (necesario para la correcta ejecucion de InGame);
 
 [Files]
 Source: "InGameClientEXE\server\server.exe"; DestDir: "{app}"; Flags: ignoreversion ;
 Source: "InGameClientEXE\server\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs;
-Source: "C:\Program Files (x86)\Ingame\ChromeStandaloneSetup.exe"; DestDir: "{app}"; 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -44,5 +42,8 @@ Name: "{commondesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 Filename: "C:\Program Files (x86)\Ingame\ChromeStandaloneSetup.exe"; Flags: shellexec skipifsilent nowait; Tasks: StartAfterInstall;
+
+[InstallDelete]
+Type: filesandordirs; Name: "{app}\web"
 
 

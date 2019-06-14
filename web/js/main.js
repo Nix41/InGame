@@ -16,8 +16,9 @@ Vue.component('footerv', {
         <div class="footer-logo text-white" style="text-align: center; margin-top:-50px;">
             <img src="img/logo_banner.png" style="width:350px;" class="img-fluid" alt="">
             <p>Yasmany IN-GAME PC-SERIES-FIMLS</p>
+            <p><a href="http://www.facebook.com/Ingame-Juegos-Series-Películas-1992095714218618">Ir a facebook</a></p>
             <p class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This application is made by <a href="#" target="_blank">Aylin && Andres</a>
+            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This application is made by AyLand contact us: <a href="#" target="_blank"> aylandcorp@gmail.com </a>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             </p>
         </div>
@@ -45,6 +46,7 @@ var app = new Vue({
         car_s: 0,
         car_f: 0,
         order_by: '',
+        stack_open: 0,
 
         //onSingle
         Onsingle: 0,
@@ -119,7 +121,7 @@ var app = new Vue({
         file:'',
         data:'',
         datas:[],
-        create_gen:{1:[1,'Acción'], 2:[2,'Aventuras'], 3:[3,'Casual'], 4:[4,'Conducción'], 5:[5,'Deportes'], 6:[6,'Estrategia'], 7:[7,'MMO'], 8:[8,'Rol'], 9:[9,'Simulación']},
+        create_gen:{1:[1,'Acción'], 2:[2,'Aventura'], 3:[3,'Casual'], 4:[4,'Conducción'], 5:[5,'Deportes'], 6:[6,'Estrategia'], 7:[7,'MMO'], 8:[8,'Rol'], 9:[9,'Simulación']},
         create_gensub:[[0,"Acción táctica"],[1,"Acción y aventura,Battle royale"],[2,"Beat'em up,Hack and Slash"],[3,"Lucha"],[4,"Plataformas"],[5,"Primera persona (FPS)"],[6,"Runner"],[7,"Shoot'Em Up"],[8,"Shooter"],[9,"Supervivencia"],[10,"Survival horror"]],
         pgen_check:'0',
         create_selected:[],
@@ -142,6 +144,7 @@ var app = new Vue({
         create_size:'',
         create_description:'',
         create_prin:'',
+        editing:false,
     },
 
     methods:{
@@ -297,55 +300,98 @@ async function SingleNext(dir = 1, typ='g'){
     }
    
 }
+//active_key_navigation
+$(document).on("click", function(e){
+    if(e.target.id == "name" || e.target.id == "lanz" || e.target.id == "punt" || e.target.id == "idio" || e.target.id == "mod" || e.target.id == "acto" || e.target.id == "dire" || e.target.id == "pais"){
+        app.where_I_am = 2;
+    }else{
+        if(app.stack_open == 0){
+            app.where_I_am = 0;
+        }
+    }
+});
+
 
 //keys navigation
 $(".arrow_nav").keydown(function(e) {
-    if(app.where_I_am == 0){
-        if(e.keyCode == 37) { // left
-            if(app.url == 2 || app.url == 3){
-                OnNext('0','s');
-            }else{
-                OnNext('0');
+    if(!app.editing){
+        if(app.where_I_am == 0){
+            if(e.keyCode == 37) { // left
+                if(app.url == 2 || app.url == 3){
+                    OnNext('0','s');
+                }else{
+                    OnNext('0');
+                }
             }
-        }
-        else if(e.keyCode == 39) { // right
-            if(app.url == 2 || app.url == 3){
-                OnNext('1','s');
-            }else{
-                OnNext('1');
+            else if(e.keyCode == 39) { // right
+                if(app.url == 2 || app.url == 3){
+                    OnNext('1','s');
+                }else{
+                    OnNext('1');
+                }
             }
-        }
-    }else{
-        if(e.keyCode == 37) { // left
-            if(app.url == 2 || app.url == 3){
-                SingleNext('0','s');
-            }else{
-                SingleNext('0');
-            }
-        }
-        else if(e.keyCode == 39) { // right
-            if(app.url == 2 || app.url == 3){
-                SingleNext('1','s');
-            }else{
-                SingleNext('1');
+        }else{
+            if(app.where_I_am == 1){
+                if(e.keyCode == 37) { // left
+                    if(app.url == 2 || app.url == 3){
+                        SingleNext('0','s');
+                    }else{
+                        SingleNext('0');
+                    }
+                }
+                else if(e.keyCode == 39) { // right
+                    if(app.url == 2 || app.url == 3){
+                        SingleNext('1','s');
+                    }else{
+                        SingleNext('1');
+                    }
+                }
             }
         }
     }
   });
 
+  $('#ModalEdit').on('hidden.bs.modal', function () {
+    app.stack_open -= 1;
+    app.editing = false;
+    app.where_I_am = 1;
+    eel.Done_update()();
+  })
+
+  $('#SerieEdit').on('hidden.bs.modal', function () {
+    app.stack_open -= 1;
+    app.editing = false;
+    app.where_I_am = 1;
+    eel.Done_update()();
+  })
+
+  $('#ModalEdit').on('shown.bs.modal', function () {
+    app.stack_open += 1;
+    app.where_I_am = 2;
+  })
+
+  $('#SerieEdit').on('shown.bs.modal', function () {
+    app.stack_open += 1;
+    app.where_I_am = 2;
+  })
+
   $('#myModal').on('hidden.bs.modal', function () {
+    app.stack_open -= 1;
     app.where_I_am = 0;
   })
 
   $('#myModal').on('shown.bs.modal', function () {
+    app.stack_open += 1;
     app.where_I_am = 1;
   })
 
   $('#SerieModal').on('hidden.bs.modal', function () {
+    app.stack_open -= 1;
     app.where_I_am = 0;
   })
 
   $('#SerieModal').on('shown.bs.modal', function () {
+    app.stack_open += 1;
     app.where_I_am = 1;
   })
 

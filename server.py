@@ -127,7 +127,7 @@ if __name__ == '__main__':
         global end
         global find_match
         global current_query
-        print('Here with order:', order, '#')
+        # print('Here with order:', order, '#')
         if category == 'Todos':
             category = ''
             gender=''
@@ -149,6 +149,7 @@ if __name__ == '__main__':
     def CRUD_Serie(title="", year=0, pais="", sinopsis="", generos=[], directors=[], reparto=[],score=0,id=-1, image="", topics=[], delete=0):
         #(image)
         if current is None or current == -1:
+            # print('here')
             if delete == 0:
                 dele = False
             else:
@@ -190,22 +191,22 @@ if __name__ == '__main__':
     def CRUD_Game(name="", description="", game_mode="", language="", launch=0, puntuacion=0, category="", genders=[], requirements=[[],[]], id=-1, cover="", captures=[],size=0, delete=0):
         #'here')
         global current
+        if len(requirements) == 0:
+            #('had to')
+            requirements = [[],[]]
+        if puntuacion == '':
+            puntuacion = 0
         if current is None or current == -1:
-            #'here222')
             #'h2')
             if delete == 0:
                 dele = False
             else:
                 #qqqqqqq
-                dele = True
-            if len(requirements) == 0:
-                #('had to')
-                requirements = [[],[]]
-            if puntuacion == '':
-                puntuacion = 0
+                dele = True  
             #'DEl:', dele)
             DBhandlers.CRUD_Game(name, description, game_mode, language, launch, puntuacion, category, genders, requirements, id, image=cover, captures=captures, size = size, delete=dele)
         else:
+            # print('')
             if puntuacion == '':
                 puntuacion = 0
             #'current: ', current)
@@ -218,6 +219,7 @@ if __name__ == '__main__':
 
     @eel.expose
     def Set_Game(id):
+        # print('Setting for Edit #######')
         global current
         #('id', id )
         current = DBhandlers.find_game(id)
@@ -240,7 +242,7 @@ if __name__ == '__main__':
     def Done_update():
         global current
         current = None
-        #'Done update')
+        # print('Done update ########')
 
     @eel.expose
     def add_director(name):
@@ -320,7 +322,7 @@ if __name__ == '__main__':
         global current_process
         if current_process is None or not(current_process.is_alive()):
             r = try_connection()
-            print('Con:',r)
+            # print('Con:',r)
             if r == 2:
                 current_process = downgames()
             return r
@@ -345,7 +347,7 @@ if __name__ == '__main__':
         global current_process
         if current_process is None or not(current_process.is_alive()):
             r = try_connection()
-            print('Con:',r)
+            # print('Con:',r)
             if r == 2:
                 current_process = downmovies()
             return r

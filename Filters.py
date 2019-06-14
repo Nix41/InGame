@@ -2,6 +2,8 @@
 from DBstructure import *
 import unicodedata
 import time
+from sqlalchemy import and_
+
 
 categories = ['']
 
@@ -119,7 +121,16 @@ def filter_games(name = "", gender = "", launch=0, players=0,game_mode="", categ
 
 
 def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,country='', order=''):
-    filter_full = sess.query(Serie).filter(Serie.title.contains(name))
+    filter_full = sess.query(Serie).filter(Serie.title.contains(name), Serie.country.contains(country) , Serie.score >= score, Serie.year >= year)
+    # prime_query = sess.query(Serie).all()
+    #print('genders', gender)
+    if len(gender) > 0:
+        filter_full = filter_full.filter(and_(*[Serie.genders.any(SerieGender.name.contains(g)) for g in gender]))
+    if actor != "":
+        filter_full = filter_full.filter(Serie.actors.any(Actor.name.contains(actor)))
+    if director != "":
+        filter_full = filter_full.filter( Serie.directors.any(Director.name.contains(director)))
+    
     if order == 1:
         ordered = filter_full.order_by(Serie.title)
     elif order == 2:
@@ -130,50 +141,27 @@ def filter_series(name = "", gender=[], actor="", director="", score=0, year=0,c
         ordered = filter_full
     for s in ordered :
     # for s in sess.query(Serie).all():
-        topic_filter  = True
-        for gen in gender:
-            this_topic = False
-            c_gen = unicodedata.normalize('NFD', gen).encode('ascii', 'ignore')
-            for g in s.genders:
-                c_g = unicodedata.normalize('NFD', g.name).encode('ascii', 'ignore')
-                if c_gen.lower() in c_g.lower():
-                    #s.title)
-                    this_topic = True
-            if not this_topic:
-                topic_filter = False
-                break
-             #(topic_filter)
         genders = []
         for t in s.genders:
             genders.append(t.name)
-        actor_filter  = False
         actors = []
         for a in s.actors:
-            if unicodedata.normalize('NFD', actor).encode('ascii', 'ignore').lower() in unicodedata.normalize('NFD', a.name).encode('ascii', 'ignore').lower() :
-                actor_filter = True
             actors.append(a.name)
-        director_filter = False
         directors = []
         for d in s.directors:
-            if unicodedata.normalize('NFD', director).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', d.name).encode('ascii', 'ignore').lower() :
-                director_filter = True
-            directors.append(d.name)
-        country_filter = False
-        if unicodedata.normalize('NFD', country).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', s.country).encode('ascii', 'ignore').lower():
-            country_filter = True
-
-        if len(s.directors) == 0:
-            director_filter = True
-        if len(s.actors) == 0:
-            actor_filter = True
-        if len(genders) == 0  and len(s.genders) == 0:
-            topic_filter = True
-        if topic_filter and actor_filter and director_filter and s.score >= score and topic_filter and s.year >= year and country_filter:
-            serie = parse_tv(s, genders, actors, directors)
-            yield serie
+            directors.append(d.name)     
+        serie = parse_tv(s, genders, actors, directors)
+        yield serie
 
 def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, country="", order=''):
-    filter_full = sess.query(Movie).filter(Movie.title.contains(name))
+    filter_full = sess.query(Movie).filter(Movie.title.contains(name), Movie.country.contains(country) , Movie.score >= score, Movie.year >= year)
+    if len(gender) != 0:
+        filter_full = filter_full.filter(and_(*[Movie.genders.any(MovieGender.name.contains(g)) for g in gender]))
+    if actor != "":
+        filter_full = filter_full.filter(Movie.actors.any(Actor.name.contains(actor)))
+    if director != "":
+        filter_full = filter_full.filter(Movie.directors.any(Director.name.contains(director)))
+        
     if order == 1:
         ordered = filter_full.order_by(Movie.title)
     elif order == 2:
@@ -183,46 +171,17 @@ def filter_movies(name = "", gender=[], actor="", director="", score=0, year=0, 
     else:
         ordered = filter_full
     for c in ordered :
-        topic_filter  = True
-        for gen in gender:
-            this_topic = False
-            c_gen = unicodedata.normalize('NFD', gen).encode('ascii', 'ignore')
-            for g in c.genders:
-                c_g = unicodedata.normalize('NFD', g.name).encode('ascii', 'ignore')
-                if c_gen.lower() in c_g.lower():
-                    #s.title)
-                    this_topic = True
-            if not this_topic:
-                topic_filter = False
-                break
         genders = []
         for t in c.genders:
             genders.append(t.name)
-        
-        actor_filter = False
         actors = []
         for a in c.actors:
-            if unicodedata.normalize('NFD', actor).encode('ascii', 'ignore').lower() in unicodedata.normalize('NFD', a.name).encode('ascii', 'ignore').lower() :
-                actor_filter = True
             actors.append(a.name)
         directors = []
-        director_filter = False
         for d in c.directors:
-            if unicodedata.normalize('NFD', director).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', d.name).encode('ascii', 'ignore').lower() :
-                director_filter = True
             directors.append(d.name)
-        country_filter = False
-        if unicodedata.normalize('NFD', country).encode('ascii', 'ignore').lower()  in unicodedata.normalize('NFD', c.country).encode('ascii', 'ignore').lower():
-            country_filter = True
-        if len(c.directors) == 0:
-            director_filter = True
-        if len(c.actors) == 0:
-            actor_filter = True
-        if len(genders) == 0  and len(c.genders) == 0:
-            topic_filter = True
-        if topic_filter and actor_filter and director_filter and c.score >= score and c.year >= year and country_filter:
-            movie = parse_tv(c, genders, actors, directors)
-            yield movie
+        movie = parse_tv(c, genders, actors, directors)
+        yield movie
 
 def get_recent():
     recent = []
