@@ -13,6 +13,7 @@ from selenium.common.exceptions import TimeoutException
 import unicodedata
 from datetime import datetime
 from socket import timeout
+from Config import *
 
 digits = ['1','2','3','4', '5','6','7','8','9','0']
 
@@ -115,7 +116,7 @@ def find_games(sourcelist):
     options.experimental_options["prefs"] = chrome_prefs
     chrome_prefs["profile.default_content_settings"] = {"images": 2}
     chrome_prefs["profile.managed_default_content_settings"] = {"images": 2}
-    driver = webdriver.Chrome("driver/chromedriver.exe", options=options)
+    driver = webdriver.Chrome(CHROME_DRIVER, options=options)
     driver.set_page_load_timeout(60)
     found = []
     for g in games:
