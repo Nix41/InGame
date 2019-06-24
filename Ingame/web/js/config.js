@@ -94,6 +94,7 @@ function req(){
 }
 
 function cleardata(){
+    get_gens();
     app.Max_req=[];
     app.Memori='';
     app.Micro='';

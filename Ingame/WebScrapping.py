@@ -337,7 +337,7 @@ def build_movie(name, year, pais, sinopsis, generos, directors, reparto, image, 
         ("    La pelicula " + name + ' ya existia')
         
 def search(listdir , stype='' ):
-    urlstart = 'https://www.filmaffinity.com/es/advsearch.php?stext='
+    urlstart = 'https://www.filmaffinity.com/' + SEARCH_LANGUAGE + '/advsearch.php?stext='
     urlmid = '&stype%5B%5D=title&country=&genre='
     urlend = '&fromyear=&toyear='
     movies = []
