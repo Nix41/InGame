@@ -25,7 +25,7 @@ pip install -r Requirements.txt
 * [Eel](https://github.com/ChrisKnott/Eel) - A little Python library for making simple Electron-like HTML/JS GUI apps
 
 
-## Authors
+## Autores
 
 * **Aylin Carrillo** - [Nix](https://github.com/Nix41)
 * **Andres Rafael Cruz** - [Segmentree](https://github.com/Segmentree)
